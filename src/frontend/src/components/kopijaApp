@@ -1,0 +1,111 @@
+import React, {useState} from 'react'
+import {Data} from './components/Data'
+import * as XLSX from 'xlsx'
+import 'bootstrap/dist/css/bootstrap.css'
+
+
+function App() {
+
+  // on change states
+  const [excelFile, setExcelFile]=useState(null);
+  const [excelFileError, setExcelFileError]=useState(null);
+
+  // submit
+  const [excelData, setExcelData]=useState(null);
+  // it will contain array of objects
+
+  // handle File
+  const fileType=['application/vnd.ms-excel'];
+  const handleFile = (e)=>{
+    let selectedFile = e.target.files[0];
+    console.log(selectedFile);
+    if(selectedFile){
+       console.log(selectedFile.type);
+      if(selectedFile //&& fileType.includes(selectedFile.type)
+      ){
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload=(e)=>{
+          setExcelFileError(null);
+          setExcelFile(e.target.result);
+        }
+      }
+      else{
+        setExcelFileError('Izabrani dokument nije MS Excel!');
+        setExcelFile(null);
+      }
+    }
+    else{
+      console.log('plz select your file');
+    }
+  }
+
+
+  // submit function
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    if(excelFile!==null){
+      const workbook = XLSX.read(excelFile,{type:'buffer'});
+      const worksheetName = workbook.SheetNames[0];
+      const worksheet=workbook.Sheets[worksheetName];
+      const data = XLSX.utils.sheet_to_json(worksheet);
+      setExcelData(data);
+    }
+    else{
+      setExcelData(null);
+    }
+  }
+
+  return (
+      <div className="container">
+
+        {/* upload file section */}
+        <div className='form'>
+          <form className='form-group' autoComplete="off"
+                onSubmit={handleSubmit}>
+            <label><h5>Izaberi Obrazac5</h5></label>
+            <br></br>
+            <input type='file' className='form-control'
+                   onChange={handleFile} required></input>
+            {excelFileError&&<div className='text-danger'
+                                  style={{marginTop:5+'px'}}>{excelFileError}</div>}
+            <button type='submit' className='btn btn-success'
+                    style={{marginTop:5+'px'}}>Učitaj Obrazac5</button>
+          </form>
+        </div>
+
+        <br></br>
+        <hr></hr>
+
+        {/* view file section */}
+        <h5>Pregled Obrasca5</h5>
+        <div className='viewer'>
+          {excelData===null&&<>Nije izabran nijedan dokument</>}
+          {excelData!==null&&(
+              <div className='table'>
+                <table className='table'>
+                  <thead>
+                  <tr>
+                    <th scope='col'>Order_No</th>
+                    <th scope='col'>Product_Description</th>
+                    <th scope='col'>Product_ID</th>
+                    <th scope='col'>Quantity</th>
+                    <th scope='col'>Item_Total</th>
+                    <th scope='col'>Sales_Category</th>
+                    <th scope='col'>Customer_ID</th>
+                    <th scope='col'>Full_Name</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <Data excelData={excelData}/>
+                  </tbody>
+                </table>
+              </div>
+          )}
+        </div>
+
+      </div>
+  );
+}
+
+export default App;
