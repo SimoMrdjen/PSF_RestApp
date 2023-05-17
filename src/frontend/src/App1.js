@@ -11,7 +11,7 @@ function App1() {
         if (selectedFile) {
             if (
                 selectedFile &&
-                selectedFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                selectedFile.type === 'application/vnd.ms-excel'
             ) {
                 let reader = new FileReader();
                 reader.readAsArrayBuffer(selectedFile);
@@ -20,6 +20,7 @@ function App1() {
                     setExcelFile(e.target.result);
                 };
             } else {
+            console.log(selectedFile.type);
                 setExcelFileError('Izabrani dokument nije MS Excel!');
                 setExcelFile(null);
             }
@@ -28,31 +29,66 @@ function App1() {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (excelFile !== null) {
-            const workbook = XLSX.read(excelFile, { type: 'buffer' });
-            const worksheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[worksheetName];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-                header: 1,
-                range: 23,
-            });
-            const headers = jsonData[0];
-            const data = jsonData.slice(1).map((row) => {
-                let obj = {};
-                headers.forEach((header, index) => {
-                    obj['_' + header] = row[index];
-                });
-                return obj;
-            });
-            const filteredData = data.filter((obj) => Object.values(obj).some((value) => value !==  undefined));
-            console.log(JSON.stringify(filteredData));
-            setExcelData(JSON.stringify(filteredData, null, 4));
-        } else {
-            setExcelData(null);
-        }
-    };
+//    const handleSubmit = (e) => {
+//        e.preventDefault();
+//        if (excelFile !== null) {
+//            const workbook = XLSX.read(excelFile, { type: 'buffer' });
+//            const worksheetName = workbook.SheetNames[0];
+//            const worksheet = workbook.Sheets[worksheetName];
+//            const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+//                header: 1,
+//                range: 24,
+//            });
+//            const headers = jsonData[0];
+//            const data = jsonData.slice(1).map((row) => {
+//                let obj = {};
+//                headers.forEach((header, index) => {
+//                    obj['_' + header] = row[index];
+//                });
+//                return obj;
+//            });
+//            const filteredData = data.filter((obj) => Object.values(obj).some((value) => value !==  undefined));
+//            //filteredData.splice(1,10);
+//            const finalData = filteredData.filter((row) => {
+//                  const firstProperty = row[0];
+//                  return typeof firstProperty !== 'string';
+//                });
+//            console.log(JSON.stringify(finalData));
+//            setExcelData(JSON.stringify(finalData, null, 4));
+//        } else {
+//            setExcelData(null);
+//        }
+//    };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (excelFile !== null) {
+    const workbook = XLSX.read(excelFile, { type: 'buffer' });
+    const worksheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[worksheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+      header: 1,
+      range: 24,
+    });
+
+    const filteredData = jsonData.filter((row) => {
+      const firstProperty = row[0];
+      return typeof firstProperty !== 'string';
+    });
+
+    const headers = filteredData[0];
+    const data = filteredData.slice(1).map((row) => {
+      let obj = {};
+      headers.forEach((header, index) => {
+        obj['_' + header] = row[index];
+      });
+      return obj;
+    });
+
+    setExcelData(JSON.stringify(data, null, 4));
+  } else {
+    setExcelData(null);
+  }
+};
 
 
     return (
