@@ -50,5 +50,31 @@ public class Obrazac5 {
     @Column(name = "ostvareno_iz_ostalih_izvora")
     private Double ostvarenoIzOstalihIzvora;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Obrazac5)) return false;
+        Obrazac5 obrazac5 = (Obrazac5) o;
+        return getOznakaOp().equals(obrazac5.getOznakaOp()) &&
+                getKonto().equals(obrazac5.getKonto()) &&
+                getOpis().equals(obrazac5.getOpis()) &&
+                getPlanirano().equals(obrazac5.getPlanirano()) &&
+                getUkupnoOstvareno().equals(obrazac5.getUkupnoOstvareno()) &&
+                getOstvarenoOdRepublike().equals(obrazac5.getOstvarenoOdRepublike()) &&
+                getOstvarenoOdAP().equals(obrazac5.getOstvarenoOdAP()) &&
+                getOstvarenoOdGrada().equals(obrazac5.getOstvarenoOdGrada()) &&
+                getOstvarenoOdOOSO().equals(obrazac5.getOstvarenoOdOOSO()) &&
+                getOstvarenoOdDonacija().equals(obrazac5.getOstvarenoOdDonacija()) &&
+                getOstvarenoIzOstalihIzvora().equals(obrazac5.getOstvarenoIzOstalihIzvora());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOznakaOp(),
+                getKonto(), getOpis(), getPlanirano(),
+                getUkupnoOstvareno(), getOstvarenoOdRepublike(),
+                getOstvarenoOdAP(), getOstvarenoOdGrada(),
+                getOstvarenoOdOOSO(), getOstvarenoOdDonacija(),
+                getOstvarenoIzOstalihIzvora());
+    }
 }

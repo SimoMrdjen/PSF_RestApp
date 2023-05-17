@@ -84,7 +84,7 @@ const handleSubmit = (e) => {
     const data = filteredData.slice(1).map((row) => {
       let obj = {};
       headers.forEach((header, index) => {
-        obj['_' + header] = row[index];
+        obj['prop' + header] = row[index];
       });
       return obj;
     });
