@@ -72,7 +72,12 @@ const handleSubmit = (e) => {
 
     const filteredData = jsonData.filter((row) => {
       const firstProperty = row[0];
-      return typeof firstProperty !== 'string';
+      const fourthProperty = row[3];
+      const tenthProperty = row[9];
+
+      return typeof firstProperty !== 'string'
+        && typeof fourthProperty !== 'string'
+        && typeof tenthProperty !== 'string';
     });
 
     const headers = filteredData[0];
@@ -83,6 +88,7 @@ const handleSubmit = (e) => {
       });
       return obj;
     });
+    data.splice(-1,-5);
 
     setExcelData(JSON.stringify(data, null, 4));
   } else {
