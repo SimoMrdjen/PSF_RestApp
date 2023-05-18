@@ -20,4 +20,20 @@ public class Obrazac5Mapper {
                 dto.getProp11()
                 );
     }
+    public Obrazac5DTO mapEntityToDto(Obrazac5 entity) {
+        return new Obrazac5DTO(
+                entity.getOznakaOp(),
+                entity.getKonto(),
+                entity.getOpis(),
+                entity.getPlanirano(),
+                entity.getUkupnoOstvareno(),
+                entity.getOstvarenoOdRepublike(),
+                entity.getOstvarenoOdAP(),
+                entity.getOstvarenoOdGrada(),
+                entity.getOstvarenoOdOOSO(),
+                entity.getOstvarenoOdDonacija(),
+                entity.getOstvarenoIzOstalihIzvora(),
+                null
+        );
+    }
 }
