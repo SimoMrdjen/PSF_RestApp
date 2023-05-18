@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx'
+import logo from './grb.png';
+import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
+const {Header, Content, Footer, Sider} = Layout;
+
 
 function App1() {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
+    const {token: { colorBgContainer },} = theme.useToken();
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];
@@ -97,40 +102,135 @@ const handleSubmit = (e) => {
 };
 
 
-    return (
-        <div className="container">
-            <div className="form">
-                <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
-                    <label>
-                        <h5>Izaberi Obrazac5</h5>
-                    </label>
-                    <br></br>
-                    <input type="file" className="form-control" onChange={handleFile} required></input>
-                    {excelFileError && (
-                        <div className="text-danger" style={{ marginTop: 5 + 'px' }}>
-                            {excelFileError}
-                        </div>
-                    )}
-                    <button type="submit" className="btn btn-success" style={{ marginTop: 5 + 'px' }}>
-                        Učitaj Obrazac5
-                    </button>
-                </form>
-            </div>
+//    return (
+//    <>
+//        <div className="container">
+//            <div className="form">
+//                <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
+//                    <label>
+//                        <h5>Izaberi Obrazac5</h5>
+//                    </label>
+//                    <br></br>
+//                    <input type="file" className="form-control" onChange={handleFile} required></input>
+//                    {excelFileError && (
+//                        <div className="text-danger" style={{ marginTop: 5 + 'px' }}>
+//                            {excelFileError}
+//                        </div>
+//                    )}
+//                    <button type="submit" className="btn btn-success" style={{ marginTop: 5 + 'px' }}>
+//                        Učitaj Obrazac5
+//                    </button>
+//                </form>
+//            </div>
+//
+//            <br></br>
+//            <hr></hr>
+//
+//            <h5>Pregled Obrasca5</h5>
+//            <div className="viewer">
+//                {excelData === null && <>Nije izabran nijedan dokument</>}
+//                {excelData !== null && (
+//                    <div className="table">
+//                        <pre>{excelData}</pre>
+//                    </div>
+//                )}
+//            </div>
+//
+//        </div>
+ return (
+ <>
+    <Layout>
+      <Header
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 1,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <div className="demo-logo" />
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['2']}
+          items={new Array(3).fill(null).map((_, index) => ({
+            key: String(index + 1),
+            label: `nav ${index + 1}`,
+          }))}
+        />
+      </Header>
+      <Content
+        className="site-layout"
+        style={{
+          padding: '0 50px',
+        }}
+      >
+        <Breadcrumb
+          style={{
+            margin: '16px 0',
+          }}
+        >
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <div
+          style={{
+            padding: 24,
+            minHeight: 380,
+            background: colorBgContainer,
+          }}
+        >
+         <div className="container">
+             <div className="form">
+                 <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
+                     <label>
+                         <h5>Izaberi Obrazac5</h5>
+                     </label>
+                     <br></br>
+                     <input type="file" className="form-control" onChange={handleFile} required></input>
+                     {excelFileError && (
+                         <div className="text-danger" style={{ marginTop: 5 + 'px' }}>
+                             {excelFileError}
+                         </div>
+                     )}
+                     <button type="submit" className="btn btn-success" style={{ marginTop: 5 + 'px' }}>
+                         Učitaj Obrazac5
+                     </button>
+                 </form>
+             </div>
 
-            <br></br>
-            <hr></hr>
+             <br></br>
+             <hr></hr>
 
-            <h5>Pregled Obrasca5</h5>
-            <div className="viewer">
-                {excelData === null && <>Nije izabran nijedan dokument</>}
-                {excelData !== null && (
-                    <div className="table">
-                        <pre>{excelData}</pre>
-                    </div>
-                )}
-            </div>
+             <h5>Pregled Obrasca5</h5>
+             <div className="viewer">
+                 {excelData === null && <>Nije izabran nijedan dokument</>}
+                 {excelData !== null && (
+                     <div className="table">
+                         <pre>{excelData}</pre>
+                     </div>
+                 )}
+             </div>
 
+         </div>
         </div>
+      </Content>
+      <Footer
+        style={{
+          textAlign: 'center',
+        }}
+      >
+           <Image
+               width={200}
+                src={logo}
+          />
+      </Footer>
+    </Layout>
+        </>
+
     );
 }
 
