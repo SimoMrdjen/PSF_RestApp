@@ -11,19 +11,12 @@ function App1() {
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
     const {token: { colorBgContainer },} = theme.useToken();
-    const obj = [{
-        prop1: 5001,
-        prop3: "ТЕКУЋИ ПРИХОДИ И ПРИМАЊА ОД ПРОДАЈЕ НЕФИНАНСИЈСКЕ ИМОВИНЕ (5002+5106)",
-        prop4: 202952145.81,
-        prop5: 27484036.6,
-        prop6: 0,
-        prop7: 27039445.6,
-        prop8: 0,
-        prop9: 0,
-        prop10: 0,
-        prop11: 444591,
-        propDuz: 0
-    }];
+//    const obj = [{
+//        prop1: 5001,
+//        prop2: 1111,
+//        prop3: "ТЕКУЋИ ПРИХОДИ И ПРИМАЊА ОД ПРОДАЈЕ НЕФИНАНСИЈСКЕ ИМОВИНЕ (5002+5106)"
+//
+//    }];
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];
@@ -80,9 +73,9 @@ const handleSubmit = (e) => {
       });
       return obj;
     });
-    data.splice(442,1);
+       data.splice(442,1);
       // data.splice(1,1);
-      // data.splice(10,435);
+      // data.splice(10,436);
 
 
       // data.splice(278,282);

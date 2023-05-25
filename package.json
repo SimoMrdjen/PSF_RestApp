@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "antd": "^5.5.0",
+    "unfetch": "^5.0.0"
+  },
+  "devDependencies": {
+    "web-vitals": "^3.3.1"
+  }
+}

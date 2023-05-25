@@ -17,7 +17,7 @@ public class Obrazac5 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "oznaka_op", nullable = false)
+    @Column(name = "oznaka_op")
     private Integer oznakaOp;
 
     @Column(name = "konto")
