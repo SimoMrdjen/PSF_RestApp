@@ -48,61 +48,61 @@ public class ObrazacZb {
     private Integer dinarski;
 
     @Column(name = "status")
-    private String status;
+    private Integer status;
 
     @Column(name = "poslato_o")
-    private Double poslato_o;
+    private Integer poslato_o;
 
     @Column(name = "radna")
-    private Double radna;
+    private Integer radna;
 
     @Column(name = "povuceno")
-    private Double povuceno;
+    private Integer povuceno;
 
     @Column(name = "konacno")
-    private Double konacno;
+    private Integer konacno;
 
     @Column(name = "poslao_nam")
-    private Double poslao_nam;
+    private Integer poslao_nam;
 
     @Column(name = "poslao_u_org")
-    private Double poslao_u_org;
+    private Integer poslao_u_org;
 
     @Column(name = "poslao_iz_org")
-    private Double poslao_iz_org;
+    private Integer poslao_iz_org;
 
     @Column(name = "zaprimio_ver")
     private Integer zaprimio_ver;
 
     @Column(name = "overio_ver")
-    private Double overio_ver;
+    private Integer overio_ver;
 
     @Column(name = "odobrio_ver")
-    private Double odobrio_ver;
+    private Integer odobrio_ver;
 
     @Column(name = "proknjizeno")
-    private Double proknjizeno;
+    private Integer proknjizeno;
 
     @Column(name = "jbbk_ind_kor")
-    private Double jbbk_ind_kor;
+    private Integer jbbk_ind_kor;
 
     @Column(name = "storno")
-    private Double storno;
+    private Integer storno;
 
     @Column(name = "stosifrad")
-    private Double stosifrad;
+    private Integer stosifrad;
 
     @Column(name = "opisstorno")
-    private Double opisstorno;
+    private String opisstorno;
 
     @Column(name = "podigao_status")
-    private Double podigao_status;
+    private Integer podigao_status;
 
     @Column(name = "datum_pod_statusa")
-    private Double datum_pod_statusa;
+    private Integer datum_pod_statusa;
 
     @Column(name = "datum_org")
-    private Double datum_org;
+    private Integer datum_org;
 
     @Column(name = "nivo_konsolidacije")
     private Integer nivo_konsolidacije;
