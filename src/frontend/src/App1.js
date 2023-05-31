@@ -10,13 +10,31 @@ function App1() {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
+    const [kvartal, setKvartal] = useState(2);
     const {token: { colorBgContainer },} = theme.useToken();
-//    const obj = [{
-//        prop1: 5001,
-//        prop2: 1111,
-//        prop3: "ТЕКУЋИ ПРИХОДИ И ПРИМАЊА ОД ПРОДАЈЕ НЕФИНАНСИЈСКЕ ИМОВИНЕ (5002+5106)"
-//
-//    }];
+//    const obj = [ {
+//                         "prop1": 5176,
+//                         "prop2": 411100,
+//                         "prop3": "Плате, додаци и накнаде запослених",
+//                         "prop4": 90127786.2,
+//                         "prop5": 14534475.65,
+//                         "prop7": 14534475.65,
+//                         "propDuz": 4
+//                     },
+//                     {
+//                         "prop1": 5177,
+//                         "prop2": 412500,
+//                         "prop3": "СОЦИЈАЛНИ ДОПРИНОСИ НА ТЕРЕТ ПОСЛОДАВЦА (од 5178 до 5180)",
+//                         "prop4": 13654359.61,
+//                         "prop5": 2201973.14,
+//                         "prop6": 0,
+//                         "prop7": 2201973.14,
+//                         "prop8": 0,
+//                         "prop9": 0,
+//                         "prop10": 0,
+//                         "prop11": 0,
+//                         "propDuz": 0
+//                     }];
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];
@@ -60,9 +78,10 @@ const handleSubmit = (e) => {
 
       return typeof firstProperty !== 'string'
           && typeof firstProperty !== 'undefined'
-         && typeof secondProperty !== 'string'
+          && typeof secondProperty !== 'string'
+          && typeof secondProperty !== 'undefined'
           && typeof fourthProperty !== 'string'
-        && typeof tenthProperty !== 'string';
+          && typeof tenthProperty !== 'string';
     });
 
     const headers = filteredData[0];
@@ -74,13 +93,11 @@ const handleSubmit = (e) => {
       return obj;
     });
        data.splice(442,1);
-      // data.splice(1,1);
-      // data.splice(10,436);
-
-
+//      data.splice(0,3);
+//       data.splice(10,436);
       // data.splice(278,282);
       console.log(data);
-     saveObrazac5(data);
+     saveObrazac5(data, kvartal);
 
    console.log(data);
     setExcelData(JSON.stringify(data, null, 4));

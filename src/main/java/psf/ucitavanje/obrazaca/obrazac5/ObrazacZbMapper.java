@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ObrazacZbMapper {
-    public ObrazacZb mapDtoToEntity(Object object) {
+    public ObrazacZb mapDtoToEntity(Integer kvartal) {
         return new ObrazacZb(
                     null,
                 1,
-                1,
+                kvartal,
                 5,
                 19,
                 19,

@@ -10,8 +10,8 @@ const checkStatus = response => {
     return Promise.reject(error);
 }
 
-export const saveObrazac5 = data =>
-    fetch("/api/obrazac5", {
+export const saveObrazac5 = (data, kvartal) =>
+    fetch(`/api/obrazac_zb/${kvartal}`, {
         headers: {
             'Content-Type': 'application/json'
         },

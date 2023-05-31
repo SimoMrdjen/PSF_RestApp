@@ -1,4 +1,4 @@
-package psf.ucitavanje.obrazaca.obrazac5;
+package psf.ucitavanje.obrazaca.obrazac5.obrazac;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
