@@ -7,6 +7,7 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazac.Obrazac;
 import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacMapper;
 import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacRepository;
 import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacService;
+import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ObrazacZbService {
     private final ObrazacZbRepository obrazacZbRepository;
     private final SekretarijarService sekretarijarService;
     private final ObrazacService obrazacService;
+    private final PPartnerService pPartnerService;
 
     public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
         Object object = new Object();
@@ -27,7 +29,7 @@ public class ObrazacZbService {
         Integer sifSekret = 30; //fetch from table user
         Integer razdeo  = sekretarijarService.getRazdeo(sifSekret); //fetch from table user or sekr, im not sure
         Integer radnik = 50001;//sifra usera
-        Integer jbbk = 1000;//find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+        Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
         ObrazacZb zb = ObrazacZb.builder()
                 .gen_interbase(1)
                 .koji_kvartal(kvartal)
@@ -60,26 +62,7 @@ public class ObrazacZbService {
 
         ObrazacZb zbSaved = obrazacZbRepository.save(zb);
 
-        //call obrazacService - extract next code in new method
-       // Integer genMySql = zbSaved.getGen_mysql();
         obrazacService.saveListObrazac(dtos, zbSaved);
-
-//        List<Obrazac> obrazacList =
-//                dtos.stream()
-//                .filter(dto -> dto.getProp2() % 1000 != 0)
-//                .map(obrazacMapper::mapDtoToEntity)
-//                .collect(Collectors.toList());
-//
-//        obrazacList
-//                .forEach(obrazac -> {
-//                    obrazac.setGen_mysql(genMySql);
-//                    obrazac.setVerzija(verzija);
-//                    obrazac.setKoji_kvartal(kvartal);
-//                    obrazac.setSif_sekret(sifSekret);
-//                    obrazac.setRazdeo(razdeo);
-//                    obrazac.setJbbk_ind_kor(JbbkIndKor);
-//                });
-//        obrazacRepository.saveAll(obrazacList);
 
         return zbSaved;
     }

@@ -33,7 +33,7 @@ public class ObrazacService {
                     obrazac.setKoji_kvartal(zb.getKoji_kvartal());
                     obrazac.setSif_sekret(zb.getSif_sekret());
                     obrazac.setRazdeo(zb.getRazdeo());
-                    obrazac.setJbbk_ind_kor(obrazac.getJbbk_ind_kor());
+                    obrazac.setJbbk_ind_kor(zb.getJbbk_ind_kor());
                 });
         return obrazacRepository.saveAll(obrazacList);
     }
