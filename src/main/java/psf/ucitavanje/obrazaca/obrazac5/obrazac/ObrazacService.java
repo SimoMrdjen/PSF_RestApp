@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
-import psf.ucitavanje.obrazaca.obrazac5.ObrazacZb;
-import psf.ucitavanje.obrazaca.obrazac5.ObrazacZbMapper;
-import psf.ucitavanje.obrazaca.obrazac5.ObrazacZbRepository;
+import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,8 +1,9 @@
-package psf.ucitavanje.obrazaca.obrazac5;
+package psf.ucitavanje.obrazaca.obrazac5.obrazac5_old;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Component
-public class Obr5Service implements IObr5Service{
+public class Obr5Service implements IObr5Service {
 
     private final Obrazac5Mapper mapper;
     private final Obr5Repository repository;

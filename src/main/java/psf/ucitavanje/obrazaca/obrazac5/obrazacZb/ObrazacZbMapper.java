@@ -1,6 +1,7 @@
-package psf.ucitavanje.obrazaca.obrazac5;
+package psf.ucitavanje.obrazaca.obrazac5.obrazacZb;
 
 import org.springframework.stereotype.Component;
+import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
 
 @Component
 public class ObrazacZbMapper {

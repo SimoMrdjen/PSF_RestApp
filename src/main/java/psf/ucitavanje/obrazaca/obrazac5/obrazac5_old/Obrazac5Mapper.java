@@ -1,10 +1,12 @@
-package psf.ucitavanje.obrazaca.obrazac5;
+package psf.ucitavanje.obrazaca.obrazac5.obrazac5_old;
 
 import org.springframework.stereotype.Component;
+import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
+import psf.ucitavanje.obrazaca.obrazac5.obrazac5_old.Obrazac5;
 
 @Component
 public class Obrazac5Mapper {
-    public  Obrazac5 mapDtoToEntity(Obrazac5DTO dto) {
+    public Obrazac5 mapDtoToEntity(Obrazac5DTO dto) {
         return new Obrazac5(
                 null,
                 dto.getProp1(),

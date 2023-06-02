@@ -1,17 +1,16 @@
-package psf.ucitavanje.obrazaca.obrazac5;
+package psf.ucitavanje.obrazaca.obrazac5.obrazacZb;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac.Obrazac;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacMapper;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacRepository;
+import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
 import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacService;
+import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
+import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
