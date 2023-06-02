@@ -3,6 +3,9 @@ import * as XLSX from 'xlsx'
 import logo from './APV.png';
 import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
+import KvartalDrop from './components/KvartalDrop';
+import Data from './components/Data';
+
 const {Header, Content, Footer, Sider} = Layout;
 
 
@@ -10,7 +13,7 @@ function App1() {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
-    const [kvartal, setKvartal] = useState(2);
+ const [kvartal, setKvartal] = useState(0);
     const {token: { colorBgContainer },} = theme.useToken();
 //    const obj = [ {
 //                         "prop1": 5176,
@@ -164,6 +167,17 @@ const handleSubmit = (e) => {
         >
          <div className="container">
              <div className="form">
+
+             <div style={{ marginTop: 15 + 'px' }}>
+              < Data
+             kvartal = {kvartal}
+             setKvartal ={setKvartal}
+              />
+                           <br></br>
+                           <hr></hr>
+             </div>
+
+
                  <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
                      <label>
                          <h5>Izaberi Obrazac5</h5>

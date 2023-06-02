@@ -1,8 +1,15 @@
-import React,{ useState } from 'react'
-import { IndividualData } from './IndividualData'
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space, Tooltip, message } from 'antd';
 
+const handleButtonClick = (e) => {
+  message.info('Click on left button.');
+  console.log('click left button', e);
+};
+const handleMenuClick = (e) => {
+  //setKvartal(e);
+  message.info('Odaberite kvartal!');
+  console.log('click', e);
+};
 const items = [
   {
     label: '1. kvartal',
@@ -29,37 +36,26 @@ const items = [
   },
     {
       label: '5. kvartal',
-      key: 5,
+      key: '5',
      // icon: <UserOutlined />,
 //      danger: true,
 //      disabled: true,
     },
 ];
-function Data({ setKvartal, kvartal}) {
-
-const handleButtonClick = (e) => {
-  message.info('Click on left button.');
-  console.log('click left button', e);
-};
-const handleMenuClick = (e) => {
-  setKvartal(e.key);
-  message.info(`Izabrali ste ${kvartal} kvartal!`);
-  console.log( kvartal, e);
-};
 const menuProps = {
   items,
   onClick: handleMenuClick,
 };
-return(
-<Space wrap>
+const KvartalDrop = ({kvartal, setKvartal}) => (
+  <Space wrap>
     <Dropdown menu={menuProps}>
       <Button size ="large" type="primary">
         <Space>
-         Izabrali ste {kvartal} kvartal!
+         Izaberite kvartal
           <DownOutlined />
         </Space>
       </Button>
     </Dropdown>
-  </Space>);
-}
-export default Data;
+  </Space>
+);
+export default KvartalDrop;
