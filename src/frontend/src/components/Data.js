@@ -43,7 +43,7 @@ const handleButtonClick = (e) => {
 };
 const handleMenuClick = (e) => {
   setKvartal(e.key);
-  message.info(`Izabrali ste ${kvartal} kvartal!`);
+  //message.info(`Izabrali ste ${kvartal} kvartal!`);
   console.log( kvartal, e);
 };
 const menuProps = {

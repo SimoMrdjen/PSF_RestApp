@@ -15,29 +15,6 @@ function App1() {
     const [excelData, setExcelData] = useState(null);
  const [kvartal, setKvartal] = useState(0);
     const {token: { colorBgContainer },} = theme.useToken();
-//    const obj = [ {
-//                         "prop1": 5176,
-//                         "prop2": 411100,
-//                         "prop3": "Плате, додаци и накнаде запослених",
-//                         "prop4": 90127786.2,
-//                         "prop5": 14534475.65,
-//                         "prop7": 14534475.65,
-//                         "propDuz": 4
-//                     },
-//                     {
-//                         "prop1": 5177,
-//                         "prop2": 412500,
-//                         "prop3": "СОЦИЈАЛНИ ДОПРИНОСИ НА ТЕРЕТ ПОСЛОДАВЦА (од 5178 до 5180)",
-//                         "prop4": 13654359.61,
-//                         "prop5": 2201973.14,
-//                         "prop6": 0,
-//                         "prop7": 2201973.14,
-//                         "prop8": 0,
-//                         "prop9": 0,
-//                         "prop10": 0,
-//                         "prop11": 0,
-//                         "propDuz": 0
-//                     }];
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];

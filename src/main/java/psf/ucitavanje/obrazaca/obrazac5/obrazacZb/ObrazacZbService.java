@@ -1,5 +1,6 @@
 package psf.ucitavanje.obrazaca.obrazac5.obrazacZb;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class ObrazacZbService {
     private final ObrazacService obrazacService;
     private final PPartnerService pPartnerService;
 
+    @Transactional
     public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
         Object object = new Object();
 
@@ -29,13 +32,16 @@ public class ObrazacZbService {
         Integer razdeo  = sekretarijarService.getRazdeo(sifSekret); //fetch from table user or sekr, im not sure
         Integer radnik = 50001;//sifra usera
         Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+        Integer today = (int) LocalDate.now().toEpochDay() + 25569;
+        Integer version = findVersion(jbbk, kvartal);
+
         ObrazacZb zb = ObrazacZb.builder()
-                .gen_interbase(1)
+                //.gen_interbase(1)
                 .koji_kvartal(kvartal)
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)
                 .razdeo(razdeo)
-                .verzija(1)
+                .verzija(version)
                 .dinarski(1)
                 .status(0)
                 .poslato_o(0)
@@ -65,5 +71,10 @@ public class ObrazacZbService {
 
         return zbSaved;
     }
+
+   public Integer findVersion(Integer jbbks, Integer kvartal) {
+        Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
+        return version + 1;
+   }
 
 }
