@@ -27,7 +27,7 @@ public class ObrazacZbService {
     public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
         Object object = new Object();
 
-        Integer verzija = 1; //fetch verzija
+        //Integer verzija = 1; //fetch verzija
         Integer sifSekret = 30; //fetch from table user
         Integer razdeo  = sekretarijarService.getRazdeo(sifSekret); //fetch from table user or sekr, im not sure
         Integer radnik = 50001;//sifra usera
