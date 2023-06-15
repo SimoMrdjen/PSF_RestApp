@@ -41,6 +41,7 @@ public class ObrazacZbService {
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)
                 .razdeo(razdeo)
+                .sif_rac(1)
                 .verzija(version)
                 .dinarski(1)
                 .status(0)

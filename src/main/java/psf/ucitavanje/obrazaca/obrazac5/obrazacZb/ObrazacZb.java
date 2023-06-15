@@ -26,40 +26,40 @@ public class ObrazacZb {
     @Column(name = "gen_interbase")
     private Integer gen_interbase;
 
-    @Column(name = "koji_kvartal")
+    @Column(name = "koji_kvartal", nullable = false)
     private Integer koji_kvartal;
 
-    @Column(name = "tip_obrazca")
+    @Column(name = "tip_obrazca", nullable = false)
     private Integer tip_obrazca;
 
-    @Column(name = "sif_sekret")
+    @Column(name = "sif_sekret", nullable = false)
     private Integer sif_sekret;
 
     @Column(name = "razdeo")
     private Integer razdeo;
 
-    @Column(name = "sif_rac")
+    @Column(name = "sif_rac", nullable = false)
     private Integer sif_rac;
 
-    @Column(name = "verzija")
+    @Column(name = "verzija", nullable = false)
     private Integer verzija;
 
-    @Column(name = "dinarski")
+    @Column(name = "dinarski", nullable = false)
     private Integer dinarski;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Integer status;
 
-    @Column(name = "poslato_o")
+    @Column(name = "poslato_o", nullable = false)
     private Integer poslato_o;
 
-    @Column(name = "radna")
+    @Column(name = "radna", nullable = false)
     private Integer radna;
 
-    @Column(name = "povuceno")
+    @Column(name = "povuceno", nullable = false)
     private Integer povuceno;
 
-    @Column(name = "konacno")
+    @Column(name = "konacno", nullable = false)
     private Integer konacno;
 
     @Column(name = "poslao_nam")
@@ -80,13 +80,13 @@ public class ObrazacZb {
     @Column(name = "odobrio_ver")
     private Integer odobrio_ver;
 
-    @Column(name = "proknjizeno")
+    @Column(name = "proknjizeno", nullable = false)
     private Integer proknjizeno;
 
-    @Column(name = "jbbk_ind_kor")
+    @Column(name = "jbbk_ind_kor", nullable = false)
     private Integer jbbk_ind_kor;
 
-    @Column(name = "storno")
+    @Column(name = "storno", nullable = false)
     private Integer storno;
 
     @Column(name = "stosifrad")
@@ -104,7 +104,7 @@ public class ObrazacZb {
     @Column(name = "datum_org")
     private Integer datum_org;
 
-    @Column(name = "nivo_konsolidacije")
+    @Column(name = "nivo_konsolidacije", nullable = false)
     private Integer nivo_konsolidacije;
 
 }
