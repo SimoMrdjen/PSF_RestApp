@@ -23,96 +23,96 @@ public class Obrazac5_pom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer REDNI;
 
-    @Column
+    @Column(nullable = false)
     private Integer GEN_MYSQL;
 
     @Column
     private Integer GEN_INTERBASE;
 
-    @Column
+    @Column(nullable = false)
     private Integer GODINA;
 
-    @Column
+    @Column(nullable = false)
     private Integer VERZIJA;
 
-    @Column
+    @Column(nullable = false)
     private Integer KOJI_KVARTAL;
 
-    @Column
+    @Column(nullable = false)
     private Integer SIF_SEKRET;
 
-    @Column
+    @Column(nullable = false)
     private Integer JBBK;
 
-    @Column
+    @Column(nullable = false)
     private Integer JBBK_IND_KOR;
 
-    @Column
+    @Column(nullable = false)
     private Integer SIF_RAC;
 
-    @Column
+    @Column(nullable = false)
     private Integer RAZDEO;
 
     @Column
-    private Integer OZNAKAGLAVE;
+    private String OZNAKAGLAVE;
 
-    @Column
+    @Column(nullable = false)
     private Integer RED_BROJ_AKT;
 
     @Column
-    private Integer FUNK_KLAS;
+    private String FUNK_KLAS;
 
-    @Column
+    @Column(nullable = false)
     private Integer SIN_KONTO;
 
-    @Column
+    @Column(nullable = false)
     private Integer KONTO;
 
     @Column
-    private Integer IZVORFIN;
+    private String IZVORFIN;
 
     @Column
-    private Integer IZVORFIN_PRE;
+    private String IZVORFIN_PRE;
 
-    @Column
+    @Column(nullable = false)
     private Integer ALINEA;
 
     @Column
-    private Integer DUGG;
+    private Double DUGG;
 
     @Column
-    private Integer POTG;
+    private Double POTG;
 
     @Column
-    private Integer DUGUJE;
+    private Double DUGUJE;
 
     @Column
-    private Integer POTRAZUJE;
+    private Double POTRAZUJE;
 
     @Column
-    private Integer REPUBLIKA;
+    private Double REPUBLIKA;
 
     @Column
-    private Integer POKRAJINA;
+    private Double POKRAJINA;
 
     @Column
-    private Integer OPSTINA;
+    private Double OPSTINA;
 
     @Column
-    private Integer OOSO;
+    private Double OOSO;
 
     @Column
-    private Integer DONACIJE;
+    private Double DONACIJE;
 
     @Column
-    private Integer OSTALI;
+    private Double OSTALI;
 
-    @Column
+    @Column(nullable = false)
     private Integer UNOSIO;
 
-    @Column
+    @Column(nullable = false)
     private Integer UPARENO;
 
     @Column
-    private Integer POTRAZUJE2;
+    private Double POTRAZUJE2;
 }

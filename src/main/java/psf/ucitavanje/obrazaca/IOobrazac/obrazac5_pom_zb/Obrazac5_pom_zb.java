@@ -26,52 +26,52 @@ public class Obrazac5_pom_zb {
     @Column
     private Integer GEN_INTERBASE;
 
-   @Column
+    @Column(nullable = false)
     private Integer KOJI_KVARTAL;
 
-    @Column
+    @Column(nullable = false)
     private Integer GODINA;
 
-    @Column
+    @Column(nullable = false)
     private Integer VERZIJA;
 
-    @Column
+    @Column(nullable = false)
     private Integer RADNA;
 
-    @Column
+    @Column(nullable = false)
     private Integer SIF_SEKRET;
 
     @Column
     private Integer RAZDEO;
 
-    @Column
+    @Column(nullable = false)
     private Integer JBBK;//jbbk sekretarijata
 
-    @Column
+    @Column(nullable = false)
     private Integer JBBK_IND_KOR;
 
-    @Column
+    @Column(nullable = false)
     private Integer SIF_RAC;
 
-    @Column
+    @Column(nullable = false)
     private Integer DINARSKI;
 
-    @Column
+    @Column(nullable = false)
     private Integer STATUS;
 
-    @Column
+    @Column(nullable = false)
     private Integer POSLATO_O;
 
-    @Column
+    @Column(nullable = false)
     private Integer POVUCENO;
 
-    @Column
+    @Column(nullable = false)
     private Integer KONACNO;
 
     @Column
     private Integer POSLAO_NAM;
 
-    @Column
+    @Column(nullable = false)
     private Integer DATUM_DOK;
 
     @Column
@@ -101,22 +101,22 @@ public class Obrazac5_pom_zb {
     @Column
     private Integer ODOBRIO_VER;
 
-    @Column
+    @Column(nullable = false)
     private Integer PROKNJIZENO;
 
-    @Column
+    @Column(nullable = false)
     private Integer XLS;
 
-    @Column
+    @Column(nullable = false)
     private Integer STORNO;
 
-    @Column
+    @Column(nullable = false)
     private Integer STOSIFRAD;
 
     @Column
     private String OPISSTORNO;
 
-    @Column
+    @Column(nullable = false)
     private Integer GEN_OPENTAB;
 
 }
