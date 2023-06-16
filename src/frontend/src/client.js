@@ -2,16 +2,17 @@ import fetch from 'unfetch';
 
 const checkStatus = response => {
     if (response.ok) {
+    console.log(response);
         return response;
     }
     // convert non-2xx HTTP responses into errors:
     const error = new Error(response.statusText);
-    error.response = response;
+    error.response = response
     return Promise.reject(error);
 }
 
-export const saveObrazac5 = data =>
-    fetch("/api/obrazac5", {
+export const saveObrazac5 = (data, kvartal) =>
+    fetch(`/api/obrazac_zb/${kvartal}`, {
         headers: {
             'Content-Type': 'application/json'
         },

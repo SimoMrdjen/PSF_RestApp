@@ -3,6 +3,9 @@ import * as XLSX from 'xlsx'
 import logo from './APV.png';
 import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
+import KvartalDrop from './components/KvartalDrop';
+import Data from './components/Data';
+
 const {Header, Content, Footer, Sider} = Layout;
 
 
@@ -10,13 +13,8 @@ function App1() {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
+ const [kvartal, setKvartal] = useState(0);
     const {token: { colorBgContainer },} = theme.useToken();
-//    const obj = [{
-//        prop1: 5001,
-//        prop2: 1111,
-//        prop3: "ТЕКУЋИ ПРИХОДИ И ПРИМАЊА ОД ПРОДАЈЕ НЕФИНАНСИЈСКЕ ИМОВИНЕ (5002+5106)"
-//
-//    }];
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];
@@ -60,9 +58,10 @@ const handleSubmit = (e) => {
 
       return typeof firstProperty !== 'string'
           && typeof firstProperty !== 'undefined'
-         && typeof secondProperty !== 'string'
+          && typeof secondProperty !== 'string'
+          && typeof secondProperty !== 'undefined'
           && typeof fourthProperty !== 'string'
-        && typeof tenthProperty !== 'string';
+          && typeof tenthProperty !== 'string';
     });
 
     const headers = filteredData[0];
@@ -74,13 +73,11 @@ const handleSubmit = (e) => {
       return obj;
     });
        data.splice(442,1);
-      // data.splice(1,1);
-      // data.splice(10,436);
-
-
+//      data.splice(0,3);
+//       data.splice(10,436);
       // data.splice(278,282);
       console.log(data);
-     saveObrazac5(data);
+     saveObrazac5(data, kvartal);
 
    console.log(data);
     setExcelData(JSON.stringify(data, null, 4));
@@ -147,6 +144,17 @@ const handleSubmit = (e) => {
         >
          <div className="container">
              <div className="form">
+
+             <div style={{ marginTop: 15 + 'px' }}>
+              < Data
+             kvartal = {kvartal}
+             setKvartal ={setKvartal}
+              />
+                           <br></br>
+                           <hr></hr>
+             </div>
+
+
                  <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
                      <label>
                          <h5>Izaberi Obrazac5</h5>
