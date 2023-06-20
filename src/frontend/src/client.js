@@ -19,3 +19,12 @@ export const saveObrazac5 = (data, kvartal) =>
         method:'POST',
         body:JSON.stringify(data)
     }).then(checkStatus);
+
+export const saveObrazacIO = (data, kvartal) =>
+    fetch(`/api/obrazac_io/${kvartal}`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method:'POST',
+        body:JSON.stringify(data)
+    }).then(checkStatus);

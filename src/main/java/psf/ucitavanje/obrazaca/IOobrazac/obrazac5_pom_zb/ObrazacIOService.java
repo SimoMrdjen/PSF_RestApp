@@ -46,7 +46,7 @@ public class ObrazacIOService {
                 .POSLATO_O(0)
                 .POVUCENO(0)
                 .KONACNO(0)
-                .POSLAO_NAM(0)
+                .POSLAO_NAM(radnik)
                 .DATUM_DOK(todayInt)
                 .PROKNJIZENO(0)
                 .XLS(0)

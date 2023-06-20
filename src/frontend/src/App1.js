@@ -3,8 +3,8 @@ import * as XLSX from 'xlsx'
 import logo from './APV.png';
 import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
-
 import Data from './components/Data';
+import ObrazacIOButton from './components/ObrazacIOButton';
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -88,15 +88,10 @@ const handleSubmit = (e) => {
       });
       return obj;
     });
-       data.splice(442,1);
-//      data.splice(0,3);
-//       data.splice(10,436);
-      // data.splice(278,282);
-      console.log(data);
+     data.splice(442,1);
+     console.log(data);
      saveObrazac5(data, kvartal);
-
-   console.log(data);
-    setExcelData(JSON.stringify(data, null, 4));
+     setExcelData(JSON.stringify(data, null, 4));
   } else {
     setExcelData(null);
   }
@@ -170,7 +165,11 @@ return (
                            <br></br>
                            <hr></hr>
              </div>
+             { selectedItem === 'ObrazacIO' && <ObrazacIOButton
+              kvartal = {kvartal}
+              setKvartal ={setKvartal}             />}
 
+                { selectedItem === 'Obrazac5' &&
 
                  <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
                      <label>
@@ -183,16 +182,19 @@ return (
                              {excelFileError}
                          </div>
                      )}
-                     { selectedItem === 'Obrazac5' &&  <button type="submit" className="btn btn-primary"
+                      <button type="submit" className="btn btn-primary"
                              style={{ marginTop: 15 + 'px' }}>
                          Učitaj Obrazac5
-                     </button>}
+                     </button>
                  </form>
-             </div>
+                  }
+           </div>
 
+
+            {selectedItem === 'Obrazac5' &&
+            <div>
              <br></br>
              <hr></hr>
-
              <h5>Pregled {selectedItem}</h5>
              <div className="viewer">
                  {excelData === null && <>Nije izabran nijedan dokument</>}
@@ -202,6 +204,7 @@ return (
                      </div>
                  )}
              </div>
+             </div>}
 
          </div>
         </div>
