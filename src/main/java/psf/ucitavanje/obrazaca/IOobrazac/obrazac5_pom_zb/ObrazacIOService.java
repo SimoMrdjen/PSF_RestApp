@@ -1,6 +1,7 @@
 package psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom_zb;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom.ObrazacIODetailService;
 import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
+import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,23 +24,23 @@ public class ObrazacIOService {
     private final PPartnerService pPartnerService;
     private final ObrazacIODetailService obrazacIODetailService;
 
-    public Obrazac5_pom_zb saveObrazacIO(List<ObrazacIODTO> dtos, Integer kvartal) {
+    @Transactional
+    public Obrazac5_pom_zb saveObrazacIO(List<ObrazacIODTO> dtos, Integer kvartal, Integer year) {
         Integer sifSekret = 30; //fetch from table user
-        Integer razdeo  = sekretarijarService.getRazdeo(sifSekret); //fetch from table user or sekr, im not sure
+        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
         Integer radnik = 50001;//sifra usera
         Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
-        Integer today = (int) LocalDate.now().toEpochDay() + 25569;
         Integer version = findVersion(jbbk, kvartal);
         Integer todayInt = (int) LocalDate.now().toEpochDay() + 25569;
 
         Obrazac5_pom_zb obrIO = Obrazac5_pom_zb.builder()
                 .KOJI_KVARTAL(kvartal)
-                .GODINA(2023)
+                .GODINA(year)
                 .VERZIJA(version)
                 .RADNA(1)
                 .SIF_SEKRET(sifSekret)
-                .RAZDEO(razdeo)
-                .JBBK(1)
+                .RAZDEO(sekretarijat.getRazdeo())
+                .JBBK(sekretarijat.getJED_BROJ_KORISNIKA())
                 .JBBK_IND_KOR(jbbk)
                 .SIF_RAC(1)
                 .DINARSKI(1)

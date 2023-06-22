@@ -88,7 +88,7 @@ const handleSubmit = (e) => {
       });
       return obj;
     });
-     data.splice(442,1);
+    // data.splice(442,1);
      console.log(data);
      saveObrazac5(data, kvartal);
      setExcelData(JSON.stringify(data, null, 4));

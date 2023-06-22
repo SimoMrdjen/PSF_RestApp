@@ -20,11 +20,11 @@ export const saveObrazac5 = (data, kvartal) =>
         body:JSON.stringify(data)
     }).then(checkStatus);
 
-export const saveObrazacIO = (data, kvartal) =>
-    fetch(`/api/obrazac_io/${kvartal}`, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method:'POST',
-        body:JSON.stringify(data)
-    }).then(checkStatus);
+export const saveObrazacIO = (data, kvartal, year) =>
+  fetch(`/api/obrazac_io/${kvartal}/${year}`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(checkStatus);

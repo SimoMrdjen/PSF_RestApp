@@ -21,10 +21,11 @@ public class ObrazacIOController {
 
     private final ObrazacIOService obrazacIOService;
 
-    @PostMapping(value = "/{kvartal}")
+    @PostMapping(value = "/{kvartal}/{year}")
     public Obrazac5_pom_zb addObrazacIO(@RequestBody List<ObrazacIODTO> dtos,
-                                  @PathVariable(name = "kvartal") Integer kvartal) {
-        return obrazacIOService.saveObrazacIO(dtos, kvartal);
+                                  @PathVariable(name = "kvartal") Integer kvartal,
+                                  @PathVariable(name = "year") Integer year) {
+        return obrazacIOService.saveObrazacIO(dtos, kvartal, year);
 
     }
 }

@@ -46,7 +46,6 @@ function ObrazacIOButton({ kvartal, setKvartal }) {
           && typeof firstProperty !== 'undefined';
          });
 
-    // const filteredData = jsonData;
       const headers = filteredData[0];
       const data = filteredData.slice(1).map((row) => {
         let obj = {};
@@ -56,9 +55,6 @@ function ObrazacIOButton({ kvartal, setKvartal }) {
         if (index === 3 || index === 4) {
           value = String(row[index]).padStart(4, '0');
         }
-//        else {
-//          value = row[index];
-//        }
         else if (index === 1 ) {
           value = String(row[index]).padStart(3, '0');
         } else {
@@ -68,11 +64,13 @@ function ObrazacIOButton({ kvartal, setKvartal }) {
       });
         return obj;
       });
-       const cellValue = worksheet['B3']?.v || '';
-       console.log(cellValue);
+       const jbbk = worksheet['B3']?.v || '';
+       const year = worksheet['D3']?.v || '';
+
+       console.log(jbbk);
        //data.splice(116,1000);
       console.log(data);
-      //saveObrazacIO(data, kvartal);
+      saveObrazacIO(data, kvartal, year );
       setExcelData(JSON.stringify(data, null, 4));
     } else {
       setExcelData(null);
