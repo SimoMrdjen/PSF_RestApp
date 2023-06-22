@@ -13,9 +13,9 @@ public class SekretarijarService {
 
     private final SekretarijatRepository sekretarijatRepository;
 
-    public Integer getRazdeo(Integer sifSek) {
+    public Sekretarijat getSekretarijat(Integer sifSek) {
         Optional<Sekretarijat> sekretarijat = sekretarijatRepository.findById(sifSek);
-        return sekretarijat.get().getRazdeo();
+        return sekretarijat.get();
 
     }
 }

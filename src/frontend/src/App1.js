@@ -3,18 +3,34 @@ import * as XLSX from 'xlsx'
 import logo from './APV.png';
 import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
-import KvartalDrop from './components/KvartalDrop';
 import Data from './components/Data';
+import ObrazacIOButton from './components/ObrazacIOButton';
 
 const {Header, Content, Footer, Sider} = Layout;
+
+const menuItems = [
+    {
+        key: 'Obrazac5',
+        label: 'Obrazac5',
+    },
+    {
+        key: 'ObrazacIO',
+        label: 'ObrazacIO',
+    },
+];
 
 
 function App1() {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
- const [kvartal, setKvartal] = useState(0);
+    const [kvartal, setKvartal] = useState(0);
     const {token: { colorBgContainer },} = theme.useToken();
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const handleMenuClick = (item) => {
+        setSelectedItem(item.key);
+    };
 
     const handleFile = (e) => {
         let selectedFile = e.target.files[0];
@@ -72,23 +88,16 @@ const handleSubmit = (e) => {
       });
       return obj;
     });
-       data.splice(442,1);
-//      data.splice(0,3);
-//       data.splice(10,436);
-      // data.splice(278,282);
-      console.log(data);
+    // data.splice(442,1);
+     console.log(data);
      saveObrazac5(data, kvartal);
-
-   console.log(data);
-    setExcelData(JSON.stringify(data, null, 4));
+     setExcelData(JSON.stringify(data, null, 4));
   } else {
     setExcelData(null);
   }
 };
 
-
-
- return (
+return (
  <>
     <Layout>
       <Header
@@ -106,15 +115,18 @@ const handleSubmit = (e) => {
       >
         <div className="demo-logo" />
           <div>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={new Array(3).fill(null).map((_, index) => ({
-            key: String(index + 1),
-            label: `nav ${index + 1}`,
-          }))}
-        />
+
+              <Menu
+                  theme="dark"
+                  mode="horizontal"
+                  defaultSelectedKeys={['1']}
+                  onClick={handleMenuClick}
+              >
+                  {menuItems.map((item) => (
+                      <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                  ))}
+              </Menu>
+
           </div>
           <div>
               <Image align="center" width={100} src={logo} />
@@ -133,7 +145,7 @@ const handleSubmit = (e) => {
         >
           <Breadcrumb.Item>PSF</Breadcrumb.Item>
           <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
-          <Breadcrumb.Item>Obrazac 5</Breadcrumb.Item>
+            <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
         </Breadcrumb>
         <div
           style={{
@@ -153,11 +165,15 @@ const handleSubmit = (e) => {
                            <br></br>
                            <hr></hr>
              </div>
+             { selectedItem === 'ObrazacIO' && <ObrazacIOButton
+              kvartal = {kvartal}
+              setKvartal ={setKvartal}             />}
 
+                { selectedItem === 'Obrazac5' &&
 
                  <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
                      <label>
-                         <h5>Izaberi Obrazac5</h5>
+                         <h5>Izaberi {selectedItem}</h5>
                      </label>
                      <br></br>
                      <input type="file" className="form-control" onChange={handleFile} required></input>
@@ -166,17 +182,20 @@ const handleSubmit = (e) => {
                              {excelFileError}
                          </div>
                      )}
-                     <button type="submit" className="btn btn-primary"
+                      <button type="submit" className="btn btn-primary"
                              style={{ marginTop: 15 + 'px' }}>
                          Učitaj Obrazac5
                      </button>
                  </form>
-             </div>
+                  }
+           </div>
 
+
+            {selectedItem === 'Obrazac5' &&
+            <div>
              <br></br>
              <hr></hr>
-
-             <h5>Pregled Obrasca5</h5>
+             <h5>Pregled {selectedItem}</h5>
              <div className="viewer">
                  {excelData === null && <>Nije izabran nijedan dokument</>}
                  {excelData !== null && (
@@ -185,6 +204,7 @@ const handleSubmit = (e) => {
                      </div>
                  )}
              </div>
+             </div>}
 
          </div>
         </div>

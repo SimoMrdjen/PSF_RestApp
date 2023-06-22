@@ -10,6 +10,7 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
 import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
+import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ObrazacZbService {
 
         //Integer verzija = 1; //fetch verzija
         Integer sifSekret = 30; //fetch from table user
-        Integer razdeo  = sekretarijarService.getRazdeo(sifSekret); //fetch from table user or sekr, im not sure
+        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
         Integer radnik = 50001;//sifra usera
         Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
@@ -40,7 +41,7 @@ public class ObrazacZbService {
                 .koji_kvartal(kvartal)
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)
-                .razdeo(razdeo)
+                .razdeo(sekretarijat.getRazdeo())
                 .sif_rac(1)
                 .verzija(version)
                 .dinarski(1)
