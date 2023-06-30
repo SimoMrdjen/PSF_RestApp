@@ -28,3 +28,12 @@ export const saveObrazacIO = (data, kvartal, year) =>
     method: 'POST',
     body: JSON.stringify(data)
   }).then(checkStatus);
+
+export const login = (data) =>
+    fetch(`/api/v1/auth/authenticate`, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method:'POST',
+        body:JSON.stringify(data)
+    }).then(checkStatus);

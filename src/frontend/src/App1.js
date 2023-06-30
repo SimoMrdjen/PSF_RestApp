@@ -5,6 +5,7 @@ import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
 import Data from './components/Data';
 import ObrazacIOButton from './components/ObrazacIOButton';
+import LoginForm from './LoginForm';
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -205,6 +206,7 @@ return (
                  )}
              </div>
              </div>}
+
 
          </div>
         </div>
