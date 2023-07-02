@@ -3,14 +3,19 @@ import { Button, Checkbox, Form, Input, Layout, Image } from 'antd';
 import { login } from './client';
 import logo from './APV.png';
 import {useContext, useState} from 'react';
-import AuthContext from './context/AuthProvider';
+import useAuth from './hooks/useAuth';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const { Content, Footer } = Layout;
 
-const LoginForm = () => {
-  const { setAuth } = useContext(AuthContext);
+const LoginForm = ({ onLogin,access_token, setAccessToken }) => {
+  const { setAuth } = useAuth();
   const [form] = Form.useForm(); // Add this line to create a form instance
-  const [access_token, setAToken] = useState('');
+ // const [access_token, setAToken] = useState('');
+    // const navigate = useNavigate();
+    // const location = useLocation();
+    // const from = location.state?.from?.pathname || "/";
+
 
 
   const onFinish = async (values) => {
@@ -18,19 +23,22 @@ const LoginForm = () => {
       const res = await login(values).then(res => res.json())
           .then(data => {
             console.log("Ovo je iz f-je login", data);
-            setAToken(data.access_token);
+              setAccessToken(data.access_token);
             console.log("Ovo je iz token login", access_token);
+           // navigate(from, { replace: true });
+              onLogin(true);
 
           }).catch(err => {
             err.response.json().then(res => {
             });
+              onLogin(false);
           }).finally();  //form.resetFields());
 
         console.log("Ovo je response from onFinish", access_token);
        //const { access_token, refresh_token} = response;
        const { email, password} = values;
       // Set the auth context value
-      setAuth({ email, password, access_token });
+     // setAuth({ email, password, access_token });
 
   };
 

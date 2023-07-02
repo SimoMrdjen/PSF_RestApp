@@ -21,7 +21,7 @@ const menuItems = [
 ];
 
 
-function App1() {
+function App1({access_token}) {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
@@ -91,7 +91,7 @@ const handleSubmit = (e) => {
     });
     // data.splice(442,1);
      console.log(data);
-     saveObrazac5(data, kvartal);
+     saveObrazac5(data, kvartal, access_token);
      setExcelData(JSON.stringify(data, null, 4));
   } else {
     setExcelData(null);

@@ -11,14 +11,16 @@ const checkStatus = response => {
     return Promise.reject(error);
 }
 
-export const saveObrazac5 = (data, kvartal) =>
-    fetch(`/api/obrazac_zb/${kvartal}`, {
+export const saveObrazac5 = async (data, kvartal,access_token) => {
+    return fetch(`/api/obrazac_zb/${kvartal}`, {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${access_token}`
         },
-        method:'POST',
-        body:JSON.stringify(data)
+        method: 'POST',
+        body: JSON.stringify(data)
     }).then(checkStatus);
+};
 
 export const saveObrazacIO = (data, kvartal, year) =>
   fetch(`/api/obrazac_io/${kvartal}/${year}`, {
