@@ -10,7 +10,7 @@ const RequiredAuth = () => {
 
     return (
         auth.email
-            ? <App/>
+            ? <Outlet/>
             : <Navigate to="/login" state={{from: location} } replace />
     )
 

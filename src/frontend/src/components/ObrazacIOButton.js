@@ -5,7 +5,7 @@ import { IndividualData } from './IndividualData';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space, Tooltip, message } from 'antd';
 
-function ObrazacIOButton({ kvartal, setKvartal }) {
+function ObrazacIOButton({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -70,7 +70,7 @@ function ObrazacIOButton({ kvartal, setKvartal }) {
        console.log(jbbk);
        //data.splice(116,1000);
       console.log(data);
-      saveObrazacIO(data, kvartal, year );
+      saveObrazacIO(data, kvartal, year, access_token );
       setExcelData(JSON.stringify(data, null, 4));
     } else {
       setExcelData(null);

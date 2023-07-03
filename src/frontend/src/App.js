@@ -12,9 +12,6 @@ import RequiredAuth from './components/RequiredAuth';
 import App1 from "./App1";
 import { Routes, Route } from 'react-router-dom';
 
-
-
-
 function App() {
     const { setAuth } = useContext(AuthContext);
 
@@ -22,28 +19,13 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 {/* public routes */}
-                <Route path="login" element={<LoginForm />} />
-                {/*<Route path="register" element={<Register />} />*/}
-                {/*<Route path="linkpage" element={<LinkPage />} />*/}
-                {/*<Route path="unauthorized" element={<Unauthorized />} />*/}
+                <Route path="/login" component={<LoginForm />} />
+
 
                 {/* we want to protect these routes */}
-                <Route element={<RequiredAuth/> /*allowedRoles={[ROLES.Admin]} */}>
-                    <Route path="/" element={<App1 />} />
+                <Route component={<RequiredAuth /> /*allowedRoles={[ROLES.Admin]} */}>
+                    <Route path="/" component={<App1 />} />
                 </Route>
-
-            {/*<Route element={<RequiredAuth/> /*allowedRoles={[ROLES.Admin]} *!/>*/}
-            {/*        <Route path="editor" element=/!*<Editor />*!/ />*/}
-            {/*    </Route>*/}
-
-
-            {/*    <Route element={<RequiredAuth/> /*allowedRoles={[ROLES.Admin]} *!/>*/}
-            {/*        <Route path="admin" element=/!*<Admin />*!/ />*/}
-            {/*    </Route>*/}
-
-            {/*    <Route element={<RequiredAuth/> /*allowedRoles={[ROLES.Admin]} *!/>*/}
-            {/*        <Route path="lounge" element=/!*<Lounge />*!/ />*/}
-            {/*    </Route>*/}
 
             {/*    /!* catch all *!/*/}
             {/*    <Route path="*" element=/!*<Missing />*!/ />*/}

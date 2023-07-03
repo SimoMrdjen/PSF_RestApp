@@ -71,6 +71,7 @@ const handleSubmit = (e) => {
       const firstProperty = row[0];
       const secondProperty = row[1];
       const fourthProperty = row[3];
+      const fifthProperty = row[4];
       const tenthProperty = row[9];
 
       return typeof firstProperty !== 'string'
@@ -78,7 +79,8 @@ const handleSubmit = (e) => {
           && typeof secondProperty !== 'string'
           && typeof secondProperty !== 'undefined'
           && typeof fourthProperty !== 'string'
-          && typeof tenthProperty !== 'string';
+          && typeof tenthProperty !== 'string'
+          && fifthProperty !== 0.00;
     });
 
     const headers = filteredData[0];
@@ -133,6 +135,8 @@ return (
               <Image align="center" width={100} src={logo} />
           </div>
       </Header>
+
+
       <Content
         className="site-layout"
         style={{
@@ -168,7 +172,9 @@ return (
              </div>
              { selectedItem === 'ObrazacIO' && <ObrazacIOButton
               kvartal = {kvartal}
-              setKvartal ={setKvartal}             />}
+              setKvartal ={setKvartal}
+              access_token = {access_token}
+                          />}
 
                 { selectedItem === 'Obrazac5' &&
 
