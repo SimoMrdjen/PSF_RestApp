@@ -1,5 +1,6 @@
 package psf.ucitavanje.obrazaca.obrazac5.obrazac;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class ObrazacService {
     private final ObrazacRepository obrazacRepository;
     private final ObrazacMapper obrazacMapper;
 
+    @Transactional
     public List<Obrazac> saveListObrazac(List<Obrazac5DTO> dtos, ObrazacZb zb) {
         List<Obrazac> obrazacList =
                 dtos.stream()

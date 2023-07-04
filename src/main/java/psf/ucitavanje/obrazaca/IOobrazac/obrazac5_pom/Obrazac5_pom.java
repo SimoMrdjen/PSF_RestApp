@@ -1,15 +1,11 @@
 package psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom_zb.Obrazac5_pom_zb;
 
 @Entity
 @Table(name = "obrazac5_pom")
@@ -22,6 +18,10 @@ public class Obrazac5_pom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer REDNI;
+
+//    @ManyToOne( cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//    @JoinColumn(name="GEN_MYSQL")
+//    private Obrazac5_pom_zb obrazac5_pom_zb;
 
     @Column(nullable = false)
     private Integer GEN_MYSQL;

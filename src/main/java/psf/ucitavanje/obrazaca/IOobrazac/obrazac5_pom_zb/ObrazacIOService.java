@@ -62,6 +62,7 @@ public class ObrazacIOService {
         return obrIOSaved;
     }
 
+    @Transactional
     private Integer findVersion(Integer jbbk, Integer kvartal) {
         Integer version = obrazacIOrepository.getLastVersionValue(jbbk, kvartal).orElse(0);
         return version + 1;
