@@ -22,10 +22,12 @@ export const saveObrazac5 = async (data, kvartal,access_token) => {
     }).then(checkStatus);
 };
 
-export const saveObrazacIO = (data, kvartal, year) =>
+export const saveObrazacIO = (data, kvartal, year, access_token) =>
   fetch(`/api/obrazac_io/${kvartal}/${year}`, {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access_token}`
+
     },
     method: 'POST',
     body: JSON.stringify(data)

@@ -10,11 +10,11 @@ const { Content, Footer } = Layout;
 
 const LoginForm = ({ onLogin,access_token, setAccessToken }) => {
   const { setAuth } = useAuth();
-  const [form] = Form.useForm(); // Add this line to create a form instance
- // const [access_token, setAToken] = useState('');
-    // const navigate = useNavigate();
-    // const location = useLocation();
-    // const from = location.state?.from?.pathname || "/";
+  const [form] = Form.useForm(); // Add this line to create a form instanc
+
+  //const navigate = useNavigate();
+//  const location = useLocation();
+//  const from = location.state?.from?.pathname || "/";
 
 
 
@@ -25,7 +25,11 @@ const LoginForm = ({ onLogin,access_token, setAccessToken }) => {
             console.log("Ovo je iz f-je login", data);
               setAccessToken(data.access_token);
             console.log("Ovo je iz token login", access_token);
-           // navigate(from, { replace: true });
+
+            //*********
+            //navigate(from, { replace: true });
+
+
               onLogin(true);
 
           }).catch(err => {
@@ -38,8 +42,9 @@ const LoginForm = ({ onLogin,access_token, setAccessToken }) => {
        //const { access_token, refresh_token} = response;
        const { email, password} = values;
       // Set the auth context value
-     // setAuth({ email, password, access_token });
-
+      //setAuth({ email, password, access_token });
+      //*******
+      // navigate(from, {replace:true});
   };
 
   const onFinishFailed = (errorInfo) => {
