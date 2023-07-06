@@ -29,9 +29,9 @@ public class ObrazacZbService {
         Object object = new Object();
 
         //Integer verzija = 1; //fetch verzija
-        Integer sifSekret = 30; //fetch from table user
+        Integer sifSekret = 30; //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-        Integer radnik = 50001;//sifra usera
+        Integer radnik = 50001;//sifra usera-bice - user.getSifraRadnika();
         Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
         Integer version = findVersion(jbbk, kvartal);

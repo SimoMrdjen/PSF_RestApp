@@ -1,5 +1,6 @@
 package psf.ucitavanje.obrazaca.security.user;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,16 +24,31 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "ind_lozinka")
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue
-  private Integer id;
+  private Integer sifraradnika;
 
-  //private Integer
-  private String firstname;
-  private String lastname;
+  @Column
+  private Integer za_sif_sekret;
+  @Column
+  private Integer za_sif_rac;
+  @Column
+  private Integer sif_oblast;
+  @Column
+  private String ime;
+  @Column
+  private String lozinka;
+  @Column
+  private String sncert;
+  @Column
+  private String sncert_rez;
+  @Column
+  private Integer  javno_pred;
+  @Column
+  private Integer  sifra_pp;
+
   private String email;
   private String password;
 

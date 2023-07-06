@@ -1,4 +1,4 @@
-package psf.ucitavanje.obrazaca.obrazac5.ind_lozinka;
+package psf.ucitavanje.obrazaca.security.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ind_lozinka")
+@Table(name = "indlozinka_For_Erase")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

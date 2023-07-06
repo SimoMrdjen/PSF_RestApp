@@ -1,6 +1,7 @@
-package psf.ucitavanje.obrazaca.obrazac5.ind_lozinka;
+package psf.ucitavanje.obrazaca.security.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import psf.ucitavanje.obrazaca.security.user.IndLozinka;
 
 import java.util.Optional;
 

@@ -14,6 +14,7 @@ import psf.ucitavanje.obrazaca.security.config.JwtService;
 import psf.ucitavanje.obrazaca.security.token.Token;
 import psf.ucitavanje.obrazaca.security.token.TokenRepository;
 import psf.ucitavanje.obrazaca.security.token.TokenType;
+import psf.ucitavanje.obrazaca.security.user.Role;
 import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.security.user.UserRepository;
 
@@ -30,12 +31,14 @@ public class AuthenticationService {
 
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
-        .firstname(request.getFirstname())
-        .lastname(request.getLastname())
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .role(request.getRole())
-        .build();
+            .sifraradnika(request.getSifraradnika())
+            .za_sif_sekret(request.getZa_sif_sekret())
+            .sif_oblast(request.getSif_oblast())
+            .sifra_pp(request.getSifra_pp())
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(Role.USER)
+            .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
@@ -77,7 +80,7 @@ public class AuthenticationService {
   }
 
   private void revokeAllUserTokens(User user) {
-    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+    var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getSifraradnika());
     if (validUserTokens.isEmpty())
       return;
     validUserTokens.forEach(token -> {
