@@ -29,7 +29,6 @@ public class User implements UserDetails {
 
   @Id
   private Integer sifraradnika;
-
   @Column
   private Integer za_sif_sekret;
   @Column
@@ -91,5 +90,16 @@ public class User implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "User{}";
+  }
+  public User(Integer sifraradnika, Integer za_sif_sekret, Integer sifra_pp, String email) {
+    this.sifraradnika = sifraradnika;
+    this.za_sif_sekret = za_sif_sekret;
+    this.sifra_pp = sifra_pp;
+    this.email = email;
   }
 }

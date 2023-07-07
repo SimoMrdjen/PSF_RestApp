@@ -22,4 +22,5 @@ public class RegisterRequest {
   private Integer  sifra_pp;
   private String email;
   private String password;
+  private Role role;
 }

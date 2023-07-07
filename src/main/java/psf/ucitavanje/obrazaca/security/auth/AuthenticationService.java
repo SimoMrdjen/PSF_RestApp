@@ -29,6 +29,8 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
+  public static User GLOBALUSER;
+
   public AuthenticationResponse register(RegisterRequest request) {
     var user = User.builder()
             .sifraradnika(request.getSifraradnika())
@@ -37,7 +39,7 @@ public class AuthenticationService {
             .sifra_pp(request.getSifra_pp())
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Role.USER)
+            .role(request.getRole())
             .build();
     var savedUser = repository.save(user);
     var jwtToken = jwtService.generateToken(user);
@@ -46,6 +48,7 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
+            .role(String.valueOf(user.getRole()))
         .build();
   }
 
@@ -58,6 +61,8 @@ public class AuthenticationService {
     );
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
+
+
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     revokeAllUserTokens(user);
@@ -65,7 +70,8 @@ public class AuthenticationService {
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
-        .build();
+            .role(String.valueOf(user.getRole()))
+            .build();
   }
 
   private void saveUserToken(User user, String jwtToken) {
