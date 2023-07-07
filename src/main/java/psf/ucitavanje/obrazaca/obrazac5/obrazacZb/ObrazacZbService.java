@@ -33,7 +33,7 @@ public class ObrazacZbService {
     public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
         Object object = new Object();
 
-       Optional<User> user = Optional.of(userRepository.findByEmail(JwtAuthenticationFilter.GLOBALUSER).get());
+       User user = getUserByEmail(JwtAuthenticationFilter.GLOBALUSER);
         //System.out.println(JwtAuthenticationFilter.GLOBALUSER);
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
@@ -79,6 +79,11 @@ public class ObrazacZbService {
         obrazacService.saveListObrazac(dtos, zbSaved);
 
         return zbSaved;
+    }
+
+    public User getUserByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        return userOptional.orElse(null);
     }
 
     @Transactional
