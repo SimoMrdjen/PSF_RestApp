@@ -30,18 +30,18 @@ public class ObrazacZbService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
+    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal, String email) {
         Object object = new Object();
 
-       User user = getUserByEmail(JwtAuthenticationFilter.GLOBALUSER);
-        //System.out.println(JwtAuthenticationFilter.GLOBALUSER);
+        var user = userRepository.findByEmail(email).orElseThrow();
+
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-        //Integer radnik = 50001;//sifra usera-bice - user.getSifraRadnika();
+
         Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
         Integer version = findVersion(jbbk, kvartal);
-
 
         ObrazacZb zb = ObrazacZb.builder()
                 //.gen_interbase(1)

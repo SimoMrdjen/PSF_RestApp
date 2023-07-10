@@ -5,19 +5,24 @@ import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
 import Data from './components/Data';
 import ObrazacIOButton from './components/ObrazacIOButton';
+import ZakljucniList from './components/ZakljucniList';
 import LoginForm from './LoginForm';
 
 const {Header, Content, Footer, Sider} = Layout;
 
 const menuItems = [
     {
-        key: 'Obrazac5',
-        label: 'Obrazac5',
+        key: 'ZakljucniList',
+        label: 'ZakljucniList',
     },
     {
         key: 'ObrazacIO',
         label: 'ObrazacIO',
     },
+        {
+            key: 'Obrazac5',
+            label: 'Obrazac5',
+        }
 ];
 
 
@@ -33,28 +38,28 @@ function App1({access_token}) {
         setSelectedItem(item.key);
     };
 
-    const handleFile = (e) => {
-        let selectedFile = e.target.files[0];
-        if (selectedFile) {
-            if (
-                selectedFile &&
-                selectedFile.type === 'application/vnd.ms-excel'
-            ) {
-                let reader = new FileReader();
-                reader.readAsArrayBuffer(selectedFile);
-                reader.onload = (e) => {
-                    setExcelFileError(null);
-                    setExcelFile(e.target.result);
-                };
-            } else {
-            console.log(selectedFile.type);
-                setExcelFileError('Izabrani dokument nije MS Excel!');
-                setExcelFile(null);
-            }
-        } else {
-            console.log('Plz select your file');
-        }
-    };
+   const handleFile = (e) => {
+     let selectedFile = e.target.files[0];
+     if (selectedFile) {
+       if (
+         selectedFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+         selectedFile.name.endsWith('.xls')
+       ) {
+         let reader = new FileReader();
+         reader.readAsArrayBuffer(selectedFile);
+         reader.onload = (e) => {
+           setExcelFileError(null);
+           setExcelFile(e.target.result);
+         };
+       } else {
+         console.log(selectedFile.type);
+         setExcelFileError('Izabrani dokument nije XLSX ili XLS!');
+         setExcelFile(null);
+       }
+     } else {
+       console.log('Plz select your file');
+     }
+   };
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -170,12 +175,22 @@ return (
                            <br></br>
                            <hr></hr>
              </div>
+
+//             obrazacIO
              { selectedItem === 'ObrazacIO' && <ObrazacIOButton
               kvartal = {kvartal}
               setKvartal ={setKvartal}
               access_token = {access_token}
                           />}
+//             zakljucniList
+             { selectedItem === 'ZakljucniList' && <ZakljucniList
+              kvartal = {kvartal}
+              setKvartal ={setKvartal}
+              access_token = {access_token}
+                          />}
 
+
+//            obrazac5
                 { selectedItem === 'Obrazac5' &&
 
                  <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
@@ -192,9 +207,10 @@ return (
                       <button type="submit" className="btn btn-primary"
                              style={{ marginTop: 15 + 'px' }}>
                          Učitaj Obrazac5
-                     </button>
+                      </button>
                  </form>
                   }
+
            </div>
 
 

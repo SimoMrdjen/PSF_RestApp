@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.IOobrazac.ObrazacIODTO;
 import psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom.ObrazacIODetailService;
-import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
+import psf.ucitavanje.obrazaca.security.user.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,13 +23,16 @@ public class ObrazacIOService {
     private final SekretarijarService sekretarijarService;
     private final PPartnerService pPartnerService;
     private final ObrazacIODetailService obrazacIODetailService;
+    private final UserRepository userRepository;
 
     @Transactional
-    public Obrazac5_pom_zb saveObrazacIO(List<ObrazacIODTO> dtos, Integer kvartal, Integer year) {
-        Integer sifSekret = 30; //fetch from table user
+    public Obrazac5_pom_zb saveObrazacIO(List<ObrazacIODTO> dtos, Integer kvartal, Integer year, String email) {
+
+        var user = userRepository.findByEmail(email).orElseThrow();
+
+        Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-        Integer radnik = 50001;//sifra usera
-        Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+        Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp());
         Integer version = findVersion(jbbk, kvartal);
         Integer todayInt = (int) LocalDate.now().toEpochDay() + 25569;
 
@@ -48,7 +51,7 @@ public class ObrazacIOService {
                 .POSLATO_O(0)
                 .POVUCENO(0)
                 .KONACNO(0)
-                .POSLAO_NAM(radnik)
+                .POSLAO_NAM(user.getSifraradnika())
                 .DATUM_DOK(todayInt)
                 .PROKNJIZENO(0)
                 .XLS(0)

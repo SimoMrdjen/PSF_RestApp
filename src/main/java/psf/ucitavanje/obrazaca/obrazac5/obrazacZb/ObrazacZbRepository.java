@@ -15,5 +15,5 @@ public interface ObrazacZbRepository extends JpaRepository<ObrazacZb, Integer> {
             nativeQuery = true)
     Optional<Integer> getLastVersionValue(Integer jbbks, Integer kvartal);
 
-   // Optional<User> findUserByEmail(String globaluser);
+
 }

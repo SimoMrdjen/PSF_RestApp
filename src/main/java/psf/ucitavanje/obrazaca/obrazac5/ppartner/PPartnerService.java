@@ -12,8 +12,10 @@ public class PPartnerService {
     private final PPartnerRepository pPartnerRepository;
     private final IndLozinkaService indLozinkaService;
 
-    public Integer getJBBKS(Integer radnik) {
-        return pPartnerRepository.findById(indLozinkaService.getSifraPP(radnik))
+    public Integer getJBBKS(Integer ppartner) {
+
+        return
+                pPartnerRepository.findById(ppartner)
                 .get()
                 .getJbkbs();
     }

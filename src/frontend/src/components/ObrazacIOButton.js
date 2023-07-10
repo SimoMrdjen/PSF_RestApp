@@ -13,7 +13,10 @@ function ObrazacIOButton({ kvartal, setKvartal, access_token }) {
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
-      if (selectedFile.type === 'application/vnd.ms-excel') {
+      if (
+        selectedFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        selectedFile.name.endsWith('.xls')
+      ) {
         let reader = new FileReader();
         reader.readAsArrayBuffer(selectedFile);
         reader.onload = (e) => {
@@ -22,7 +25,7 @@ function ObrazacIOButton({ kvartal, setKvartal, access_token }) {
         };
       } else {
         console.log(selectedFile.type);
-        setExcelFileError('Izabrani dokument nije MS Excel!');
+        setExcelFileError('Izabrani dokument nije XLSX ili XLS!');
         setExcelFile(null);
       }
     } else {
