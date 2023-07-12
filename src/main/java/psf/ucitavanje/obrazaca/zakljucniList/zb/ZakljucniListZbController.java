@@ -20,13 +20,14 @@ public class ZakljucniListZbController {
 
     private final ZakljucniListZbService zakljucniService;
 
-    @PostMapping(value = "/{kvartal}/{days}")
+    @PostMapping(value = "/{kvartal}/{days}/{year}")
     public ResponseEntity<ZakljucniListZb> addZakljucni(@RequestBody List<ZakljucniListDto> dtos,
                                                         @PathVariable(name = "kvartal") Integer kvartal,
-                                                        @PathVariable(name = "days") Integer days) {
+                                                        @PathVariable(name = "days") Integer days,
+                                                        @PathVariable(name = "year") Integer year) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, days, email));
+        return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, days,year, email));
 
     }
 }

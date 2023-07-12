@@ -45,6 +45,7 @@ public class ObrazacZbService {
 
         ObrazacZb zb = ObrazacZb.builder()
                 //.gen_interbase(1)
+
                 .koji_kvartal(kvartal)
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)
@@ -81,10 +82,10 @@ public class ObrazacZbService {
         return zbSaved;
     }
 
-    public User getUserByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        return userOptional.orElse(null);
-    }
+//    public User getUserByEmail(String email) {
+//        Optional<User> userOptional = userRepository.findByEmail(email);
+//        return userOptional.orElse(null);
+//    }
 
     @Transactional
    public Integer findVersion(Integer jbbks, Integer kvartal) {
