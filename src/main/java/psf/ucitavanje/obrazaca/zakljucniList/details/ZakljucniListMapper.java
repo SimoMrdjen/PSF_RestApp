@@ -9,10 +9,10 @@ import java.util.List;
 @Component
 public class ZakljucniListMapper {
 
-    public ZakljucniListDetails  mapDtoToEntity(ZakljucniListDto dto,
-                                                ZakljucniListZb zb) {
+    public ZakljucniListDetails mapDtoToEntity(ZakljucniListDto dto,
+                                               ZakljucniListZb zb) {
         var konto = Integer
-                    .parseInt(dto.getProp1().trim());
+                .parseInt(dto.getProp1().trim());
         return ZakljucniListDetails.builder()
                 .GEN_MYSQL(zb.getGEN_MYSQL())
                 .GEN_INTERBASE(0)

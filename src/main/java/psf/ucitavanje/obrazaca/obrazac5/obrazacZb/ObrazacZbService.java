@@ -88,9 +88,9 @@ public class ObrazacZbService {
 //    }
 
     @Transactional
-   public Integer findVersion(Integer jbbks, Integer kvartal) {
+    public Integer findVersion(Integer jbbks, Integer kvartal) {
         Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
         return version + 1;
-   }
+    }
 
 }
