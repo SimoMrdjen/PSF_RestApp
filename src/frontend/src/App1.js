@@ -106,7 +106,7 @@ const handleSubmit = (e) => {
 };
 
 return (
- <>
+  <>
     <Layout>
       <Header
         style={{
@@ -116,138 +116,134 @@ return (
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-            justifyContent: 'space-between',
-            theme: 'light',
-            background: '#666666' // Set the background color to blue
+          justifyContent: 'space-between',
+          theme: 'light',
+          background: '#666666', // Set the background color to blue
         }}
       >
         <div className="demo-logo" />
-          <div>
+        <div>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} onClick={handleMenuClick}>
+            {menuItems.map((item) => (
+              <Menu.Item key={item.key}>{item.label}</Menu.Item>
+            ))}
+          </Menu>
+        </div>
 
-              <Menu
-                  theme="dark"
-                  mode="horizontal"
-                  defaultSelectedKeys={['1']}
-                  onClick={handleMenuClick}
-              >
-                  {menuItems.map((item) => (
-                      <Menu.Item key={item.key}>{item.label}</Menu.Item>
-                  ))}
-              </Menu>
-
-          </div>
-          <div>
-              <Image align="center" width={100} src={logo} />
-          </div>
+        <div>
+          <Image align="center" width={100} src={logo} />
+        </div>
       </Header>
 
-
-      <Content
-        className="site-layout"
-        style={{
-          padding: '0 50px',
-        }}
-      >
-        <Breadcrumb
+      {selectedItem != null && (
+        <Content
+          className="site-layout"
           style={{
-            margin: '16px 0',
+            padding: '0 50px',
           }}
         >
-          <Breadcrumb.Item>PSF</Breadcrumb.Item>
-          <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
+          <Breadcrumb
+            style={{
+              margin: '16px 0',
+            }}
+          >
+            <Breadcrumb.Item>PSF</Breadcrumb.Item>
+            <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
             <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
-        </Breadcrumb>
-        <div
-          style={{
-            padding: 24,
-            minHeight: 380,
-            background: colorBgContainer,
-          }}
-        >
-         <div className="container">
-             <div className="form">
+          </Breadcrumb>
 
-             <div style={{ marginTop: 15 + 'px' }}>
-              < Data
-             kvartal = {kvartal}
-             setKvartal ={setKvartal}
-              />
-                           <br></br>
-                           <hr></hr>
-             </div>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 380,
+              background: colorBgContainer,
+            }}
+          >
 
-//             obrazacIO
-             { selectedItem === 'ObrazacIO' && <ObrazacIOButton
-              kvartal = {kvartal}
-              setKvartal ={setKvartal}
-              access_token = {access_token}
-                          />}
-//             zakljucniList
-             { selectedItem === 'ZakljucniList' && <ZakljucniList
-              kvartal = {kvartal}
-              setKvartal ={setKvartal}
-              access_token = {access_token}
-                          />}
+            <div className="container">
+              <div className="form">
+                <div style={{ marginTop: '15px' }}>
+                  <Data kvartal={kvartal} setKvartal={setKvartal} />
+                  <br />
+                  <hr />
+                </div>
 
+                  { kvartal != 0 && <>
+                <div>
+                  {/* obrazacIO */}
+                  {selectedItem === 'ObrazacIO' && (
+                    <ObrazacIOButton kvartal={kvartal} setKvartal={setKvartal} access_token={access_token} />
+                  )}
 
-//            obrazac5
-                { selectedItem === 'Obrazac5' &&
+                  {/* zakljucniList */}
+                  {selectedItem === 'ZakljucniList' && (
+                    <ZakljucniList kvartal={kvartal} setKvartal={setKvartal} access_token={access_token} />
+                  )}
 
-                 <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
-                     <label>
-                         <h5>Izaberi {selectedItem}</h5>
-                     </label>
-                     <br></br>
-                     <input type="file" className="form-control" onChange={handleFile} required></input>
-                     {excelFileError && (
-                         <div className="text-danger" style={{ marginTop: 5 + 'px' }}>
-                             {excelFileError}
-                         </div>
-                     )}
-                      <button type="submit" className="btn btn-primary"
-                             style={{ marginTop: 15 + 'px' }}>
-                         Učitaj Obrazac5
-                      </button>
-                 </form>
-                  }
-
-           </div>
+                  {/* obrazac5 */}
+                  {selectedItem === 'Obrazac5' && (
+                    <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
+                      <label>
+                        <h5>Izaberi {selectedItem}</h5>
+                      </label>
+                      <br />
+                      <input type="file" className="form-control" onChange={handleFile} required />
+                      {excelFileError && (
+                        <div className="text-danger" style={{ marginTop: '5px' }}>
+                          {excelFileError}
+                        </div>
+                      )}
+                        { true &&
+                      <button type="submit" className="btn btn-primary" style={{ marginTop: '15px' }}>
+                        Učitaj Obrazac5
+                      </button>}
+                    </form>
+                  )}
+                  {/* obrazac5 */}
 
 
-            {selectedItem === 'Obrazac5' &&
-            <div>
-             <br></br>
-             <hr></hr>
-             <h5>Pregled {selectedItem}</h5>
-             <div className="viewer">
-                 {excelData === null && <>Nije izabran nijedan dokument</>}
-                 {excelData !== null && (
-                     <div className="table">
-                         <pre>{excelData}</pre>
-                     </div>
-                 )}
-             </div>
-             </div>}
+                </div>
+                    <div>
+                        <br />
+                         <hr />
+                    <h3>Uspešno ste učitali obrazac 5 !</h3>
+                    </div>
 
 
-         </div>
-        </div>
-      </Content>
+                {selectedItem === 'Obrazac5' && false && (
+                  <div>
+                    <br />
+                    <hr />
+                    <h5>Pregled {selectedItem}</h5>
+                    <div className="viewer">
+                      {excelData === null && <>Nije izabran nijedan dokument</>}
+                      {excelData !== null && (
+                        <div className="table">
+                          <pre>{excelData}</pre>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                    </> }
+              </div>
+            </div>
+
+          </div>
+        </Content>
+      )}
+
       <Footer
         style={{
           textAlign: 'center',
         }}
       >
-           <Image
-               width={600}
-                //src="https://spriv.vojvodina.gov.rs/wp-content/uploads/2021/11/background-02.png"
-               src={logo}
-          />
+        <Image width={600} src={logo} />
       </Footer>
     </Layout>
-        </>
+  </>
+);
 
-    );
 }
 
 export default App1;

@@ -33,7 +33,7 @@ const App2 = () => {
                 />
             ) : (
                 <LoginForm onLogin={handleLogin}
-                           access_token={access_token}
+                           access_token = {access_token}
                            setAccessToken = {setAccessToken}
                 />
             )}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { saveObrazacIO } from '../client';
+import { saveZakljucni } from '../client';
 import { IndividualData } from './IndividualData';
 
 
@@ -34,54 +34,6 @@ const handleFile = (e) => {
     console.log('Plz select your file');
   }
 };
-
-
-//const handleSubmit = (e) => {
-//  e.preventDefault();
-//  if (excelFile !== null) {
-//    const workbook = XLSX.read(excelFile, { type: 'buffer' });
-//    const worksheetName = workbook.SheetNames[0];
-//    const worksheet = workbook.Sheets[worksheetName];
-//    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-//      header: 1,
-//      range: 5,
-//    });
-//
-//    const filteredData = jsonData.filter((row) => typeof row[0] !== 'undefined');
-//
-//    const headers = jsonData[0];
-//    const data = filteredData.slice(1).map((row) => {
-//      let obj = {};
-//
-//      headers.slice(1, 8).forEach((header, index) => {
-//        let value = row[index];
-////        if (typeof value !== 'number' ) {
-////          value = 0;
-////        }
-//        obj[`prop${index + 1}`] = value ;//=== null ? 0 : value;
-//      });
-//      return obj;
-//    });
-//
-//    const jbbk = worksheet['B1']?.v || '';
-// // Create a new Date object using the year, month, and day values
-//    const year = worksheet['E5']?.v || '';
-//    const month = worksheet['E4']?.v || '';
-//    const day = worksheet['E3']?.v || '';
-//    const date = new Date(year, month - 1, day);
-//    const days = Math.floor((date.getTime() + (12*60*60*1000)) / (24*60*60*1000)) + 25569;
-//
-//    console.log("Broj dana:", days);
-//    console.log("JBBK:", jbbk);
-//
-//    // data.splice(116,1000);
-//    console.log("Data:", data);
-//    // saveObrazacIO(data, kvartal, year, access_token );
-//    setExcelData(JSON.stringify(data, null, 4));
-//  } else {
-//    setExcelData(null);
-//  }
-//};
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -123,17 +75,12 @@ const handleSubmit = (e) => {
 
     // data.splice(116,1000);
     console.log("Data:", data);
-    // saveObrazacIO(data, kvartal, year, access_token );
+    saveZakljucni(data, kvartal, days, year,access_token );
     setExcelData(JSON.stringify(data, null, 4));
   } else {
     setExcelData(null);
   }
 };
-
-
-
-
-
 
   return (
     <div>

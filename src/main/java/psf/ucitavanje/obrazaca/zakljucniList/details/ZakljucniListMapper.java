@@ -15,7 +15,7 @@ public class ZakljucniListMapper {
                     .parseInt(dto.getProp1().trim());
         return ZakljucniListDetails.builder()
                 .GEN_MYSQL(zb.getGEN_MYSQL())
-                .GEN_INTERBASE(zb.getGEN_INTERBASE())
+                .GEN_INTERBASE(0)
                 .GEN_OPENTAB(zb.getGEN_OPENTAB())
                 .GEN_APVDBK(zb.getGEN_APVDBK())
                 .GODINA(zb.getGODINA())
@@ -28,6 +28,7 @@ public class ZakljucniListMapper {
                 .RAZDEO(zb.getRAZDEO())
                 .SIN_KONTO(konto / 100)
                 .KONTO(konto)
+                .RED_BROJ_AKT(0)
                 .DUGUJE_PS(dto.getProp2())
                 .POTRAZUJE_PS(dto.getProp3())
                 .DUGUJE_PR(dto.getProp4())

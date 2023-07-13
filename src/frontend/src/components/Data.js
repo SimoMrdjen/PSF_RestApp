@@ -55,7 +55,7 @@ return(
     <Dropdown menu={menuProps}>
       <Button size ="large" type="primary">
         <Space>
-         Izabrali ste {kvartal} kvartal!
+         {kvartal === 0 ? 'Izaberite kvartal!' : `Izabrali ste kvartal ${kvartal}` }
           <DownOutlined />
         </Space>
       </Button>

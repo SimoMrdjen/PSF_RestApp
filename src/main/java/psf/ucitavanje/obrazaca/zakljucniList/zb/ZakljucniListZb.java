@@ -27,7 +27,7 @@ public class ZakljucniListZb {
 //    private Set<Obrazac5_pom> stavke = new HashSet<Obrazac5_pom>();
 
     @Column
-    private Integer GEN_INTERBASE;
+    private Integer GEN_INTERBASE = 0;
 
     @Column(nullable = false)
     private Integer GEN_OPENTAB = 0;

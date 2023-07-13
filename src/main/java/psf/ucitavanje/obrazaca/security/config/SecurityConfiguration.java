@@ -43,22 +43,6 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-            //OVO JE MOJA VARIJANTA
-//            .csrf().disable()
-//            .authorizeHttpRequests()
-//            .requestMatchers("/api/v1/auth/authenticate/**").permitAll()
-//            .requestMatchers("/api/obrazac_zb/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-//            .anyRequest().authenticated()
-//            .and()
-//              .sessionManagement()
-//              .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//            .and()
-//            .authenticationProvider(authenticationProvider)
-//            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//
-
-
-
         .csrf()
         .disable()
         .authorizeHttpRequests()
@@ -79,6 +63,8 @@ public class SecurityConfiguration {
 
             .requestMatchers("/api/obrazac_zb/**").hasAnyRole(ADMIN.name(), USER.name())
             .requestMatchers("/api/obrazac_io/**").hasAnyRole(ADMIN.name(), USER.name())
+            .requestMatchers("/api/zakljucni_list/**").hasAnyRole(ADMIN.name(), USER.name())
+
             //.requestMatchers("/api/v1/auth/register/**").hasAnyRole(ADMIN.name(), USER.name())
 
 //         .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())

@@ -31,7 +31,8 @@ public class ZakljucniListZbService {
 
     @Transactional
     public ZakljucniListZb saveZakljucniList(List<ZakljucniListDto> dtos,
-                                             Integer kvartal, Integer days,
+                                             Integer kvartal,
+                                             Integer days,
                                              Integer year,
                                              String email) {
 
@@ -72,7 +73,7 @@ public class ZakljucniListZbService {
         var zbSaved = zakljucniRepository.save(zb);
 
         zakljucniDetailsService.saveDetails(dtos, zbSaved);
-        return null;
+        return zbSaved;
     }
 
 //    public User getUserByEmail(String email) {
