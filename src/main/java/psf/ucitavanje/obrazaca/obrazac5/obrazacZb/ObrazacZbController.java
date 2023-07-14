@@ -22,7 +22,7 @@ public class ObrazacZbController {
 
     @PostMapping(value = "/{kvartal}")
     public ResponseEntity<ObrazacZb> addObrazacZb(@RequestBody List<Obrazac5DTO> dtos,
-                                                 @PathVariable(name = "kvartal") Integer kvartal) {
+                                                  @PathVariable(name = "kvartal") Integer kvartal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(obrazacZbService.saveObrazac5(dtos, kvartal, email));

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class ZakljucniListZb {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer GEN_MYSQL;
+    private Integer GEN_MYSQL;
 
 //    @OneToMany(mappedBy = "REDNI", fetch = FetchType.LAZY,
 //            cascade = {CascadeType.PERSIST, CascadeType.MERGE)
@@ -42,7 +42,7 @@ public class ZakljucniListZb {
     private Integer GODINA;
 
     @Column(nullable = false)
-    private Integer VERZIJA ;
+    private Integer VERZIJA;
 
     @Column(nullable = false)
     private Integer RADNA = 1;

@@ -29,7 +29,7 @@ public class ZakljucniListDetails {
     @Column(nullable = false)
     private Integer GEN_INTERBASE = 0;
 
-//  @ManyToOne( cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    //  @ManyToOne( cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 //  @JoinColumn(name="GEN_MYSQL")
     @Column(nullable = false)
     private Integer GEN_MYSQL = 0;
@@ -64,7 +64,7 @@ public class ZakljucniListDetails {
     @Column(nullable = false)
     private Integer RAZDEO = 0;
 
-    private String OZNAKAGLAVE ;
+    private String OZNAKAGLAVE;
 
     @Column(nullable = false)
     private Integer RED_BROJ_AKT = 0;

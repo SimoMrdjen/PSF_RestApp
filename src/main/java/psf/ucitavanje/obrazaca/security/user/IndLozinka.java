@@ -36,8 +36,8 @@ public class IndLozinka {
     @Column
     private String sncert_rez;
     @Column
-    private Integer  javno_pred;
+    private Integer javno_pred;
     @Column
-    private Integer  sifra_pp;
+    private Integer sifra_pp;
 
 }

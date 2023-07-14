@@ -15,10 +15,11 @@ public class ZakljucniDetailsService {
 
     private final ZakljucniListMapper mapper;
     private final ZakljucniDetailsRepository zakljucniDetailsRepository;
+
     @Transactional
     public List<ZakljucniListDetails> saveDetails(List<ZakljucniListDto> dtos, ZakljucniListZb zbSaved) {
         List<ZakljucniListDetails> details = dtos.stream()
-                .map(d -> mapper.mapDtoToEntity(d,zbSaved))
+                .map(d -> mapper.mapDtoToEntity(d, zbSaved))
                 .collect(Collectors.toList());
 
         return zakljucniDetailsRepository.saveAll(details);

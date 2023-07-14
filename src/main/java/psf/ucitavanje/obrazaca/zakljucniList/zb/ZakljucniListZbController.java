@@ -27,7 +27,7 @@ public class ZakljucniListZbController {
                                                         @PathVariable(name = "year") Integer year) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, days,year, email));
+        return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, days, year, email));
 
     }
 }
