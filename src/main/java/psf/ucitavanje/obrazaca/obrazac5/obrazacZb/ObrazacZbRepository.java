@@ -3,8 +3,6 @@ package psf.ucitavanje.obrazaca.obrazac5.obrazacZb;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
-import psf.ucitavanje.obrazaca.security.user.User;
 
 import java.util.Optional;
 

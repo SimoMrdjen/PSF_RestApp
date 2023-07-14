@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import psf.ucitavanje.obrazaca.security.user.IndLozinkaRepository;
 
 @RequiredArgsConstructor
 @Service

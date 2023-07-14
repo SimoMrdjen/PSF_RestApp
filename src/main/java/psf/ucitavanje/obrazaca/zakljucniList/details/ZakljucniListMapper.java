@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 
-import java.util.List;
-
 @Component
 public class ZakljucniListMapper {
 

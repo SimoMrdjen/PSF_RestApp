@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { saveZakljucni } from "../client";
-
+import { saveObrazacIO } from "../client";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Space, Tooltip, message } from "antd";
 
-function ZakljucniList({ kvartal, setKvartal, access_token }) {
+function ObrazacIO({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -42,44 +41,40 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       const worksheet = workbook.Sheets[worksheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
-        range: 5,
+        range: 6,
       });
-
-      const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined"
-      );
+      const filteredData = jsonData.filter((row) => {
+        const firstProperty = row[0];
+        return (
+          typeof firstProperty !== "string" &&
+          typeof firstProperty !== "undefined"
+        );
+      });
 
       const headers = filteredData[0];
       const data = filteredData.slice(1).map((row) => {
         let obj = {};
 
-        headers.slice(0, 8).forEach((header, index) => {
-          let value = row[index];
-          if (typeof value === "undefined" || value === "") {
-            value = 0;
+        headers.slice(0, 7).forEach((header, index) => {
+          let value;
+          if (index === 3 || index === 4) {
+            value = String(row[index]).padStart(4, "0");
+          } else if (index === 1) {
+            value = String(row[index]).padStart(3, "0");
+          } else {
+            value = row[index];
           }
-          obj[`prop${index + 1}`] = value === null ? 0 : value;
+          obj[`prop${index + 1}`] = value;
         });
         return obj;
       });
+      const jbbk = worksheet["B3"]?.v || "";
+      const year = worksheet["D3"]?.v || "";
 
-      const jbbk = worksheet["B1"]?.v || "";
-      // // Create a new Date object using the year, month, and day values
-      const year = worksheet["E5"]?.v || "";
-      const month = worksheet["E4"]?.v || "";
-      const day = worksheet["E3"]?.v || "";
-      const date = new Date(year, month - 1, day);
-      const days =
-        Math.floor(
-          (date.getTime() + 12 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000)
-        ) + 25569;
-
-      console.log("JBBK:", jbbk);
-      console.log("Datum:", date);
-
-      // data.splice(116,1000);
-      console.log("Data:", data);
-      saveZakljucni(data, kvartal, days, year, access_token);
+      console.log(jbbk);
+      //data.splice(116,1000);
+      console.log(data);
+      saveObrazacIO(data, kvartal, year, access_token);
       setExcelData(JSON.stringify(data, null, 4));
     } else {
       setExcelData(null);
@@ -90,7 +85,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
     <div>
       <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
         <label>
-          <h5>Izaberi Zakljucni List</h5>
+          <h5>Izaberi ObrazacIO</h5>
         </label>
         <br></br>
         <input
@@ -109,7 +104,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
           className="btn btn-primary"
           style={{ marginTop: 15 + "px" }}
         >
-          Učitaj Zakljucni List
+          Učitaj ObrazacIO
         </button>
       </form>
       <div>
@@ -129,4 +124,4 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   );
 }
 
-export default ZakljucniList;
+export default ObrazacIO;

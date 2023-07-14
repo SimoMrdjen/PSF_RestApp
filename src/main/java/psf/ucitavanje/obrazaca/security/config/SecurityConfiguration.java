@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,20 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_CREATE;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_DELETE;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_READ;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_UPDATE;
-import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_CREATE;
-import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_DELETE;
-import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_READ;
-import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_UPDATE;
 import static psf.ucitavanje.obrazaca.security.user.Role.ADMIN;
-import static psf.ucitavanje.obrazaca.security.user.Role.MANAGER;
 import static psf.ucitavanje.obrazaca.security.user.Role.USER;
 
 @Configuration

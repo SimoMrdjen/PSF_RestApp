@@ -6,11 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import psf.ucitavanje.obrazaca.security.auth.AuthenticationService;
 import psf.ucitavanje.obrazaca.security.auth.RegisterRequest;
-import psf.ucitavanje.obrazaca.security.user.Role;
 
 import static psf.ucitavanje.obrazaca.security.user.Role.ADMIN;
-import static psf.ucitavanje.obrazaca.security.user.Role.MANAGER;
-import static psf.ucitavanje.obrazaca.security.user.Role.USER;
 
 @SpringBootApplication
 public class ObrazacaApplication {
