@@ -9,6 +9,8 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
+  const [message, setMessage] = useState('');
+
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -80,6 +82,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       // data.splice(116,1000);
       console.log("Data:", data);
       saveZakljucni(data, kvartal, days, year, access_token);
+      setMessage("Zaključni list je uspesno ucitan!");
       setExcelData(JSON.stringify(data, null, 4));
     } else {
       setExcelData(null);
@@ -115,15 +118,18 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       <div>
         <br></br>
         <hr></hr>
-        <h5>Pregled ObrazacIO</h5>
-        <div className="viewer">
-          {excelData === null && <>Nije izabran nijedan dokument</>}
-          {excelData !== null && (
-            <div className="table">
-              <pre>{excelData}</pre>
-            </div>
-          )}
-        </div>
+        <h5>{message}</h5>
+        {false &&
+                <div className="viewer">
+                  {excelData === null && <>Nije izabran nijedan dokument</>}
+                  {excelData !== null && (
+                    <div className="table">
+                      <pre>{excelData}</pre>
+                    </div>
+                  )}
+                </div>
+        }
+
       </div>
     </div>
   );

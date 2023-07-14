@@ -8,10 +8,10 @@ import ObrazacIO from "./components/ObrazacIO";
 import LoginForm from "./LoginForm";
 import AuthContext from "./context/AuthProvider";
 import RequiredAuth from "./components/RequiredAuth";
-import App1 from "./App1";
+import MainForma from "./MainForma";
 import { Routes, Route } from "react-router-dom";
 
-const App2 = () => {
+const MainApp = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [access_token, setAccessToken] = useState();
 
@@ -22,7 +22,7 @@ const App2 = () => {
   return (
     <div>
       {loggedIn ? (
-        <App1
+        <MainForma
           access_token={access_token}
           //setAccessToken = {setAccessToken}
         />
@@ -36,4 +36,4 @@ const App2 = () => {
     </div>
   );
 };
-export default App2;
+export default MainApp;

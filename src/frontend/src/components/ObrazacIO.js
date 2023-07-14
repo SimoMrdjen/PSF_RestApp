@@ -8,6 +8,8 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
+  const [message, setMessage] = useState('');
+
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -75,6 +77,7 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
       //data.splice(116,1000);
       console.log(data);
       saveObrazacIO(data, kvartal, year, access_token);
+      setMessage("Obrazac je uspesno ucitan!");
       setExcelData(JSON.stringify(data, null, 4));
     } else {
       setExcelData(null);
@@ -110,15 +113,19 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
       <div>
         <br></br>
         <hr></hr>
-        <h5>Pregled ObrazacIO</h5>
-        <div className="viewer">
-          {excelData === null && <>Nije izabran nijedan dokument</>}
-          {excelData !== null && (
-            <div className="table">
-              <pre>{excelData}</pre>
-            </div>
-          )}
-        </div>
+        <h3>{message}</h3>
+
+        {false &&
+                <div className="viewer">
+                  {excelData === null && <>Nije izabran nijedan dokument</>}
+                  {excelData !== null && (
+                    <div className="table">
+                      <pre>{excelData}</pre>
+                    </div>
+                  )}
+                </div>
+        }
+
       </div>
     </div>
   );

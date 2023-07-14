@@ -8,7 +8,7 @@ import ObrazacIO from "./components/ObrazacIO";
 import LoginForm from "./LoginForm";
 import AuthContext from "./context/AuthProvider";
 import RequiredAuth from "./components/RequiredAuth";
-import App1 from "./App1";
+import MainForma from "./MainForma";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
 
         {/* we want to protect these routes */}
         <Route component={<RequiredAuth /> /*allowedRoles={[ROLES.Admin]} */}>
-          <Route path="/" component={<App1 />} />
+          <Route path="/" component={<MainForma />} />
         </Route>
 
         {/*    /!* catch all *!/*/}
