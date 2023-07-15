@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import * as XLSX from "xlsx";
 import logo from "./APV.png";
-import { saveObrazac5 } from "./client";
 import { Breadcrumb, Layout, Menu, theme, Image } from "antd";
 import Kvartal from "./components/Kvartal";
 import ObrazacIO from "./components/ObrazacIO";
 import ZakljucniList from "./components/ZakljucniList";
-import LoginForm from "./LoginForm";
 import Obrazac5 from "./components/Obrazac5";
-
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -157,6 +153,3 @@ function MainForma({ access_token }) {
 }
 
 export default MainForma;
-
-
-

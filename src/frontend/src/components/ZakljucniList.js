@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { saveZakljucni } from "../client";
-
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space, Tooltip, message } from "antd";
+import { saveZakljucni } from "../api/client-api";
 
 function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
-  const [message, setMessage] = useState('');
-
+  const [message, setMessage] = useState("");
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -48,7 +44,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined"
+        (row) => typeof row[0] !== "undefined",
       );
 
       const headers = filteredData[0];
@@ -73,7 +69,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       const date = new Date(year, month - 1, day);
       const days =
         Math.floor(
-          (date.getTime() + 12 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000)
+          (date.getTime() + 12 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000),
         ) + 25569;
 
       console.log("JBBK:", jbbk);
@@ -119,7 +115,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         <br></br>
         <hr></hr>
         <h5>{message}</h5>
-        {false &&
+        {/*} {false &&
                 <div className="viewer">
                   {excelData === null && <>Nije izabran nijedan dokument</>}
                   {excelData !== null && (
@@ -128,8 +124,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
                     </div>
                   )}
                 </div>
-        }
-
+        } */}
       </div>
     </div>
   );

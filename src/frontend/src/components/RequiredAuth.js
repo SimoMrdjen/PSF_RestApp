@@ -1,7 +1,5 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import App1 from "../MainForma";
-import App from "../App";
 
 const RequiredAuth = () => {
   const auth = useAuth();

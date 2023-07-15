@@ -1,19 +1,14 @@
 import { Button, Checkbox, Form, Input, Layout, Image } from "antd";
-import { login } from "./client";
-import logo from "./APV.png";
+import { login } from "../api/client-api";
+import logo from "../APV.png";
 import { useContext, useState } from "react";
-import useAuth from "./hooks/useAuth";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const { Content, Footer } = Layout;
 
 const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
   const { setAuth } = useAuth();
   const [form] = Form.useForm(); // Add this line to create a form instanc
-
-  //const navigate = useNavigate();
-  //  const location = useLocation();
-  //  const from = location.state?.from?.pathname || "/";
 
   const onFinish = async (values) => {
     const res = await login(values)
@@ -22,9 +17,6 @@ const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
         console.log("Ovo je iz f-je login", data);
         setAccessToken(data.access_token);
         console.log("Ovo je iz token login", access_token);
-
-        //*********
-        //navigate(from, { replace: true });
 
         onLogin(true);
       })
@@ -37,10 +29,6 @@ const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
     console.log("Ovo je response from onFinish", access_token);
     //const { access_token, refresh_token} = response;
     const { email, password } = values;
-    // Set the auth context value
-    //setAuth({ email, password, access_token });
-    //*******
-    // navigate(from, {replace:true});
   };
 
   const onFinishFailed = (errorInfo) => {

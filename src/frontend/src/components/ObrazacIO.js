@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { saveObrazacIO } from "../client";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space, Tooltip, message } from "antd";
+import { saveObrazacIO } from "../api/client-api";
 
 function ObrazacIO({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
-  const [message, setMessage] = useState('');
-
+  const [message, setMessage] = useState("");
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -115,7 +112,7 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
         <hr></hr>
         <h3>{message}</h3>
 
-        {false &&
+        {/* {false &&
                 <div className="viewer">
                   {excelData === null && <>Nije izabran nijedan dokument</>}
                   {excelData !== null && (
@@ -124,8 +121,7 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
                     </div>
                   )}
                 </div>
-        }
-
+        }*/}
       </div>
     </div>
   );
