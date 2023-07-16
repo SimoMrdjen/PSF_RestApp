@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import BOOKPdf from '../BOOK.pdf';
 
 function DownloadExcelButton() {
   // useEffect(() => {
@@ -22,12 +23,34 @@ function DownloadExcelButton() {
   //             link.remove();
   //         });
   // }, []);
+  //
+  // return (
+  //   <button type="button" className="btn btn-dark">
+  //     Preuzmi Zakljucni List
+  //   </button>
+  // );
+    // 👇️ import the pdf document
 
-  return (
-    <button type="button" className="btn btn-dark">
-      Preuzmi Zakljucni List
-    </button>
-  );
+
+
+        return (
+            <div>
+                <a
+                    href={BOOKPdf}
+                    download="BOOK-PDF-document"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                      <button type="button" className="btn btn-dark">
+                        Preuzmi Zakljucni List
+                      </button>
+                </a>
+            </div>
+        );
+
+
+
+
 }
 
 export default DownloadExcelButton;
