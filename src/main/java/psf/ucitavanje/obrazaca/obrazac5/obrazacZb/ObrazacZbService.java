@@ -77,11 +77,6 @@ public class ObrazacZbService {
         return zbSaved;
     }
 
-//    public User getUserByEmail(String email) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        return userOptional.orElse(null);
-//    }
-
     @Transactional
     public Integer findVersion(Integer jbbks, Integer kvartal) {
         Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);

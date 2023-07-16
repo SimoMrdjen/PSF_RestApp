@@ -5,6 +5,8 @@ import Kvartal from "./components/Kvartal";
 import ObrazacIO from "./components/ObrazacIO";
 import ZakljucniList from "./components/ZakljucniList";
 import Obrazac5 from "./components/Obrazac5";
+import DownloadExcelButton from "./components/DownloadObrazaca";
+import Register from "./components/Register";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,14 +25,8 @@ const menuItems = [
   },
 ];
 
-function MainForma({ access_token }) {
-  const [excelFile, setExcelFile] = useState(null);
-  const [excelFileError, setExcelFileError] = useState(null);
-  const [excelData, setExcelData] = useState(null);
+function MainForma({ access_token, role }) {
   const [kvartal, setKvartal] = useState(0);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleMenuClick = (item) => {
@@ -60,6 +56,7 @@ function MainForma({ access_token }) {
               mode="horizontal"
               defaultSelectedKeys={["1"]}
               onClick={handleMenuClick}
+              align="left"
             >
               {menuItems.map((item) => (
                 <Menu.Item key={item.key}>{item.label}</Menu.Item>
@@ -68,83 +65,102 @@ function MainForma({ access_token }) {
           </div>
 
           <div>
+            <DownloadExcelButton />
+          </div>
+          <div>
             <Image align="center" width={100} src={logo} />
           </div>
         </Header>
 
-        {selectedItem != null && (
-          <Content
-            className="site-layout"
-            style={{
-              padding: "0 50px",
-            }}
-          >
-            <Breadcrumb
-              style={{
-                margin: "16px 0",
-              }}
-            >
-              <Breadcrumb.Item>PSF</Breadcrumb.Item>
-              <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
-              <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
-            </Breadcrumb>
+        <Content className="site-layout" style={{ padding: "0 50px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>PSF</Breadcrumb.Item>
+            <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
+            <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
+          </Breadcrumb>
+          {selectedItem ? (
+            <>
+              <div
+                style={{
+                  padding: 24,
+                  minHeight: 380,
+                  background: theme.token.colorBgContainer,
+                }}
+              >
+                <div className="container">
+                  <div className="form">
+                    <div style={{ marginTop: "15px" }}>
+                      <Kvartal kvartal={kvartal} setKvartal={setKvartal} />
+                      <br />
+                      <hr />
+                    </div>
 
-            <div
-              style={{
-                padding: 24,
-                minHeight: 380,
-                background: colorBgContainer,
-              }}
-            >
-              <div className="container">
-                <div className="form">
-                  <div style={{ marginTop: "15px" }}>
-                    <Kvartal kvartal={kvartal} setKvartal={setKvartal} />
-                    <br />
-                    <hr />
+                    {kvartal !== 0 && (
+                      <>
+                        {/* obrazacIO */}
+                        {selectedItem === "ObrazacIO" && (
+                          <ObrazacIO
+                            kvartal={kvartal}
+                            setKvartal={setKvartal}
+                            access_token={access_token}
+                          />
+                        )}
+
+                        {/* zakljucniList */}
+                        {selectedItem === "ZakljucniList" && (
+                          <ZakljucniList
+                            kvartal={kvartal}
+                            setKvartal={setKvartal}
+                            access_token={access_token}
+                          />
+                        )}
+
+                        {/* Obrazac5 */}
+                        {selectedItem === "Obrazac5" && (
+                          <Obrazac5
+                            kvartal={kvartal}
+                            setKvartal={setKvartal}
+                            access_token={access_token}
+                          />
+                        )}
+                      </>
+                    )}
                   </div>
-
-                  {kvartal !== 0 && (
-                    <>
-                      {/* obrazacIO */}
-                      {selectedItem === "ObrazacIO" && (
-                        <ObrazacIO
-                          kvartal={kvartal}
-                          setKvartal={setKvartal}
-                          access_token={access_token}
-                        />
-                      )}
-
-                      {/* zakljucniList */}
-                      {selectedItem === "ZakljucniList" && (
-                        <ZakljucniList
-                          kvartal={kvartal}
-                          setKvartal={setKvartal}
-                          access_token={access_token}
-                        />
-                      )}
-
-                      {/* Obrazac5 */}
-                      {selectedItem === "Obrazac5" && (
-                        <Obrazac5
-                          kvartal={kvartal}
-                          setKvartal={setKvartal}
-                          access_token={access_token}
-                        />
-                      )}
-                    </>
-                  )}
                 </div>
               </div>
-            </div>
-          </Content>
-        )}
+            </>
+          ) : (
+            <>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <Register access_token={access_token} />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </>
+          )}
+        </Content>
 
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
+        <Footer style={{ textAlign: "center" }}>
           <Image width={600} src={logo} />
         </Footer>
       </Layout>

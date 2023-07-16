@@ -9,6 +9,7 @@ const { Content, Footer } = Layout;
 const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
   const { setAuth } = useAuth();
   const [form] = Form.useForm(); // Add this line to create a form instanc
+  const [message, setMessage] = useState("");
 
   const onFinish = async (values) => {
     const res = await login(values)
@@ -23,6 +24,7 @@ const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
       .catch((err) => {
         err.response.json().then((res) => {});
         onLogin(false);
+        setMessage("Pogresno ste uneli korisnicko ime ili lozinku!");
       })
       .finally(); //form.resetFields());
 
@@ -56,6 +58,11 @@ const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <span>
+            {" "}
+            <h3>{message}</h3>
+          </span>
+          <br />
           <Form.Item
             label="Korisnicko ime: "
             name="email"
