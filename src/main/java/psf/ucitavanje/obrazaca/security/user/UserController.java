@@ -12,37 +12,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final IndLozinkaService indLozinkaService;
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        return ResponseEntity.ok(indLozinkaService
+        return ResponseEntity.ok(userService
                 .getAllUsers());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> getUser() {
-        return ResponseEntity.ok(indLozinkaService
-                .getUser());
+    public ResponseEntity<UserDto> getUser(
+            @PathVariable(name = "id") Integer id
+    ) {
+        return ResponseEntity.ok(userService
+                .getUser(id));
     }
 
     @GetMapping("/like")
     public ResponseEntity<List<UserDto>> getUserByUsernameLike(@RequestParam String UsernameLike) {
-        return ResponseEntity.ok(indLozinkaService
+        return ResponseEntity.ok(userService
                 .getUsersLike(UsernameLike));
     }
 
     @PostMapping
     public ResponseEntity<UserDto> addUser(@Valid @RequestBody UserDto userDto) throws Exception {
-        return ResponseEntity.ok(indLozinkaService
+        return ResponseEntity.ok(userService
                 .createUser(userDto));
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,
                                       @PathVariable(name = "id") Integer id) throws Exception {
-        return ResponseEntity.ok(indLozinkaService
-                .updateUser(userDto));
+        return ResponseEntity.ok(userService
+                .updateUser(userDto, id));
     }
 
 

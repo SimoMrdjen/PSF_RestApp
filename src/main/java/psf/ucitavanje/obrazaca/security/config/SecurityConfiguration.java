@@ -50,24 +50,12 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/obrazac_zb/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/obrazac_io/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/zakljucni_list/**").hasAnyRole(ADMIN.name(), USER.name())
-
-                //.requestMatchers("/api/v1/auth/register/**").hasAnyRole(ADMIN.name(), USER.name())
-
-//         .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-//        .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
-//        .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
-//        .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
-//        .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
-
-                //PRIMER
+                .requestMatchers("/api/v1/users/**").hasRole(ADMIN.name())
+//              .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+//              PRIMER
                 /* .requestMatchers(POST, "/api/obrazac_zb/**").hasRole(USER)
                    .requestMatchers(POST, "/api/obrazac_zb/**").hasAnyRole(USER, ADMIN)
-
-                 .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
-                 .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
-                 .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
                  .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())*/
-
 
                 .anyRequest()
                 .authenticated()

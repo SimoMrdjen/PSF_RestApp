@@ -143,7 +143,7 @@ function MainForma({ access_token, role }) {
               <br />
               <br />
               <br />
-              <Register access_token={access_token} />
+                 {/*<Register access_token={access_token} />*/}
               <br />
               <br />
               <br />
