@@ -50,3 +50,29 @@ export const login = (data) =>
     method: "POST",
     body: JSON.stringify(data),
   }).then(checkStatus);
+
+
+export const getAllUsers = () =>
+    fetch("api/v1/users",
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        }).then(checkStatus);
+
+export const getUsersLike = (likeUser) =>
+    fetch(`api/v1/users/${likeUser}`,
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        }).then(checkStatus);
+
+export const addUser = (data) =>
+    fetch(`/api/v1/users`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+    }).then(checkStatus);
