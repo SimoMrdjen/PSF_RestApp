@@ -1,14 +1,14 @@
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import React, {useState, useEffect} from 'react';
-import {getAllUsers, editUser, getUsersLike} from "./client";
+import {getAllUsers, editUser, getUsersLike} from "../api/client-api";
 import {successNotification, errorNotification} from "./Notification";
 import {Table, Spin, Empty, Button, Tag, Badge, Popconfirm, Radio} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import UserDrawerForm from "./UserDrawerForm";
-import CustomerEditorForm from "./CustomerEditorForm";
-import './App.css';
-import LayoutApp from "./components/LayoutApp";
-i
+import UserEditorForm from "./UserEditorForm";
+import '../App.css';
+import LayoutApp from "./LayoutApp";
+
 const onSearch = (value) => {
     console.log(value);
     //getCustomersLike(value);
@@ -35,6 +35,12 @@ function AdminMainForma() {
                 title: 'za_sif_sekret',
                 dataIndex: 'za_sif_sekret',
                 key: 'za_sif_sekret',
+                width: 50
+            },
+            {
+                title: 'sif_oblast',
+                dataIndex: 'sif_oblast',
+                key: 'sif_oblast',
                 width: 50
             },
             {
@@ -156,11 +162,11 @@ function AdminMainForma() {
                 setShowDrawer={setShowDrawer}
                 fetchUsers={fetchUsers}
             />
-            <CustomerEditorForm
+            <UserEditorForm
                 showEditor={showEditor}
                 setShowEditor={setShowEditor}
-                fetchCustomers={fetchUsers}
-                customer={user}
+                fetchUsers={fetchUsers}
+                user={user}
             />
 
             <Table
@@ -186,7 +192,7 @@ function AdminMainForma() {
         </>
     }
     return <LayoutApp fetchUsersLike={fetchUsersLike}
-                      renderCustomers={renderUsers()}/>
+                      renderUsers={renderUsers()}/>
 }
 
 export default AdminMainForma;

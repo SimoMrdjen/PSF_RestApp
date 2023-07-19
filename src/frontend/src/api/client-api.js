@@ -52,7 +52,7 @@ export const login = (data) =>
   }).then(checkStatus);
 
 
-export const getAllUsers = () =>
+export const getAllUsers = (access_token) =>
     fetch("api/v1/users",
         {
             headers: {
@@ -60,7 +60,7 @@ export const getAllUsers = () =>
             }
         }).then(checkStatus);
 
-export const getUsersLike = (likeUser) =>
+export const getUsersLike = (likeUser, access_token) =>
     fetch(`api/v1/users/${likeUser}`,
         {
             headers: {
@@ -68,11 +68,23 @@ export const getUsersLike = (likeUser) =>
             }
         }).then(checkStatus);
 
-export const addUser = (data) =>
+export const addNewUser = (data, access_token) =>
     fetch(`/api/v1/users`, {
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${access_token}`
         },
         method: "POST",
         body: JSON.stringify(data),
     }).then(checkStatus);
+
+export const editUser = (user, access_token) =>
+     fetch(`api/v1/users/${user.sifraradnika}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${access_token}`
+            },
+            method: 'PUT',
+            body: JSON.stringify(user)
+            }
+         );

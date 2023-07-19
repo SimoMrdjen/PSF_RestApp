@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import LoginForm from "./components/LoginForm";
 import MainForma from "./MainForma";
 import DownloadExcelButton from "./components/DownloadObrazaca";
+import AdminMainForma from "./components/AdminMainForma";
 
 const MainApp = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -15,11 +16,13 @@ const MainApp = () => {
   return (
     <div>
       {loggedIn ? (
-        <MainForma
-          access_token={access_token}
-          //setAccessToken = {setAccessToken}
-          role={role}
-        />
+          <AdminMainForma/>
+
+          // <MainForma
+        //   access_token={access_token}
+        //   //setAccessToken = {setAccessToken}
+        //   role={role}
+        // />
       ) : (
         <LoginForm
           onLogin={handleLogin}
