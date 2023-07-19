@@ -17,6 +17,7 @@ public class UserDto {
     private Integer sif_oblast;
     private Integer sifra_pp;
     private String ime;
+    private String lozinka;
     private String email;
     private String password;
     private Role role;

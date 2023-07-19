@@ -22,12 +22,12 @@ public class ObrazacaApplication {
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
-                    .sifraradnika(4)
+                    .sifraradnika(1)
                     .za_sif_sekret(30)
                     .sif_oblast(1)
                     .sifra_pp(6203)
-                    .email("simo4")
-                    .password("dr.dirlija")
+                    .email("simo")
+                    .password("dr")
                     .role(ADMIN)
                     .build();
             System.out.println("Admin token: " + service.register(admin).getAccessToken());

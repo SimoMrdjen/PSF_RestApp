@@ -34,6 +34,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/v1/auth/**",
+                        "/api/v1/users/**",
+
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -50,7 +52,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/obrazac_zb/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/obrazac_io/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/zakljucni_list/**").hasAnyRole(ADMIN.name(), USER.name())
-                .requestMatchers("/api/v1/users/**").hasRole(ADMIN.name())
+              //  .requestMatchers("/api/v1/users/**").hasRole(ADMIN.name())
 //              .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
 //              PRIMER
                 /* .requestMatchers(POST, "/api/obrazac_zb/**").hasRole(USER)

@@ -56,7 +56,7 @@ export const getAllUsers = (access_token) =>
     fetch("api/v1/users",
         {
             headers: {
-                Authorization: `Bearer ${access_token}`
+               Authorization: `Bearer ${access_token}`
             }
         }).then(checkStatus);
 
