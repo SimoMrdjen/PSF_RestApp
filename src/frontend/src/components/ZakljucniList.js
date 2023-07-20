@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveZakljucni } from "../api/client-api";
 
@@ -7,6 +7,10 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+  console.log('This is token from Zakljucni List', access_token);
+  },[])
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];

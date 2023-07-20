@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "./APV.png";
 import { Breadcrumb, Layout, Menu, theme, Image } from "antd";
 import Kvartal from "./components/Kvartal";
@@ -32,6 +32,11 @@ function MainForma({ access_token, role }) {
   const handleMenuClick = (item) => {
     setSelectedItem(item.key);
   };
+  useEffect(() => {
+  console.log('This is token from MainForma', access_token);
+    console.log('This is Role from MainForma', role);
+
+  },[])
 
   return (
     <>
@@ -84,7 +89,7 @@ function MainForma({ access_token, role }) {
                 style={{
                   padding: 24,
                   minHeight: 380,
-                  background: theme.token.colorBgContainer,
+                  background: 'white',
                 }}
               >
                 <div className="container">

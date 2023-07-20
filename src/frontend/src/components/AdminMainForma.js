@@ -20,7 +20,7 @@ import LayoutApp from "./LayoutApp";
 
 const onSearch = (value) => {
   console.log(value);
-  //getCustomersLike(value);
+  getUsersLike(value);
 };
 
 function AdminMainForma({ access_token }) {
@@ -29,6 +29,8 @@ function AdminMainForma({ access_token }) {
   const [fetching, setFetching] = useState(true);
   const [showDrawer, setShowDrawer] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
+
+
 
   const columnsUsers =
     //fetchUsers =>
@@ -116,7 +118,7 @@ function AdminMainForma({ access_token }) {
     getAllUsers(access_token)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("from fetc users", access_token);
         setUsers(data);
         setFetching(false);
       })
@@ -151,9 +153,10 @@ function AdminMainForma({ access_token }) {
   useEffect(() => {
     console.log("component is mounted");
     fetchUsers(access_token);
+    console.log("Token : ", access_token);
   }, []);
 
-  const renderUsers = () => {
+  const renderUsers = (access_token) => {
     if (fetching) {
       return <Spin />;
     }

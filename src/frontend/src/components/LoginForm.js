@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 
 const { Content, Footer } = Layout;
 
-const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
+const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => {
   const { setAuth } = useAuth();
   const [form] = Form.useForm(); // Add this line to create a form instanc
   const [message, setMessage] = useState("");
@@ -18,7 +18,7 @@ const LoginForm = ({ onLogin, access_token, setAccessToken }) => {
         console.log("Ovo je iz f-je login", data);
         setAccessToken(data.access_token);
         console.log("Ovo je iz token login", access_token);
-
+        setRole(data.role);
         onLogin(true);
       })
       .catch((err) => {

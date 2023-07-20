@@ -8,14 +8,20 @@ const {Option} = Select;
 const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 
-function UserEditorForm({showEditor, setShowEditor, fetchUsers, user}) {
+function UserEditorForm({showEditor, setShowEditor, fetchUsers, user, access_token}) {
     const onCLose = () => setShowEditor(false);
     const [submitting, setSubmitting] = useState(false);
 
-    const onFinish = userEdit => {
+    useEffect(() => {
+      console.log("Drawer is mounted");
+      //fetchUsers(access_token);
+      console.log("Token fro Edit : ", access_token);
+    }, []);
+    const onFinish = (userEdit, access_token) => {
         setSubmitting(true)
         console.log(JSON.stringify(user, null, 2))
-        editUser(userEdit)
+        console.log("Token:", access_token)
+        editUser(userEdit, access_token)
             .then(() => {
                 console.log("User Edited")
                 onCLose();
@@ -23,7 +29,7 @@ function UserEditorForm({showEditor, setShowEditor, fetchUsers, user}) {
                     "User successfully edited",
                     `${userEdit.email} was edited`
                 )
-                fetchUsers();
+                fetchUsers(access_token);
             }).catch(err => {
             console.log(err);
             err.response.json().then(res => {

@@ -1,7 +1,7 @@
 import { Drawer, Input, Col, Select, Form, Row, Button, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { addNewUser } from "../api/client-api";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { successNotification, errorNotification } from "./Notification.js";
 
 const { Option } = Select;
@@ -11,10 +11,18 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
   const onCLose = () => setShowDrawer(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const onFinish = (user, access_token) => {
+    useEffect(() => {
+      console.log("Drawer is mounted");
+      //fetchUsers(access_token);
+      console.log("Token fro AddUser : ", access_token);
+    }, []);
+
+
+  const onFinish = (user) => {
     setSubmitting(true);
-    console.log(JSON.stringify(user, null, 2));
-    addNewUser(user, access_token)
+    //console.log(JSON.stringify(user, null, 2));
+    console.log("Token:", access_token);
+    addNewUser(user)
       .then(() => {
         console.log("User added");
         onCLose();
@@ -22,7 +30,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
           "User successfully added",
           `${user.email} was added`,
         );
-        fetchUsers();
+        fetchUsers(access_token);
       })
       .catch((err) => {
         console.log(err);
@@ -65,17 +73,19 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
         </div>
       }
     >
+
       <Form
         layout="vertical"
         onFinishFailed={onFinishFailed}
         onFinish={onFinish}
+        //access_token = {access_token}
         hideRequiredMark
       >
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
               name="sifraradnika"
-              label="sifraradnika"
+              label={access_token}
               rules={[{ required: true, message: "Please enter sifraradnika" }]}
             >
               <Input placeholder="Please enter sifra radnika" />

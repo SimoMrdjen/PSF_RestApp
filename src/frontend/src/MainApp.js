@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import MainForma from "./MainForma";
 import DownloadExcelButton from "./components/DownloadObrazaca";
@@ -12,28 +12,33 @@ const MainApp = () => {
   const handleLogin = (isLoggedIn) => {
     setLoggedIn(isLoggedIn);
   };
+  useEffect(() => {
+  console.log('This is token from MainApp', access_token);
+  },[])
 
   return (
     <div>
       {loggedIn ? (
 
-
+//       <AdminMainForma
+//            access_token = {access_token}
+//        />
+//
           <MainForma
           access_token={access_token}
           //setAccessToken = {setAccessToken}
           role={role}
         />
       ) : (
-        <AdminMainForma
-            access_token = {access_token}
 
-        />
 
-        // <LoginForm
-        //   onLogin={handleLogin}
-        //   access_token={access_token}
-        //   setAccessToken={setAccessToken}
-        // />
+         <LoginForm
+           onLogin={handleLogin}
+           access_token={access_token}
+           setAccessToken={setAccessToken}
+           role={role}
+           setRole={setRole}
+         />
       )}
     </div>
   );
