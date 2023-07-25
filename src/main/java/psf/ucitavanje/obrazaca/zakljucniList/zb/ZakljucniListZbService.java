@@ -8,12 +8,14 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
+import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.security.user.UserRepository;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import psf.ucitavanje.obrazaca.zakljucniList.details.ZakljucniDetailsService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,18 +32,20 @@ public class ZakljucniListZbService {
     @Transactional
     public ZakljucniListZb saveZakljucniList(List<ZakljucniListDto> dtos,
                                              Integer kvartal,
-                                             Integer days,
+                                             Integer jbbks,
                                              Integer year,
                                              String email) {
 
-        var user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-
-        Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
-
+        // ind_lozinkaService.getJbbk
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
-        Integer version = findVersion(jbbk, kvartal);
+        Integer version = findVersion(jbbks, kvartal);
+
+        //provere
+        checkJbbks(user, jbbks);
+
 
         var zb =
                 ZakljucniListZb.builder()
@@ -54,7 +58,7 @@ public class ZakljucniListZbService {
                         .SIF_SEKRET(sifSekret)
                         .RAZDEO(sekretarijat.getRazdeo())
                         .JBBK(sekretarijat.getJED_BROJ_KORISNIKA())
-                        .JBBK_IND_KOR(jbbk)
+                        .JBBK_IND_KOR(jbbks)
                         .SIF_RAC(1)
                         .DINARSKI(1)
                         .STATUS(0)
@@ -62,7 +66,7 @@ public class ZakljucniListZbService {
                         .POVUCENO(0)
                         .KONACNO(0)
                         .POSLAO_NAM(user.getSifraradnika())
-                        .DATUM_DOK(days)
+                        .DATUM_DOK(today)
                         .PROKNJIZENO(0)
                         .XLS(0)
                         .STORNO(0)
@@ -74,14 +78,31 @@ public class ZakljucniListZbService {
         return zbSaved;
     }
 
-//    public User getUserByEmail(String email) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        return userOptional.orElse(null);
-//    }
-
     @Transactional
     public Integer findVersion(Integer jbbks, Integer kvartal) {
         Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
         return version + 1;
     }
+
+    private void checkJbbks(User user, Integer jbbksExcell) {
+        var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
+
+        if (jbbkDb != jbbksExcell) {
+            throw new IllegalArgumentException("Niste uneli (odabrali) vaš JBKJS!");
+        }
+    }
+
+    private void checkDuplicatesKonta(List<ZakljucniListDto> dtos) {
+        List<String> duplicates = dtos.stream()
+              .filter(dto -> dtos.stream()
+                      .filter(dto2 -> dto2.getProp1().equals(dto.getProp1()))
+                      .count() > 1)
+                .map(dto -> dto.getProp1())
+              .collect(Collectors.toList());
+
+        if (!duplicates.isEmpty()) {
+            throw new IllegalArgumentException("Imate duplirana konta: " + duplicates);
+        }
+    }
+
 }

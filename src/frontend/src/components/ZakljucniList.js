@@ -66,22 +66,11 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const jbbk = worksheet["B1"]?.v || "";
-      // // Create a new Date object using the year, month, and day values
-      const year = worksheet["E5"]?.v || "";
-      const month = worksheet["E4"]?.v || "";
-      const day = worksheet["E3"]?.v || "";
-      const date = new Date(year, month - 1, day);
-      const days =
-        Math.floor(
-          (date.getTime() + 12 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000),
-        ) + 25569;
-
       console.log("JBBK:", jbbk);
-      console.log("Datum:", date);
 
       // data.splice(116,1000);
       console.log("Data:", data);
-      saveZakljucni(data, kvartal, days, year, access_token);
+      saveZakljucni(data, kvartal, jbbk, year, access_token);
       setMessage("Zaključni list je uspesno ucitan!");
       setExcelData(JSON.stringify(data, null, 4));
     } else {
