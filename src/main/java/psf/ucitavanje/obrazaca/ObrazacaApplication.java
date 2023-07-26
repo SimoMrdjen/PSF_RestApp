@@ -22,11 +22,11 @@ public class ObrazacaApplication {
     ) {
         return args -> {
             var admin = RegisterRequest.builder()
-                    .sifraradnika(1)
+                    .sifraradnika(2)
                     .za_sif_sekret(30)
                     .sif_oblast(1)
                     .sifra_pp(6203)
-                    .email("simo")
+                    .email("simo1")
                     .password("dr")
                     .role(ADMIN)
                     .build();

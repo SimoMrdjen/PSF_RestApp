@@ -41,9 +41,10 @@ function DownloadExcelButton() {
                     target="_blank"
                     rel="noreferrer"
                 >
-                      <button type="button" className="btn btn-dark">
+                    <button type="button" className="btn btn-dark" style={{ backgroundColor: "#0078D4" }}>
                         Preuzmi Zakljucni List
-                      </button>
+                    </button>
+
                 </a>
             </div>
         );

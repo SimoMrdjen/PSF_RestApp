@@ -9,8 +9,8 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-  console.log('This is token from Zakljucni List', access_token);
-  },[])
+    console.log("This is token from Zakljucni List", access_token);
+  }, []);
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -48,7 +48,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined",
+        (row) => typeof row[0] !== "undefined"
       );
 
       const headers = filteredData[0];
@@ -65,6 +65,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         return obj;
       });
 
+      const year = worksheet["D3"]?.v || "";
       const jbbk = worksheet["B1"]?.v || "";
       console.log("JBBK:", jbbk);
 

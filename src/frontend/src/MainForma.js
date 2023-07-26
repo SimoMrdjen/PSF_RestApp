@@ -23,6 +23,12 @@ const menuItems = [
     key: "Obrazac5",
     label: "Obrazac5",
   },
+  // getItem('Navigation One', 'sub1', <MailOutlined />, [
+  //   getItem('Option 1', '1'),
+  //   getItem('Option 2', '2'),
+  //   getItem('Option 3', '3'),
+  //   getItem('Option 4', '4'),
+  // ])
 ];
 
 function MainForma({ access_token, role }) {
@@ -33,45 +39,45 @@ function MainForma({ access_token, role }) {
     setSelectedItem(item.key);
   };
   useEffect(() => {
-  console.log('This is token from MainForma', access_token);
-    console.log('This is Role from MainForma', role);
-
-  },[])
+    console.log("This is token from MainForma", access_token);
+    console.log("This is Role from MainForma", role);
+  }, []);
 
   return (
     <>
       <Layout>
         <Header
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            theme: "light",
-            background: "#666666", // Set the background color to blue
-          }}
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              background: "#0078D4", // Set the background color to blue (#0078D4 is the Windows blue color)
+            }}
         >
           <div className="demo-logo" />
-          <div>
-            <Menu
-              theme="dark"
+
+          <Menu
+              theme="dark" // Use dark theme to match the Windows style
               mode="horizontal"
               defaultSelectedKeys={["1"]}
               onClick={handleMenuClick}
-              align="left"
-            >
+              style={{ flexGrow: 1, background: "#0078D4" }} // Set the menu background to blue
+          >
+            <Menu.SubMenu title="Učitavanja obrazaca">
               {menuItems.map((item) => (
-                <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                  <Menu.Item key={item.key}>{item.label}</Menu.Item>
               ))}
-            </Menu>
-          </div>
+            </Menu.SubMenu>
 
-          <div>
+
+          <div align="left">
             <DownloadExcelButton />
           </div>
+          </Menu>
           <div>
             <Image align="center" width={100} src={logo} />
           </div>
@@ -89,7 +95,7 @@ function MainForma({ access_token, role }) {
                 style={{
                   padding: 24,
                   minHeight: 380,
-                  background: 'white',
+                  background: "white",
                 }}
               >
                 <div className="container">
@@ -148,7 +154,7 @@ function MainForma({ access_token, role }) {
               <br />
               <br />
               <br />
-                 {/*<Register access_token={access_token} />*/}
+              {/*<Register access_token={access_token} />*/}
               <br />
               <br />
               <br />

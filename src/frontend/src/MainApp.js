@@ -5,7 +5,7 @@ import DownloadExcelButton from "./components/DownloadObrazaca";
 import AdminMainForma from "./components/AdminMainForma";
 
 const MainApp = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [access_token, setAccessToken] = useState();
   const [role, setRole] = useState();
 
@@ -13,32 +13,29 @@ const MainApp = () => {
     setLoggedIn(isLoggedIn);
   };
   useEffect(() => {
-  console.log('This is token from MainApp', access_token);
-  },[])
+    console.log("This is token from MainApp", access_token);
+  }, []);
 
   return (
     <div>
       {loggedIn ? (
-
-//       <AdminMainForma
-//            access_token = {access_token}
-//        />
-//
-          <MainForma
+        //       <AdminMainForma
+        //            access_token = {access_token}
+        //        />
+        //
+        <MainForma
           access_token={access_token}
           //setAccessToken = {setAccessToken}
           role={role}
         />
       ) : (
-
-
-         <LoginForm
-           onLogin={handleLogin}
-           access_token={access_token}
-           setAccessToken={setAccessToken}
-           role={role}
-           setRole={setRole}
-         />
+        <LoginForm
+          onLogin={handleLogin}
+          access_token={access_token}
+          setAccessToken={setAccessToken}
+          role={role}
+          setRole={setRole}
+        />
       )}
     </div>
   );
