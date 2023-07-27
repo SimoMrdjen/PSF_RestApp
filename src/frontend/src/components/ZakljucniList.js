@@ -65,7 +65,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         return obj;
       });
 
-      const year = worksheet["D3"]?.v || "";
+      const year = worksheet["E5"]?.v || "";
       const jbbk = worksheet["B1"]?.v || "";
       console.log("JBBK:", jbbk);
 

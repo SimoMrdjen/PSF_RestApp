@@ -35,17 +35,17 @@ public class ZakljucniListZb {
     @Column(nullable = false)
     private Integer GEN_APVDBK = 0;
 
-    @Column(nullable = false)
-    private Integer KOJI_KVARTAL;
+    @Column(name = "KOJI_KVARTAL",nullable = false)
+    private Integer kojiKvartal;
 
     @Column(nullable = false)
     private Integer GODINA;
 
-    @Column(nullable = false)
-    private Integer VERZIJA;
+    @Column(name = "VERZIJA", nullable = false)
+    private Integer verzija;
 
-    @Column(nullable = false)
-    private Integer RADNA = 1;
+    @Column(name = "RADNA", nullable = false)
+    private Integer radna = 1;
 
     @Column(nullable = false)
     private Integer SIF_SEKRET;
@@ -56,8 +56,8 @@ public class ZakljucniListZb {
     @Column(nullable = false)
     private Integer JBBK;
 
-    @Column(nullable = false)
-    private Integer JBBK_IND_KOR;
+    @Column(name = "JBBK_IND_KOR", nullable = false)
+    private Integer jbbkIndKor;
 
     @Column(nullable = false)
     private Integer SIF_RAC = 1;

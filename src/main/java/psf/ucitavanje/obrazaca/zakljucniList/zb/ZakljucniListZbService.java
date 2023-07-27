@@ -15,12 +15,13 @@ import psf.ucitavanje.obrazaca.zakljucniList.details.ZakljucniDetailsService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Component
-public class ZakljucniListZbService {
+public class ZakljucniListZbService implements IZakListService {
 
     private final ZakljucniListZbRepository zakljucniRepository;
     private final SekretarijarService sekretarijarService;
@@ -38,27 +39,25 @@ public class ZakljucniListZbService {
 
         User user = userRepository.findByEmail(email).orElseThrow();
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
-        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-        // ind_lozinkaService.getJbbk
+        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret);
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
-        Integer version = findVersion(jbbks, kvartal);
-
+        Integer version = checkIfExistValidZListAndFindVersion(jbbks, kvartal);
         //provere
         checkJbbks(user, jbbks);
-
+        checkDuplicatesKonta(dtos);
 
         var zb =
                 ZakljucniListZb.builder()
                         .GEN_OPENTAB(0)
                         .GEN_APVDBK(0)
-                        .KOJI_KVARTAL(kvartal)
+                        .kojiKvartal(kvartal)
                         .GODINA(year)
-                        .VERZIJA(version)
-                        .RADNA(1)
+                        .verzija(version)
+                        .radna(1)
                         .SIF_SEKRET(sifSekret)
                         .RAZDEO(sekretarijat.getRazdeo())
                         .JBBK(sekretarijat.getJED_BROJ_KORISNIKA())
-                        .JBBK_IND_KOR(jbbks)
+                        .jbbkIndKor(jbbks)
                         .SIF_RAC(1)
                         .DINARSKI(1)
                         .STATUS(0)
@@ -78,30 +77,42 @@ public class ZakljucniListZbService {
         return zbSaved;
     }
 
-    @Transactional
-    public Integer findVersion(Integer jbbks, Integer kvartal) {
-        Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
-        return version + 1;
-    }
-
-    private void checkJbbks(User user, Integer jbbksExcell) {
+    public void checkJbbks(User user, Integer jbbksExcell) {
         var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
 
         if (jbbkDb != jbbksExcell) {
             throw new IllegalArgumentException("Niste uneli (odabrali) vaš JBKJS!");
         }
     }
+    @Transactional
+    @Override
+    public Integer checkIfExistValidZListAndFindVersion(Integer jbbks, Integer kvartal) {
+        Optional<ZakljucniListZb> zb =
+                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc(jbbks, kvartal);
+        if (zb.isEmpty()) {
+            return 1;
+        } else {
+            if (zb.get().getRadna() == 0 || zb.get().getSTORNO() == 1 ) {
+               throw new IllegalArgumentException(
+                       "Za tekući kvartal već postoji učitan važeći ZaključniList. " +
+                               "Ukoliko ipak želite da učitate ovu verziju, prethodni morate stornirati!");
+            }
+        }
+       return zb.get().getVerzija() + 1;
+    }
 
-    private void checkDuplicatesKonta(List<ZakljucniListDto> dtos) {
-        List<String> duplicates = dtos.stream()
-              .filter(dto -> dtos.stream()
-                      .filter(dto2 -> dto2.getProp1().equals(dto.getProp1()))
-                      .count() > 1)
-                .map(dto -> dto.getProp1())
-              .collect(Collectors.toList());
+    public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) {
+
+            List<String>  duplicates = dtos.stream()
+                .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
+                    .entrySet()
+                    .stream()
+                    .filter(e -> e.getValue() > 1)
+                    .map(e -> e.getKey())
+                    .collect(Collectors.toList());
 
         if (!duplicates.isEmpty()) {
-            throw new IllegalArgumentException("Imate duplirana konta: " + duplicates);
+            throw new IllegalArgumentException("Imate duplirana konta: " + duplicates );
         }
     }
 
