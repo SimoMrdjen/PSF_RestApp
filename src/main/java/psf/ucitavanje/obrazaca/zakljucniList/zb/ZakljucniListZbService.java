@@ -35,16 +35,16 @@ public class ZakljucniListZbService implements IZakListService {
                                              Integer kvartal,
                                              Integer jbbks,
                                              Integer year,
-                                             String email) {
+                                             String email) throws Exception {
 
         User user = userRepository.findByEmail(email).orElseThrow();
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret);
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
-        Integer version = checkIfExistValidZListAndFindVersion(jbbks, kvartal);
+        Integer version = checkIfExistValidZListAndFindVersion(kvartal, jbbks);
         //provere
         checkJbbks(user, jbbks);
-        checkDuplicatesKonta(dtos);
+//        checkDuplicatesKonta(dtos);
 
         var zb =
                 ZakljucniListZb.builder()
@@ -77,23 +77,23 @@ public class ZakljucniListZbService implements IZakListService {
         return zbSaved;
     }
 
-    public void checkJbbks(User user, Integer jbbksExcell) {
+    public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
         var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
 
-        if (jbbkDb != jbbksExcell) {
-            throw new IllegalArgumentException("Niste uneli (odabrali) vaš JBKJS!");
+        if (!jbbkDb.equals(jbbksExcell)) {
+            throw new Exception("Niste uneli (odabrali) vaš JBKJS!");
         }
     }
     @Transactional
     @Override
-    public Integer checkIfExistValidZListAndFindVersion(Integer jbbks, Integer kvartal) {
+    public Integer checkIfExistValidZListAndFindVersion(Integer kvartal, Integer jbbks ) throws Exception {
         Optional<ZakljucniListZb> zb =
-                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc(jbbks, kvartal);
+                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if (zb.get().getRadna() == 0 || zb.get().getSTORNO() == 1 ) {
-               throw new IllegalArgumentException(
+            if (zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0 ) {
+               throw new Exception(
                        "Za tekući kvartal već postoji učitan važeći ZaključniList. " +
                                "Ukoliko ipak želite da učitate ovu verziju, prethodni morate stornirati!");
             }
@@ -101,7 +101,7 @@ public class ZakljucniListZbService implements IZakListService {
        return zb.get().getVerzija() + 1;
     }
 
-    public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) {
+    public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
             List<String>  duplicates = dtos.stream()
                 .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
@@ -112,7 +112,7 @@ public class ZakljucniListZbService implements IZakListService {
                     .collect(Collectors.toList());
 
         if (!duplicates.isEmpty()) {
-            throw new IllegalArgumentException("Imate duplirana konta: " + duplicates );
+            throw new Exception("Imate duplirana konta: " + duplicates );
         }
     }
 

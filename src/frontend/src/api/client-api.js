@@ -32,8 +32,8 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
     body: JSON.stringify(data),
   }).then(checkStatus);
 
-export const saveZakljucni = (data, kvartal, days, year, access_token) =>
-  fetch(`/api/zakljucni_list/${kvartal}/${days}/${year}`, {
+export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
+  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,

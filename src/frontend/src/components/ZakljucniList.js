@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveZakljucni } from "../api/client-api";
+import {successNotification, errorNotification} from "./Notification";
 
 function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
@@ -71,12 +72,22 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
 
       // data.splice(116,1000);
       console.log("Data:", data);
-      saveZakljucni(data, kvartal, jbbk, year, access_token);
-      setMessage("Zaključni list je uspesno ucitan!");
-      setExcelData(JSON.stringify(data, null, 4));
-    } else {
-      setExcelData(null);
-    }
+
+      saveZakljucni(data, kvartal, jbbk, year, access_token)
+          .then(res => res.json())
+          .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => { err.response.json().then(res =>
+                 { console.log(res.error);
+                    errorNotification("Ucitavnje nije uspelo", `${res.message} `)
+                    });
+                });
+          setMessage("Zaključni list je uspesno ucitan!");
+          setExcelData(JSON.stringify(data, null, 4));
+        } else {
+          setExcelData(null);
+        }
   };
 
   return (

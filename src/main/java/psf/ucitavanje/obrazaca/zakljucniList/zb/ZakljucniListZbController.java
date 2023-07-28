@@ -24,7 +24,7 @@ public class ZakljucniListZbController {
     public ResponseEntity<ZakljucniListZb> addZakljucni(@RequestBody List<ZakljucniListDto> dtos,
                                                         @PathVariable(name = "kvartal") Integer kvartal,
                                                         @PathVariable(name = "jbbks") Integer jbbks,
-                                                        @PathVariable(name = "year") Integer year) {
+                                                        @PathVariable(name = "year") Integer year) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email));
