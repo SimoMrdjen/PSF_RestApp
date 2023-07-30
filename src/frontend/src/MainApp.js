@@ -19,23 +19,26 @@ const MainApp = () => {
   return (
     <div>
       {loggedIn ? (
-        //       <AdminMainForma
-        //            access_token = {access_token}
-        //        />
-        //
-        <MainForma
-          access_token={access_token}
-          //setAccessToken = {setAccessToken}
-          role={role}
-        />
+          role === 'ADMIN' ? (
+              <AdminMainForma
+                  access_token={access_token}
+                  role={role}
+              />
+          ) : (
+              <MainForma
+                  access_token={access_token}
+                  //setAccessToken={setAccessToken}
+                  role={role}
+              />
+          )
       ) : (
-        <LoginForm
-          onLogin={handleLogin}
-          access_token={access_token}
-          setAccessToken={setAccessToken}
-          role={role}
-          setRole={setRole}
-        />
+          <LoginForm
+              onLogin={handleLogin}
+              access_token={access_token}
+              setAccessToken={setAccessToken}
+              role={role}
+              setRole={setRole}
+          />
       )}
     </div>
   );

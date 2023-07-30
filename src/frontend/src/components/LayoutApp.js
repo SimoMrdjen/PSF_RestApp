@@ -23,9 +23,12 @@ const LayoutApp = ({fetchUsersLike,renderUsers}) => {
                                 </Space>
                             </Breadcrumb.Item>
                         </Breadcrumb>
-                        <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                            {renderUsers}
-                        </div>
+            <Content className="site-layout" style={{ padding: "0 50px" }}>
+                <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
+                    {/* Render the Users component */}
+                    {renderUsers()}
+                </div>
+            </Content>
 
 </>
     )

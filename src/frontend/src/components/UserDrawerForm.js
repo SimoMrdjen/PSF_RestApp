@@ -22,7 +22,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
     setSubmitting(true);
     //console.log(JSON.stringify(user, null, 2));
     console.log("Token:", access_token);
-    addNewUser(user)
+    addNewUser(user, access_token)
       .then(() => {
         console.log("User added");
         onCLose();

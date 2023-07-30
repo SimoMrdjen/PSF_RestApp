@@ -23,7 +23,7 @@ const onSearch = (value) => {
   getUsersLike(value);
 };
 
-function AdminMainForma({ access_token }) {
+function AdminMainForma({ access_token, role }) {
   const [user, setUser] = useState();
   const [users, setUsers] = useState([]);
   const [fetching, setFetching] = useState(true);
@@ -153,7 +153,7 @@ function AdminMainForma({ access_token }) {
   useEffect(() => {
     console.log("component is mounted");
     fetchUsers(access_token);
-    console.log("Token : ", access_token);
+    console.log("Token from AdminForm: ", access_token);
   }, []);
 
   const renderUsers = (access_token) => {
@@ -228,8 +228,10 @@ function AdminMainForma({ access_token }) {
     );
   };
   return (
-    <LayoutApp fetchUsersLike={fetchUsersLike} renderUsers={renderUsers()} />
-  );
+      <LayoutApp
+          fetchUsersLike={fetchUsersLike}
+          renderUsers={() => renderUsers(access_token)} // Pass the function reference, don't call it here
+      />  );
 }
 
 export default AdminMainForma;

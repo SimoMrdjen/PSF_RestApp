@@ -17,7 +17,7 @@ function UserEditorForm({showEditor, setShowEditor, fetchUsers, user, access_tok
       //fetchUsers(access_token);
       console.log("Token fro Edit : ", access_token);
     }, []);
-    const onFinish = (userEdit, access_token) => {
+    const onFinish = (userEdit) => {
         setSubmitting(true)
         console.log(JSON.stringify(user, null, 2))
         console.log("Token:", access_token)
