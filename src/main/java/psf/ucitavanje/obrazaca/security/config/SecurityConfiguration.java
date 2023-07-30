@@ -72,8 +72,6 @@ public class SecurityConfiguration {
                 .addLogoutHandler(logoutHandler)
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
         ;
-        // Da li ovo treba, nemam pojma
-        // http.httpBasic(Customizer.withDefaults());
 
         return http.build();
     }

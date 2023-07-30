@@ -44,7 +44,7 @@ public class ZakljucniListZbService implements IZakListService {
         Integer version = checkIfExistValidZListAndFindVersion(kvartal, jbbks);
         //provere
         checkJbbks(user, jbbks);
-//        checkDuplicatesKonta(dtos);
+        checkDuplicatesKonta(dtos);
 
         var zb =
                 ZakljucniListZb.builder()

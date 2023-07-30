@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
 
-    public static String GLOBALUSER;
+    private static  String GLOBALUSER;
 
     @Override
     protected void doFilterInternal(

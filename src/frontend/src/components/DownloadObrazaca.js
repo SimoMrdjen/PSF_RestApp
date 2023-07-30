@@ -2,36 +2,6 @@ import React, { useEffect } from "react";
 import BOOKPdf from '../BOOK.pdf';
 
 function DownloadExcelButton() {
-  // useEffect(() => {
-  //     const fileUrl = "https://docs.google.com/spreadsheets/d/1K-_0nBQ0GJXT4lZz6MQBJM0C8bEod4B_2Dbs8HwKBms/edit?usp=drive_link";
-  //
-  //     fetch(fileUrl)
-  //         .then((response) => response.blob())
-  //         .then((blob) => {
-  //             // Create a download link
-  //             const link = document.createElement("a");
-  //             link.href = URL.createObjectURL(blob);
-  //             link.download = "UgovorOpen.xlsx";
-  //
-  //             // Append the link to the body
-  //             document.body.appendChild(link);
-  //
-  //             // Simulate a click event to trigger the download
-  //             link.click();
-  //
-  //             // Clean up the link
-  //             link.remove();
-  //         });
-  // }, []);
-  //
-  // return (
-  //   <button type="button" className="btn btn-dark">
-  //     Preuzmi Zakljucni List
-  //   </button>
-  // );
-    // 👇️ import the pdf document
-
-
 
         return (
             <div>
@@ -41,15 +11,49 @@ function DownloadExcelButton() {
                     target="_blank"
                     rel="noreferrer"
                 >
-                    <button type="button" className="btn btn-dark" style={{ backgroundColor: "#0078D4" }}>
+                    <button
+                        type="button"
+                        className="btn btn-dark"
+                        style={{
+                            backgroundColor: "#a3a3a8",
+                            fontSize: "12px", // Adjust the font size as needed
+                            padding: "8px 15px", // Adjust the padding as needed
+                        }}
+                    >
                         Preuzmi Zakljucni List
                     </button>
 
                 </a>
             </div>
         );
-
-
+    //
+    //This is component for download , too...
+    // import React from "react";
+    //
+    // const DownloadExcelFile = () => {
+    //     const handleDownload = () => {
+    //         // Replace 'your-server-url' with the actual URL of the Excel file on the server
+    //         const fileUrl = "https://your-server-url/path/to/excel-file.xlsx";
+    //         const link = document.createElement("a");
+    //         link.href = fileUrl;
+    //         link.setAttribute("download", "excel-file.xlsx"); // Change the filename as needed
+    //         document.body.appendChild(link);
+    //         link.click();
+    //         document.body.removeChild(link);
+    //     };
+    //
+    //     return (
+    //         <button
+    //             type="button"
+    //             className="btn btn-primary"
+    //             onClick={handleDownload}
+    //         >
+    //             Download Excel File
+    //         </button>
+    //     );
+    // };
+    //
+    // export default DownloadExcelFile;
 
 
 }

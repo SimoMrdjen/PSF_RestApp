@@ -16,23 +16,23 @@ public class ObrazacaApplication {
         SpringApplication.run(ObrazacaApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(
-            AuthenticationService service
-    ) {
-        return args -> {
-            var admin = RegisterRequest.builder()
-                    .sifraradnika(2)
-                    .za_sif_sekret(30)
-                    .sif_oblast(1)
-                    .sifra_pp(6203)
-                    .email("simo1")
-                    .password("dr")
-                    .role(ADMIN)
-                    .build();
-            System.out.println("Admin token: " + service.register(admin).getAccessToken());
-
-        };
-    }
+//    @Bean
+//    public CommandLineRunner commandLineRunner(
+//            AuthenticationService service
+ //   ) // {
+//        return args -> {
+//            var admin = RegisterRequest.builder()
+//                    .sifraradnika(2)
+//                    .za_sif_sekret(30)
+//                    .sif_oblast(1)
+//                    .sifra_pp(6203)
+//                    .email("simo1")
+//                    .password("dr")
+//                    .role(ADMIN)
+//                    .build();
+//            System.out.println("Admin token: " + service.register(admin).getAccessToken());
+//
+//        };
+//    }
 
 }

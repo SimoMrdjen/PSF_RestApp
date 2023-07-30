@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import logo from "./APV.png";
-import { Breadcrumb, Layout, Menu, theme, Image } from "antd";
+import { Breadcrumb, Layout, Menu, Image } from "antd";
 import Kvartal from "./components/Kvartal";
 import ObrazacIO from "./components/ObrazacIO";
 import ZakljucniList from "./components/ZakljucniList";
 import Obrazac5 from "./components/Obrazac5";
 import DownloadExcelButton from "./components/DownloadObrazaca";
-import Register from "./components/Register";
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,12 +23,6 @@ const menuItems = [
     key: "Obrazac5",
     label: "Obrazac5",
   },
-  // getItem('Navigation One', 'sub1', <MailOutlined />, [
-  //   getItem('Option 1', '1'),
-  //   getItem('Option 2', '2'),
-  //   getItem('Option 3', '3'),
-  //   getItem('Option 4', '4'),
-  // ])
 ];
 
 function MainForma({ access_token, role }) {
@@ -55,19 +49,19 @@ function MainForma({ access_token, role }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              background: "#0078D4", // Set the background color to blue (#0078D4 is the Windows blue color)
+              background: "#6f6f76", // Set the background color to blue (#0078D4 is the Windows blue color)
             }}
         >
           <div className="demo-logo" />
 
           <Menu
-              theme="dark" // Use dark theme to match the Windows style
+             theme="dark" // Use dark theme to match the Windows style
               mode="horizontal"
               defaultSelectedKeys={["1"]}
               onClick={handleMenuClick}
-              style={{ flexGrow: 1, background: "#0078D4" }} // Set the menu background to blue
+              style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
           >
-            <Menu.SubMenu title="Učitavanja obrazaca">
+            <Menu.SubMenu title="Učitavanja obrazaca" style={{  background: "#6f6f76" }} >
               {menuItems.map((item) => (
                   <Menu.Item key={item.key}>{item.label}</Menu.Item>
               ))}
@@ -172,7 +166,7 @@ function MainForma({ access_token, role }) {
         </Content>
 
         <Footer style={{ textAlign: "center" }}>
-          <Image width={600} src={logo} />
+          <Image width={400} src={logo} />
         </Footer>
       </Layout>
     </>

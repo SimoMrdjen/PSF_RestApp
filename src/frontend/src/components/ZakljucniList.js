@@ -101,6 +101,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
           type="file"
           className="form-control"
           onChange={handleFile}
+          lang="sr" placeholder="Unesite tekst"
           required
         ></input>
         {excelFileError && (
@@ -108,10 +109,14 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
             {excelFileError}
           </div>
         )}
+        <br/>
+
         <button
           type="submit"
           className="btn btn-primary"
           style={{ marginTop: 15 + "px" }}
+          disabled={false}
+          style={{ backgroundColor: "#98b4d4" }}
         >
           Učitaj Zakljucni List
         </button>
