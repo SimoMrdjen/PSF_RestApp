@@ -11,9 +11,13 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
+import psf.ucitavanje.obrazaca.security.config.JwtAuthenticationFilter;
+import psf.ucitavanje.obrazaca.security.user.User;
+import psf.ucitavanje.obrazaca.security.user.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,21 +27,25 @@ public class ObrazacZbService {
     private final SekretarijarService sekretarijarService;
     private final ObrazacService obrazacService;
     private final PPartnerService pPartnerService;
+    private final UserRepository userRepository;
 
     @Transactional
-    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal) {
+    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal, String email) {
         Object object = new Object();
 
-        //Integer verzija = 1; //fetch verzija
-        Integer sifSekret = 30; //fetch from table user
+        var user = userRepository.findByEmail(email).orElseThrow();
+
+        Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-        Integer radnik = 50001;//sifra usera
-        Integer jbbk = pPartnerService.getJBBKS(radnik); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+
+        Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
+
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
         Integer version = findVersion(jbbk, kvartal);
 
         ObrazacZb zb = ObrazacZb.builder()
                 //.gen_interbase(1)
+
                 .koji_kvartal(kvartal)
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)
@@ -50,7 +58,7 @@ public class ObrazacZbService {
                 .radna(1)
                 .povuceno(0)
                 .konacno(0)
-                .poslao_nam(radnik)
+                .poslao_nam(user.getSifraradnika())
                 .poslao_u_org(0)
                 .poslao_iz_org(0)
                 .zaprimio_ver(0)
@@ -74,10 +82,15 @@ public class ObrazacZbService {
         return zbSaved;
     }
 
+//    public User getUserByEmail(String email) {
+//        Optional<User> userOptional = userRepository.findByEmail(email);
+//        return userOptional.orElse(null);
+//    }
+
     @Transactional
-   public Integer findVersion(Integer jbbks, Integer kvartal) {
+    public Integer findVersion(Integer jbbks, Integer kvartal) {
         Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
         return version + 1;
-   }
+    }
 
 }
