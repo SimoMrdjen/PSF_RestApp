@@ -29,6 +29,8 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue
   private Integer id;
+
+  //private Integer
   private String firstname;
   private String lastname;
   private String email;

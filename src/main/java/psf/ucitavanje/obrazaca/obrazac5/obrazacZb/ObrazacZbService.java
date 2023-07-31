@@ -74,6 +74,7 @@ public class ObrazacZbService {
         return zbSaved;
     }
 
+    @Transactional
    public Integer findVersion(Integer jbbks, Integer kvartal) {
         Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
         return version + 1;

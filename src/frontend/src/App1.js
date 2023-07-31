@@ -5,6 +5,7 @@ import { saveObrazac5} from "./client";
 import { Breadcrumb, Layout, Menu, theme , Image} from 'antd';
 import Data from './components/Data';
 import ObrazacIOButton from './components/ObrazacIOButton';
+import LoginForm from './LoginForm';
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -20,7 +21,7 @@ const menuItems = [
 ];
 
 
-function App1() {
+function App1({access_token}) {
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
@@ -70,6 +71,7 @@ const handleSubmit = (e) => {
       const firstProperty = row[0];
       const secondProperty = row[1];
       const fourthProperty = row[3];
+      const fifthProperty = row[4];
       const tenthProperty = row[9];
 
       return typeof firstProperty !== 'string'
@@ -77,7 +79,8 @@ const handleSubmit = (e) => {
           && typeof secondProperty !== 'string'
           && typeof secondProperty !== 'undefined'
           && typeof fourthProperty !== 'string'
-          && typeof tenthProperty !== 'string';
+          && typeof tenthProperty !== 'string'
+          && fifthProperty !== 0.00;
     });
 
     const headers = filteredData[0];
@@ -90,7 +93,7 @@ const handleSubmit = (e) => {
     });
     // data.splice(442,1);
      console.log(data);
-     saveObrazac5(data, kvartal);
+     saveObrazac5(data, kvartal, access_token);
      setExcelData(JSON.stringify(data, null, 4));
   } else {
     setExcelData(null);
@@ -132,6 +135,8 @@ return (
               <Image align="center" width={100} src={logo} />
           </div>
       </Header>
+
+
       <Content
         className="site-layout"
         style={{
@@ -167,7 +172,9 @@ return (
              </div>
              { selectedItem === 'ObrazacIO' && <ObrazacIOButton
               kvartal = {kvartal}
-              setKvartal ={setKvartal}             />}
+              setKvartal ={setKvartal}
+              access_token = {access_token}
+                          />}
 
                 { selectedItem === 'Obrazac5' &&
 
@@ -205,6 +212,7 @@ return (
                  )}
              </div>
              </div>}
+
 
          </div>
         </div>

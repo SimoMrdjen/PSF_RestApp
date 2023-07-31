@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 public class IndLozinka {
     @Id
     private Integer sifraradnika;
+
+    private String password;
+
     @Column
     private Integer za_sif_sekret;
     @Column

@@ -1,5 +1,6 @@
 package psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ObrazacIODetailService {
     private final ObrazacIOMapper obrazacMapper;
     private final Obrazac5_pomRepository obrazac5_pomRepository;
 
+    @Transactional
     public void saveListOfObrazac5_pom(List<ObrazacIODTO> dtos, Obrazac5_pom_zb obrIOSaved) {
 
         Integer mysql = obrIOSaved.getGEN_MYSQL();
