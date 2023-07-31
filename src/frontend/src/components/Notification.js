@@ -35,7 +35,7 @@ export const errorNotification = (message, description) => {
 //
   notification.error({
     message,
-    //description: content,
+       //description: content,
     key,
     duration: 0, // Set duration to 0 to make the notification sticky until manually closed
 //    btn: (

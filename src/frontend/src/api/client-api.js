@@ -1,16 +1,42 @@
 import fetch from "unfetch";
 import {errorNotification} from "../components/Notification";
 
-const checkStatus = (response) => {
+//const checkStatus = (response) => {
+//  if (response.ok) {
+//    console.log(response);
+//    return response;
+//  }
+//  // convert non-2xx HTTP responses into errors:
+//  const error = new Error(response.statusText);
+//  error.response = response;
+//  return Promise.reject(error);
+//};
+
+const checkStatus = async (response) => {
   if (response.ok) {
     console.log(response);
-    return response;
+    return response.json(); // If you expect JSON as a successful response
   }
-  // convert non-2xx HTTP responses into errors:
-  const error = new Error(response.statusText);
-  error.response = response;
-  return Promise.reject(error);
+
+  const errorText = await response.text();
+  throw new Error(errorText || response.statusText);
 };
+
+export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
+  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+  .then(checkStatus);
+//  .catch((error) => {
+////    throw error;
+//errorNotification(error.message);
+//  });
+
 
 export const saveObrazac5 = async (data, kvartal, access_token) => {
   return fetch(`/api/obrazac_zb/${kvartal}`, {
@@ -33,15 +59,15 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
     body: JSON.stringify(data),
   }).then(checkStatus);
 
-export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
-  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-    method: "POST",
-    body: JSON.stringify(data),
-  }).then(checkStatus);
+//export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
+//  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
+//    headers: {
+//      "Content-Type": "application/json",
+//      Authorization: `Bearer ${access_token}`,
+//    },
+//    method: "POST",
+//    body: JSON.stringify(data),
+//  }).then(checkStatus);
 //export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
 //  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
 //    headers: {

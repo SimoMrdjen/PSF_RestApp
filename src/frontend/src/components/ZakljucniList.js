@@ -76,15 +76,17 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
     saveZakljucni(data, kvartal, jbbks, year, access_token)
       .then((res) => {
         console.log(res);
+        successNotification("Obrazac je uspesno ucitan!");
         // Handle successful response if needed
       })
-      .catch((response) => {
-        console.log("This is error message", response);
-        errorNotification(
-          "Error",
-          response || "An unexpected error occurred."
-        );
-      });
+.catch((error) => {
+  console.log("This is error message", error.message);
+  errorNotification(
+    "Error",
+    error.message || "An unexpected error occurred."
+  );
+});
+
 
         } else {
           setExcelData(null);
