@@ -9,11 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_CREATE;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_DELETE;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_READ;
-//import static psf.ucitavanje.obrazaca.security.user.Permission.ADMIN_UPDATE;
 import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_CREATE;
 import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_DELETE;
 import static psf.ucitavanje.obrazaca.security.user.Permission.MANAGER_READ;

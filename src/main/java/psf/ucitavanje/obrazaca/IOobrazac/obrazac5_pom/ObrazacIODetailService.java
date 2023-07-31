@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.IOobrazac.ObrazacIODTO;
 import psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom_zb.Obrazac5_pom_zb;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac.Obrazac;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac5_old.IObr5Service;
-import psf.ucitavanje.obrazaca.obrazac5.obrazac5_old.Obrazac5;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,14 +1,15 @@
 package psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom_zb;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom.Obrazac5_pom;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "obrazac5_pom_zb")

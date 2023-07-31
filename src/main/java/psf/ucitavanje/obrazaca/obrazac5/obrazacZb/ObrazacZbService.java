@@ -6,18 +6,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
 import psf.ucitavanje.obrazaca.obrazac5.obrazac.ObrazacService;
-import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZb;
-import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
-import psf.ucitavanje.obrazaca.security.config.JwtAuthenticationFilter;
-import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.security.user.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -81,11 +76,6 @@ public class ObrazacZbService {
 
         return zbSaved;
     }
-
-//    public User getUserByEmail(String email) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        return userOptional.orElse(null);
-//    }
 
     @Transactional
     public Integer findVersion(Integer jbbks, Integer kvartal) {

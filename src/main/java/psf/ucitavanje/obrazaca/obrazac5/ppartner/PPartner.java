@@ -76,5 +76,4 @@ public class PPartner {
     private Integer open_prenos;
     @Column
     private String e_mail_pl;
-
 }

@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Sekretarijat {
 
-
     @Id
     private Integer sif_sekret;
 
@@ -65,5 +64,4 @@ public class Sekretarijat {
     private Double DATUM_IZM;
     @Column
     private Integer SIF_VRSTEORG;
-
 }
