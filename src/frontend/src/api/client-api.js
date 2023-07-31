@@ -1,4 +1,5 @@
 import fetch from "unfetch";
+import {errorNotification} from "../components/Notification";
 
 const checkStatus = (response) => {
   if (response.ok) {
@@ -41,6 +42,29 @@ export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
     method: "POST",
     body: JSON.stringify(data),
   }).then(checkStatus);
+//export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
+//  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
+//    headers: {
+//      "Content-Type": "application/json",
+//      Authorization: `Bearer ${access_token}`,
+//    },
+//    method: "POST",
+//    body: JSON.stringify(data),
+//  })
+//    .then((response) => {
+//      if (response.ok) {
+//        return response.json();
+//      } else {
+//        return response.text().then((errorMessage) => {
+//          throw new Error(errorMessage);
+//        });
+//      }
+//    })
+//    .catch((error) => {
+//      errorNotification("Error", error.message);
+//      throw error;
+//    });
+
 
 export const login = (data) =>
   fetch(`/api/v1/auth/authenticate`, {

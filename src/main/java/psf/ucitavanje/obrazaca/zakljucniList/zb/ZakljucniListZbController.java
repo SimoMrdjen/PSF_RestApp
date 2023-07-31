@@ -21,13 +21,19 @@ public class ZakljucniListZbController {
     private final ZakljucniListZbService zakljucniService;
 
     @PostMapping(value = "/{kvartal}/{jbbks}/{year}")
-    public ResponseEntity<ZakljucniListZb> addZakljucni(@RequestBody List<ZakljucniListDto> dtos,
-                                                        @PathVariable(name = "kvartal") Integer kvartal,
-                                                        @PathVariable(name = "jbbks") Integer jbbks,
-                                                        @PathVariable(name = "year") Integer year) throws Exception {
+    public ResponseEntity<?> addZakljucni(@RequestBody List<ZakljucniListDto> dtos,
+                                          @PathVariable(name = "kvartal") Integer kvartal,
+                                          @PathVariable(name = "jbbks") Integer jbbks,
+                                          @PathVariable(name = "year") Integer year) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return ResponseEntity.ok(zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email));
-
+        try {
+            ZakljucniListZb result = zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email);
+            return ResponseEntity.ok(result);
+        }
+        catch (Exception e) {
+            // Handle the exception and return an error response with status code 400
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

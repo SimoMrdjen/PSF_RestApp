@@ -2,6 +2,7 @@ import logo from "../logo.svg";
 import React, { useState, useEffect } from "react";
 import { getAllUsers, editUser, getUsersLike } from "../api/client-api";
 import { successNotification, errorNotification } from "./Notification";
+import "./adminMainForm.css";
 import {
   Table,
   Spin,
@@ -81,14 +82,15 @@ function AdminMainForma({ access_token, role }) {
         title: "Role",
         dataIndex: "role",
         key: "role",
-        width: 200,
+        width: 100,
       },
-      {
-        title: "password",
-        dataIndex: "password",
-        key: "password",
-        width: 120,
-      },
+  {
+    title: "Password",
+    dataIndex: "password",
+    key: "password",
+    width: 220,
+    className: "password-cell", // Apply the password-cell style to this column
+  },
 
       {
         title: "Actions ",
@@ -110,7 +112,8 @@ function AdminMainForma({ access_token, role }) {
             </Popconfirm>
           </Radio.Group>
         ),
-        //width: 120
+        width: 100
+
       },
     ];
 

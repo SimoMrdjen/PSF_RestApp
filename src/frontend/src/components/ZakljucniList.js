@@ -38,6 +38,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   };
 
   const handleSubmit = (e) => {
+    setMessage("");
     e.preventDefault();
     if (excelFile !== null) {
       const workbook = XLSX.read(excelFile, { type: "buffer" });
@@ -67,28 +68,33 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const year = worksheet["E5"]?.v || "";
-      const jbbk = worksheet["B1"]?.v || "";
-      console.log("JBBK:", jbbk);
+      const jbbks = worksheet["B1"]?.v || "";
+      console.log("JBBK:", jbbks);
 
       // data.splice(116,1000);
       console.log("Data:", data);
+    saveZakljucni(data, kvartal, jbbks, year, access_token)
+      .then((res) => {
+        console.log(res);
+        // Handle successful response if needed
+      })
+      .catch((response) => {
+        console.log("This is error message", response);
+        errorNotification(
+          "Error",
+          response || "An unexpected error occurred."
+        );
+      });
 
-      saveZakljucni(data, kvartal, jbbk, year, access_token)
-          .then(res => res.json())
-          .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => { err.response.json().then(res =>
-                 { console.log(res.error);
-                    errorNotification("Ucitavnje nije uspelo", `${res.message} `)
-                    });
-                });
-          setMessage("Zaključni list je uspesno ucitan!");
-          setExcelData(JSON.stringify(data, null, 4));
         } else {
           setExcelData(null);
         }
   };
+//
+//    const onFinishFailed = (errorInfo) => {
+//      alert(JSON.stringify(errorInfo, null, 2));
+//    };
+
 
   return (
     <div>

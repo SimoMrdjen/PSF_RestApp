@@ -1,0 +1,9 @@
+/* Add this CSS style to your component */
+
+  .password-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px; /* Set the maximum width of the cell */
+  }
+

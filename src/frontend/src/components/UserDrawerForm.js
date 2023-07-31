@@ -85,7 +85,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
           <Col span={12}>
             <Form.Item
               name="sifraradnika"
-              label={access_token}
+              label="Sifra Radnika"
               rules={[{ required: true, message: "Please enter sifraradnika" }]}
             >
               <Input placeholder="Please enter sifra radnika" />
@@ -148,7 +148,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
           <Col span={16}>
             <Form.Item
               name="email"
-              label="email"
+              label="Email"
               rules={[{ required: true, message: "Please enter email" }]}
             >
               <Input placeholder="Please enter email" />
@@ -159,7 +159,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
           <Col span={12}>
             <Form.Item
               name="password"
-              label="password"
+              label="Password"
               rules={[{ required: false, message: "Please enter password" }]}
             >
               <Input placeholder="Please enter password" />
@@ -170,7 +170,7 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
           <Col span={12}>
             <Form.Item
               name="role"
-              label="role"
+              label="Role"
               rules={[{ required: false, message: "Please enter role" }]}
             >
               <Input placeholder="Please enter role" />
