@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveZakljucni } from "../api/client-api";
+import {successNotification, errorNotification} from "./Notification";
 
 function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
@@ -9,8 +10,8 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-  console.log('This is token from Zakljucni List', access_token);
-  },[])
+    console.log("This is token from Zakljucni List", access_token);
+  }, []);
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -37,6 +38,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
   };
 
   const handleSubmit = (e) => {
+    setMessage("");
     e.preventDefault();
     if (excelFile !== null) {
       const workbook = XLSX.read(excelFile, { type: "buffer" });
@@ -48,7 +50,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined",
+        (row) => typeof row[0] !== "undefined"
       );
 
       const headers = filteredData[0];
@@ -65,29 +67,34 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         return obj;
       });
 
-      const jbbk = worksheet["B1"]?.v || "";
-      // // Create a new Date object using the year, month, and day values
       const year = worksheet["E5"]?.v || "";
-      const month = worksheet["E4"]?.v || "";
-      const day = worksheet["E3"]?.v || "";
-      const date = new Date(year, month - 1, day);
-      const days =
-        Math.floor(
-          (date.getTime() + 12 * 60 * 60 * 1000) / (24 * 60 * 60 * 1000),
-        ) + 25569;
-
-      console.log("JBBK:", jbbk);
-      console.log("Datum:", date);
+      const jbbks = worksheet["B1"]?.v || "";
+      console.log("JBBK:", jbbks);
 
       // data.splice(116,1000);
       console.log("Data:", data);
-      saveZakljucni(data, kvartal, days, year, access_token);
-      setMessage("Zaključni list je uspesno ucitan!");
-      setExcelData(JSON.stringify(data, null, 4));
+    saveZakljucni(data, kvartal, jbbks, year, access_token)
+      .then((res) => {
+        console.log(res);
+        successNotification("Obrazac je uspesno ucitan!");
+        // Handle successful response if needed
+      })
+.catch((error) => {
+  console.log("This is error message", error.message);
+  errorNotification(
+      error.message,
+     "Greska!"
+  );
+});
     } else {
-      setExcelData(null);
-    }
+          setExcelData(null);
+        }
   };
+//
+//    const onFinishFailed = (errorInfo) => {
+//      alert(JSON.stringify(errorInfo, null, 2));
+//    };
+
 
   return (
     <div>
@@ -100,6 +107,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
           type="file"
           className="form-control"
           onChange={handleFile}
+          lang="sr" placeholder="Unesite tekst"
           required
         ></input>
         {excelFileError && (
@@ -107,10 +115,14 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
             {excelFileError}
           </div>
         )}
+        <br/>
+
         <button
           type="submit"
           className="btn btn-primary"
           style={{ marginTop: 15 + "px" }}
+          disabled={false}
+          style={{ backgroundColor: "#98b4d4" }}
         >
           Učitaj Zakljucni List
         </button>

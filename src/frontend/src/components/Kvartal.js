@@ -52,7 +52,7 @@ function Kvartal({ setKvartal, kvartal }) {
   return (
     <Space wrap>
       <Dropdown menu={menuProps}>
-        <Button size="large" type="primary">
+        <Button size="large" type="primary" style={{  background: "#98b4d4" }} >
           <Space>
             {kvartal === 0
               ? "Izaberite kvartal!"

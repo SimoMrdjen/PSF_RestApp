@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import psf.ucitavanje.obrazaca.obrazac5.Obrazac5DTO;
+import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
+import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 
 import java.util.List;
 
@@ -21,11 +23,16 @@ public class ObrazacZbController {
     private final ObrazacZbService obrazacZbService;
 
     @PostMapping(value = "/{kvartal}")
-    public ResponseEntity<ObrazacZb> addObrazacZb(@RequestBody List<Obrazac5DTO> dtos,
+    public ResponseEntity<?> addObrazacZb(@RequestBody List<Obrazac5DTO> dtos,
                                                   @PathVariable(name = "kvartal") Integer kvartal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        return ResponseEntity.ok(obrazacZbService.saveObrazac5(dtos, kvartal, email));
-
+        try {
+            return ResponseEntity.ok(obrazacZbService.saveObrazac5(dtos, kvartal, email));
+        }
+        catch (Exception e) {
+            // Handle the exception and return an error response with status code 400
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

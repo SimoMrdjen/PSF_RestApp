@@ -25,7 +25,7 @@ public class ObrazacZbService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal, String email) {
+    public ObrazacZb saveObrazac5(List<Obrazac5DTO> dtos, Integer kvartal, String email) throws Exception {
         Object object = new Object();
 
         var user = userRepository.findByEmail(email).orElseThrow();
@@ -36,11 +36,12 @@ public class ObrazacZbService {
         Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
 
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
+
+        //necessary to add checking methods-Zakljucni is example
         Integer version = findVersion(jbbk, kvartal);
 
         ObrazacZb zb = ObrazacZb.builder()
                 //.gen_interbase(1)
-
                 .koji_kvartal(kvartal)
                 .tip_obrazca(5)
                 .sif_sekret(sifSekret)

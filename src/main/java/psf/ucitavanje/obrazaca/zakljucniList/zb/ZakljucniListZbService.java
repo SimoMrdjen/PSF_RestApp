@@ -8,17 +8,20 @@ import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.Sekretarijat;
+import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.security.user.UserRepository;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import psf.ucitavanje.obrazaca.zakljucniList.details.ZakljucniDetailsService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Component
-public class ZakljucniListZbService {
+public class ZakljucniListZbService implements IZakListService {
 
     private final ZakljucniListZbRepository zakljucniRepository;
     private final SekretarijarService sekretarijarService;
@@ -30,31 +33,31 @@ public class ZakljucniListZbService {
     @Transactional
     public ZakljucniListZb saveZakljucniList(List<ZakljucniListDto> dtos,
                                              Integer kvartal,
-                                             Integer days,
+                                             Integer jbbks,
                                              Integer year,
-                                             String email) {
+                                             String email) throws Exception {
 
-        var user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
-        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret); //fetch from table user or sekr, im not sure
-
-        Integer jbbk = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka ind_lozinkaService.getJbbk
-
+        Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret);
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
-        Integer version = findVersion(jbbk, kvartal);
+        Integer version = checkIfExistValidZListAndFindVersion(kvartal, jbbks);
+        //provere
+        checkJbbks(user, jbbks);
+        checkDuplicatesKonta(dtos);
 
         var zb =
                 ZakljucniListZb.builder()
                         .GEN_OPENTAB(0)
                         .GEN_APVDBK(0)
-                        .KOJI_KVARTAL(kvartal)
+                        .kojiKvartal(kvartal)
                         .GODINA(year)
-                        .VERZIJA(version)
-                        .RADNA(1)
+                        .verzija(version)
+                        .radna(1)
                         .SIF_SEKRET(sifSekret)
                         .RAZDEO(sekretarijat.getRazdeo())
                         .JBBK(sekretarijat.getJED_BROJ_KORISNIKA())
-                        .JBBK_IND_KOR(jbbk)
+                        .jbbkIndKor(jbbks)
                         .SIF_RAC(1)
                         .DINARSKI(1)
                         .STATUS(0)
@@ -62,7 +65,7 @@ public class ZakljucniListZbService {
                         .POVUCENO(0)
                         .KONACNO(0)
                         .POSLAO_NAM(user.getSifraradnika())
-                        .DATUM_DOK(days)
+                        .DATUM_DOK(today)
                         .PROKNJIZENO(0)
                         .XLS(0)
                         .STORNO(0)
@@ -74,14 +77,43 @@ public class ZakljucniListZbService {
         return zbSaved;
     }
 
-//    public User getUserByEmail(String email) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        return userOptional.orElse(null);
-//    }
+    public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
+        var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
 
-    @Transactional
-    public Integer findVersion(Integer jbbks, Integer kvartal) {
-        Integer version = obrazacZbRepository.getLastVersionValue(jbbks, kvartal).orElse(0);
-        return version + 1;
+        if (!jbbkDb.equals(jbbksExcell)) {
+            throw new Exception("Niste uneli (odabrali) vaš JBKJS!");
+        }
     }
+    @Transactional
+    @Override
+    public Integer checkIfExistValidZListAndFindVersion(Integer kvartal, Integer jbbks ) throws Exception {
+        Optional<ZakljucniListZb> zb =
+                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
+        if (zb.isEmpty()) {
+            return 1;
+        } else {
+            if (zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0 ) {
+               throw new Exception(
+                       "Za tekući kvartal već postoji učitan važeći ZaključniList. " +
+                               "Ukoliko ipak želite da učitate ovu verziju, prethodni morate stornirati!");
+            }
+        }
+       return zb.get().getVerzija() + 1;
+    }
+
+    public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
+
+            List<String>  duplicates = dtos.stream()
+                .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
+                    .entrySet()
+                    .stream()
+                    .filter(e -> e.getValue() > 1)
+                    .map(e -> e.getKey())
+                    .collect(Collectors.toList());
+
+        if (!duplicates.isEmpty()) {
+            throw new Exception("Imate duplirana konta: " + duplicates );
+        }
+    }
+
 }

@@ -37,6 +37,7 @@ public class ObrazacIOMapper {
                 .DONACIJE(0.0)
                 .OSTALI(0.0)
                 .UPARENO(0)
+                .POTRAZUJE2(0.00)
                 .build();
     }
 }
