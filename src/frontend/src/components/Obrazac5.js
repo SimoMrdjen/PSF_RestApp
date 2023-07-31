@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { saveObrazac5 } from "../api/client-api";
+import {errorNotification, successNotification} from "./Notification";
 
 function Obrazac5({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
@@ -71,10 +72,23 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
       });
       // data.splice(442,1);
       console.log(data);
-      saveObrazac5(data, kvartal, access_token);
-      setMessage("Obrazac je uspesno ucitan!");
+      saveObrazac5(data, kvartal, access_token)
+          .then((res) => {
+            console.log(res);
+            successNotification("Obrazac je uspesno ucitan!");
+          })
+          .catch((error) => {
+            console.log("This is error message", error.message);
+            errorNotification(
+                //"Error",
+                error.message
+            );
+          });
+
+     // setMessage("Obrazac je uspesno ucitan!");
       setExcelData(JSON.stringify(data, null, 4));
     } else {
+     // errorNotification()
       setExcelData(null);
     }
   };

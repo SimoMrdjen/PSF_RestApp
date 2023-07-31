@@ -82,13 +82,11 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
 .catch((error) => {
   console.log("This is error message", error.message);
   errorNotification(
-    "Error",
-    error.message || "An unexpected error occurred."
+      error.message,
+     "Greska!"
   );
 });
-
-
-        } else {
+    } else {
           setExcelData(null);
         }
   };

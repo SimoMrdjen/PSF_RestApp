@@ -13,13 +13,11 @@ import {errorNotification} from "../components/Notification";
 //};
 
 const checkStatus = async (response) => {
-  if (response.ok) {
-    console.log(response);
-    return response.json(); // If you expect JSON as a successful response
-  }
-
-  const errorText = await response.text();
-  throw new Error(errorText || response.statusText);
+    if (response.ok) {
+        return response; // If you expect JSON as a successful response
+    }
+    const errorText = await response.text();
+    throw new Error(errorText );
 };
 
 export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
@@ -32,11 +30,6 @@ export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
     body: JSON.stringify(data),
   })
   .then(checkStatus);
-//  .catch((error) => {
-////    throw error;
-//errorNotification(error.message);
-//  });
-
 
 export const saveObrazac5 = async (data, kvartal, access_token) => {
   return fetch(`/api/obrazac_zb/${kvartal}`, {
@@ -59,39 +52,6 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
     body: JSON.stringify(data),
   }).then(checkStatus);
 
-//export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
-//  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
-//    headers: {
-//      "Content-Type": "application/json",
-//      Authorization: `Bearer ${access_token}`,
-//    },
-//    method: "POST",
-//    body: JSON.stringify(data),
-//  }).then(checkStatus);
-//export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
-//  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
-//    headers: {
-//      "Content-Type": "application/json",
-//      Authorization: `Bearer ${access_token}`,
-//    },
-//    method: "POST",
-//    body: JSON.stringify(data),
-//  })
-//    .then((response) => {
-//      if (response.ok) {
-//        return response.json();
-//      } else {
-//        return response.text().then((errorMessage) => {
-//          throw new Error(errorMessage);
-//        });
-//      }
-//    })
-//    .catch((error) => {
-//      errorNotification("Error", error.message);
-//      throw error;
-//    });
-
-
 export const login = (data) =>
   fetch(`/api/v1/auth/authenticate`, {
     headers: {
@@ -100,7 +60,6 @@ export const login = (data) =>
     method: "POST",
     body: JSON.stringify(data),
   }).then(checkStatus);
-
 
 export const getAllUsers = (access_token) =>
     fetch("api/v1/users",
