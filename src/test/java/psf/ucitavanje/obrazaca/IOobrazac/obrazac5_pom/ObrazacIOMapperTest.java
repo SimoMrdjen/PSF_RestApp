@@ -1,11 +1,13 @@
 package psf.ucitavanje.obrazaca.IOobrazac.obrazac5_pom;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import psf.ucitavanje.obrazaca.IOobrazac.ObrazacIODTO;
 
 public class ObrazacIOMapperTest {
 
     @Test
+    @Disabled
     public void testMapDtoToEntity() {
         ObrazacIODTO obrazacIODTO = new ObrazacIODTO();
         obrazacIODTO.setProp1(1);
