@@ -2,12 +2,37 @@ import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { saveObrazac5 } from "../api/client-api";
 import {errorNotification, successNotification} from "./Notification";
+import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Checkbox,
+  Col,
+  ColorPicker,
+  Form,
+  InputNumber,
+  Radio,
+  Rate,
+  Row,
+  Select,
+  Slider,
+  Space,
+  Switch,
+  Upload,
+} from 'antd';
+const normFile = (e) => {
+  console.log('Upload event:', e);
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
 
 function Obrazac5({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [message, setMessage] = useState("");
+
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -95,30 +120,69 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
 
   return (
     <div>
-      <form className="form-group" autoComplete="off" onSubmit={handleSubmit}>
-        <label>
-          <h5>Izaberi ObrazacIO</h5>
-        </label>
-        <br></br>
-        <input
-          type="file"
-          className="form-control"
-          onChange={handleFile}
-          required
-        ></input>
-        {excelFileError && (
-          <div className="text-danger" style={{ marginTop: 5 + "px" }}>
-            {excelFileError}
-          </div>
-        )}
-        <button
-          type="submit"
-          className="btn btn-primary"
-          style={{ marginTop: 15 + "px" }}
-        >
-          Učitaj Obrazac5
-        </button>
-      </form>
+      <div className="mb-3">
+        <label htmlFor="formFile" className="form-label">Izaberi fajl</label>
+        <input className="form-control" type="file" id="formFile" accept="image/*" lang="sr"/>
+      </div>
+
+      {/*<form className="form-group" autoComplete="off" onSubmit={handleSubmit}>*/}
+      {/*  <label>*/}
+      {/*    <h5>Izaberi ObrazacIO</h5>*/}
+      {/*  </label>*/}
+      {/*  <br></br>*/}
+      {/*  <input*/}
+      {/*    type="file"*/}
+      {/*    className="form-control"*/}
+      {/*    onChange={handleFile}*/}
+      {/*    required*/}
+      {/*  ></input>*/}
+      {/*  {excelFileError && (*/}
+      {/*    <div className="text-danger" style={{ marginTop: 5 + "px" }}>*/}
+      {/*      {excelFileError}*/}
+      {/*    </div>*/}
+      {/*  )}*/}
+      {/*  <button*/}
+      {/*    type="submit"*/}
+      {/*    className="btn btn-primary"*/}
+      {/*    style={{ marginTop: 15 + "px" }}*/}
+      {/*  >*/}
+      {/*    Učitaj Obrazac5*/}
+      {/*  </button>*/}
+      {/*</form>*/}
+
+      <Form>
+        {/*<Form.Item*/}
+        {/*    name="upload"*/}
+        {/*    label="Upload"*/}
+        {/*    valuePropName="fileList"*/}
+        {/*    getValueFromEvent={normFile}*/}
+        {/*    extra="longgggggggggggggggggggggggggggggggggg"*/}
+        {/*>*/}
+        {/*  <Upload name="logo" action="/upload.do" listType="picture">*/}
+        {/*    <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
+        {/*  </Upload>*/}
+        {/*</Form.Item>*/}
+
+
+        <Form.Item label="Dragger">
+          <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+            <Upload.Dragger name="files" action="/upload.do">
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">Klikni ili prevuci zeljeni fajl</p>
+              <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+            </Upload.Dragger>
+          </Form.Item>
+        </Form.Item>
+
+        <Space>
+          <Button type="primary" htmlType="submit">
+            Ucitaj obrazac
+          </Button>
+          <Button htmlType="reset">Ponisti</Button>
+        </Space>
+      </Form>
       <div>
         <br></br>
         <hr></hr>
