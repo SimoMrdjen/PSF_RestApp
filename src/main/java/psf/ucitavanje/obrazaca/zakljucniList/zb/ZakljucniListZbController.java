@@ -28,7 +28,7 @@ public class ZakljucniListZbController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         try {
-            ZakljucniListZb result = zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email);
+            String result = String.valueOf(zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email));
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {

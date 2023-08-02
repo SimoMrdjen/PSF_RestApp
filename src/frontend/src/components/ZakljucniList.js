@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveZakljucni } from "../api/client-api";
-import {successNotification, errorNotification} from "./Notification";
+import {successNotification, errorNotification, warningNotification} from "./Notification";
 
 function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
@@ -74,17 +74,23 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       // data.splice(116,1000);
       console.log("Data:", data);
     saveZakljucni(data, kvartal, jbbks, year, access_token)
-      .then((res) => {
-        console.log(res);
-        successNotification("Obrazac je uspesno ucitan!");
+      .then((response) => {
+        console.log(response);
+        return response.text(); // Get the text content from the response
+      })
+      .then((text) => {
+      // console.log(res);
+        if (text === '') {
+                successNotification("Obrazac je uspesno ucitan!");
+        }else{
+        console.log("responseText:",text);
+        warningNotification(text, text);
+        }
         // Handle successful response if needed
       })
 .catch((error) => {
+  errorNotification(error.message,"Greska!");
   console.log("This is error message", error.message);
-  errorNotification(
-      error.message,
-     "Greska!"
-  );
 });
     } else {
           setExcelData(null);

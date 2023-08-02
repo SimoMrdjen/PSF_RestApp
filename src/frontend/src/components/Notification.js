@@ -12,9 +12,20 @@ export const successNotification = (message, description) =>
 export const infoNotification = (message, description) =>
   openNotificationWithIcon("info", message, description);
 
-export const warningNotification  = (message, description) =>
-  openNotificationWithIcon("warning", message, description);
+//export const warningNotification  = (message, description) =>
+//  openNotificationWithIcon("warning", message, description);
 
+export const warningNotification = (responseText, message) => {
+  const key = `warning-${Date.now()}`;
+
+  notification.warning({
+    message,
+   // description: responseText, // Use the response text directly as the description
+    key,
+    duration: 0,
+    // You can add other options as needed
+  });
+};
   ///////
 
 export const errorNotification = (message, description) => {

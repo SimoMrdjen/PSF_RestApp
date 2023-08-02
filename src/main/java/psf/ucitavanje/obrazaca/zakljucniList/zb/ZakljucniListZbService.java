@@ -29,13 +29,14 @@ public class ZakljucniListZbService implements IZakListService {
     private final UserRepository userRepository;
     private final ObrazacZbRepository obrazacZbRepository;
     private final ZakljucniDetailsService zakljucniDetailsService;
+    private StringBuilder responseMessage =  new StringBuilder("");
 
     @Transactional
-    public ZakljucniListZb saveZakljucniList(List<ZakljucniListDto> dtos,
-                                             Integer kvartal,
-                                             Integer jbbks,
-                                             Integer year,
-                                             String email) throws Exception {
+    public StringBuilder saveZakljucniList(List<ZakljucniListDto> dtos,
+                                           Integer kvartal,
+                                           Integer jbbks,
+                                           Integer year,
+                                           String email) throws Exception {
 
         User user = userRepository.findByEmail(email).orElseThrow();
         Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
@@ -74,7 +75,7 @@ public class ZakljucniListZbService implements IZakListService {
         var zbSaved = zakljucniRepository.save(zb);
 
         zakljucniDetailsService.saveDetails(dtos, zbSaved);
-        return zbSaved;
+        return responseMessage;
     }
 
     public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
@@ -103,6 +104,7 @@ public class ZakljucniListZbService implements IZakListService {
 
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
+            var validError = false;
             List<String>  duplicates = dtos.stream()
                 .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
                     .entrySet()
@@ -111,8 +113,11 @@ public class ZakljucniListZbService implements IZakListService {
                     .map(e -> e.getKey())
                     .collect(Collectors.toList());
 
-        if (!duplicates.isEmpty()) {
+        if (!duplicates.isEmpty() && validError) {
             throw new Exception("Imate duplirana konta: " + duplicates );
+        }else if(!duplicates.isEmpty() && !validError) {
+            responseMessage.append( "Imate duplirana konta: " + duplicates) ;
+            //responseMessage.append("Imate duplirana konta: " + duplicates );
         }
     }
 
