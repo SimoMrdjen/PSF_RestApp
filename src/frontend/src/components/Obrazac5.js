@@ -71,7 +71,12 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
         return obj;
       });
       // data.splice(442,1);
+
       console.log(data);
+      try{
+          if (true) {
+            throw new Error("proba error.");
+          }
       saveObrazac5(data, kvartal, access_token)
           .then((res) => {
             console.log(res);
@@ -79,16 +84,13 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
           })
           .catch((error) => {
             console.log("This is error message", error.message);
-            errorNotification(
-                //"Error",
-                error.message
-            );
+            errorNotification(error.message);
           });
-
-     // setMessage("Obrazac je uspesno ucitan!");
-      setExcelData(JSON.stringify(data, null, 4));
+      } catch (error) {
+              errorNotification(error.message);
+}
+     setExcelData(JSON.stringify(data, null, 4));
     } else {
-     // errorNotification()
       setExcelData(null);
     }
   };

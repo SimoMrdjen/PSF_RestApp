@@ -1,8 +1,10 @@
 import { Button, Checkbox, Form, Input, Layout, Image } from "antd";
 import { login } from "../api/client-api";
 import logo from "../APV.png";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
+import {errorNotification, successNotification} from "./Notification";
+
 
 const { Content, Footer } = Layout;
 
@@ -22,9 +24,10 @@ const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => 
         onLogin(true);
       })
       .catch((err) => {
-        err.response.json().then((res) => {});
+        //err.response.json().then((res) => {});
         onLogin(false);
-        setMessage("Pogresno ste uneli korisnicko ime ili lozinku!");
+        errorNotification("Pogresno ste uneli korisnicko ime ili lozinku!");
+        //setMessage("Pogresno ste uneli korisnicko ime ili lozinku!");
       })
       .finally(); //form.resetFields());
 
@@ -36,6 +39,12 @@ const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+
+  const handleInputChange = () => {
+    setMessage(""); // Clear the message when the user starts entering letters
+  };
+
 
   return (
     <Layout>
