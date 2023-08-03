@@ -15,10 +15,11 @@ export const infoNotification = (message, description) =>
 //export const warningNotification  = (message, description) =>
 //  openNotificationWithIcon("warning", message, description);
 
-export const warningNotification = (responseText, message) => {
+export const warningNotification = (description, message) => {
   const key = `warning-${Date.now()}`;
 
   notification.warning({
+    description: <pre>{description}</pre>, // Use the pre tag to preserve new lines
     message,
    // description: responseText, // Use the response text directly as the description
     key,
@@ -46,7 +47,7 @@ export const errorNotification = (message, description) => {
 //
   notification.error({
     message,
-       //description: content,
+    description: <pre>{description}</pre>, // Use the pre tag to preserve new lines,
     key,
     duration: 0, // Set duration to 0 to make the notification sticky until manually closed
 //    btn: (

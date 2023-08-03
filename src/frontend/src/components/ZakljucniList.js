@@ -84,12 +84,12 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
                 successNotification("Obrazac je uspesno ucitan!");
         }else{
         console.log("responseText:",text);
-        warningNotification(text, text);
+        warningNotification( text,  "Obrazac je učitan ali postoje greške. \n " );
         }
         // Handle successful response if needed
       })
 .catch((error) => {
-  errorNotification(error.message,"Greska!");
+  errorNotification("Neuspešno učitavanje!", error.message);
   console.log("This is error message", error.message);
 });
     } else {
