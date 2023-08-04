@@ -96,7 +96,7 @@ public class ZakljucniListZbService implements IZakListService {
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if (zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0 ) {
+            if ((zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
                throw new Exception(
                        "Za tekući kvartal već postoji učitan važeći \nZaključniList. " +
                                "Ukoliko ipak želite da \nučitate ovu verziju, prethodni morate \nstornirati!");
@@ -124,4 +124,17 @@ public class ZakljucniListZbService implements IZakListService {
         }
     }
 
+    public String raiseStatus(Integer id) throws Exception {
+        var zb = zakljucniRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Zakljucni lis ne postoji!"));
+
+        if (zb.getSTATUS() >= 20 || zb.getSTORNO() == 1) {
+            throw new Exception("Zakljucni list ima status veci od 10 \n" +
+                    "ili je vec storniran");
+        }
+            var raisedStatus = zb.getSTATUS() + 10;
+            zb.setSTATUS(raisedStatus);
+            return "Zakljucnom listu je status \npodignu na nivo " +
+                    raisedStatus;
+    }
 }
