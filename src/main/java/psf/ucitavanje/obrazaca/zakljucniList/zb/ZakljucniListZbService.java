@@ -81,8 +81,13 @@ public class ZakljucniListZbService implements IZakListService {
         return responseMessage;
     }
 
+    private Integer getJbbksIBK(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        return pPartnerService.getJBBKS(user.getSifra_pp());
+    }
+
     public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
-        var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
+        var jbbkDb =getJbbksIBK(user.getEmail()); //find  in PPARTNER by sifraPP in ind_lozinka
 
         if (!jbbkDb.equals(jbbksExcell)) {
             throw new Exception("Niste uneli (odabrali) vaš JBKJS!");
@@ -103,6 +108,24 @@ public class ZakljucniListZbService implements IZakListService {
             }
         }
        return zb.get().getVerzija() + 1;
+    }
+
+    public ZaKListResponse getLastValidVersionZList(String email) throws Exception {
+        var kvartal = 5;// need to find kvartal
+        var jbbks = getJbbksIBK(email);
+        Optional<ZakljucniListZb> zb =
+                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
+        if(zb.isEmpty()|| zb.get().getSTORNO() == 1 ) {
+            throw new IllegalArgumentException("Ne postoji vazeci ucitan Zakljucni list");
+        }
+        if(zb.get().getSTATUS() >= 20) {
+            throw new Exception("Vazeca verzija ucitanog \n" +
+                    "Zakljucnog lista poslata je vasem DBK!");
+        }
+        LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 11);
+        return ZaKListResponse.builder()
+                .date(date)
+                .build();
     }
 
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
