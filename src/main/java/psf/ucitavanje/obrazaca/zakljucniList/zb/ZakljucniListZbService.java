@@ -122,9 +122,14 @@ public class ZakljucniListZbService implements IZakListService {
             throw new Exception("Vazeca verzija ucitanog \n" +
                     "Zakljucnog lista poslata je vasem DBK!");
         }
-        LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 11);
+        LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 25569);
         return ZaKListResponse.builder()
                 .date(date)
+                .kvartal(zb.get().getKojiKvartal())
+                .year(zb.get().getGODINA())
+                .version(zb.get().getVerzija())
+                .status(zb.get().getSTATUS())
+                .jbbk(zb.get().getJBBK())
                 .build();
     }
 
@@ -147,7 +152,10 @@ public class ZakljucniListZbService implements IZakListService {
         }
     }
 
-    public String raiseStatus(Integer id) throws Exception {
+    @Transactional
+    public String raiseStatus(Integer id, String email) throws Exception {
+        User user = userRepository.findByEmail(email).orElseThrow();
+
         var zb = zakljucniRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Zakljucni lis ne postoji!"));
 
@@ -157,7 +165,26 @@ public class ZakljucniListZbService implements IZakListService {
         }
             var raisedStatus = zb.getSTATUS() + 10;
             zb.setSTATUS(raisedStatus);
+            zb.setPODIGAO_STATUS(user.getSifraradnika());
+            zakljucniRepository.save(zb);
             return "Zakljucnom listu je status \npodignu na nivo " +
                     raisedStatus;
+    }
+
+    @Transactional
+    public String stornoZakList(Integer id, String email) throws Exception {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        var zb = zakljucniRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Zakljucni list ne postoji!"));
+
+        if (zb.getSTATUS() >= 20 || zb.getSTORNO() == 1) {
+            throw new Exception("Zakljucni list ima status veci od 10 \n" +
+                    "ili je vec storniran");
+        }
+        zb.setSTORNO(1);
+        zb.setSTOSIFRAD(user.getSifraradnika());
+        zakljucniRepository.save(zb);
+        return "Zakljucni list je storniran!";
+
     }
 }

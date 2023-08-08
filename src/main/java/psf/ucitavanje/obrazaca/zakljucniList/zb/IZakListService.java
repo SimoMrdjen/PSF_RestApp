@@ -6,7 +6,7 @@ import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import java.util.List;
 
 public interface IZakListService {
-    ZaKListResponse getLastValidVersionZList(Integer jbbks);
+    //ZaKListResponse getLastValidVersionZList(Integer jbbks);
 
     //ZaKListResponse getLastValidVersionZList(String email) throws Exception;
 
