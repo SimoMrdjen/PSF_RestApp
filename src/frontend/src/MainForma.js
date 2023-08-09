@@ -8,6 +8,7 @@ import Obrazac5 from "./components/Obrazac5";
 import DownloadExcelButton from "./components/DownloadObrazaca";
 import HeaderSection from "./components/HeaderSection";
 import MainContentSection from "./components/MainContentSection";
+import { getZakList } from "./api/client-api";
 
 const { Header, Content, Footer } = Layout;
 
@@ -29,52 +30,86 @@ const menuItems = [
 function MainForma({ access_token, role }) {
   const [kvartal, setKvartal] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemStatus, setSelectedItemStatus] = useState(null);
+  const [selectedItemCancel, setSelectedItemCancel] = useState(null);
 
   const handleMenuClick = (item) => {
+    setSelectedItemStatus(null);
+    setSelectedItemCancel(null);
     setSelectedItem(item.key);
   };
+
+  const handleMenuClickStatus = (item) => {
+    setSelectedItem(null);
+    setSelectedItemCancel(null);
+    setSelectedItemStatus(item.key);
+    getZakList(access_token);
+  };
+
+  const handleMenuClickCancel = (item) => {
+    setSelectedItemStatus(null);
+    setSelectedItem(null);
+    setSelectedItemCancel(item.key);
+  };
+
   useEffect(() => {
-    console.log("This is token from MainForma", access_token);
-    console.log("This is Role from MainForma", role);
-  }, []);
+    //    console.log("This is token from MainForma", access_token);
+    //    console.log("This is Role from MainForma", role);
+    console.log(
+      "This is izabrani meni from MainForma . Ucitavanje: " +
+        selectedItem +
+        "\nStatus: " +
+        selectedItemStatus +
+        "\nCancel: " +
+        selectedItemCancel
+    );
+  }, [selectedItem, selectedItemStatus, selectedItemCancel]);
 
   return (
-      <>
-        <Layout>
-          <HeaderSection
-              handleMenuClick={handleMenuClick}
-              menuItems={menuItems}
-              logo={logo}
+    <>
+      <Layout>
+        <HeaderSection
+          handleMenuClick={handleMenuClick}
+          handleMenuClickStatus={handleMenuClickStatus}
+          handleMenuClickCancel={handleMenuClickCancel}
+          menuItems={menuItems}
+          logo={logo}
+        />
+
+        <Content className="site-layout" style={{ padding: "0 50px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>PSF</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              {selectedItem ? `Ucitavanje` : ""}
+              {selectedItemCancel ? `Storniranje` : ""}
+              {selectedItemStatus ? `Podizanje statusa` : ""}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              {selectedItem}
+              {selectedItemStatus}
+              {selectedItemCancel}
+            </Breadcrumb.Item>
+          </Breadcrumb>
+
+          <MainContentSection
+            kvartal={kvartal}
+            setKvartal={setKvartal}
+            selectedItem={selectedItem}
+            selectedItemCancel={selectedItemCancel}
+            selectedItemStatus={selectedItemStatus}
+            access_token={access_token}
           />
+        </Content>
 
-          <Content className="site-layout" style={{ padding: "0 50px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>PSF</Breadcrumb.Item>
-              <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
-              <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
-            </Breadcrumb>
-
-            <MainContentSection
-                kvartal={kvartal}
-                setKvartal={setKvartal}
-                selectedItem={selectedItem}
-                access_token={access_token}
-            />
-          </Content>
-
-          <Footer style={{ textAlign: "center" }}>
-            <Image width={400} src={logo} />
-          </Footer>
-        </Layout>
-      </>
+        <Footer style={{ textAlign: "center" }}>
+          <Image width={400} src={logo} />
+        </Footer>
+      </Layout>
+    </>
   );
 }
 
 export default MainForma;
-
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import logo from "./APV.png";

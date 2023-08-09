@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, Image, Layout } from "antd";
 import DownloadExcelButton from "./DownloadObrazaca";
 const { Header, Content, Footer, Sider } = Layout;
-function HeaderSection({ handleMenuClick, menuItems, logo }) {
+function HeaderSection({ handleMenuClick, handleMenuClickCancel, handleMenuClickStatus, menuItems, logo }) {
     return (
         <Header
             style={{
@@ -35,7 +35,7 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                 theme="dark" // Use dark theme to match the Windows style
                 mode="horizontal"
                 defaultSelectedKeys={["1"]}
-                onClick={handleMenuClick}
+                onClick={handleMenuClickStatus}
                 style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
             >
                 <Menu.SubMenu title="Podizanje statusa" style={{ background: "#6f6f76" }}>
@@ -48,7 +48,7 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                             theme="dark" // Use dark theme to match the Windows style
                             mode="horizontal"
                             defaultSelectedKeys={["1"]}
-                            onClick={handleMenuClick}
+                            onClick={handleMenuClickCancel}
                             style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
                         >
                             <Menu.SubMenu title="Storniranje obrazaca" style={{ background: "#6f6f76" }}>
