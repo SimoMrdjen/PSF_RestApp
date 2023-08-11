@@ -17,5 +17,6 @@ public interface ZakljucniListZbRepository extends JpaRepository<ZakljucniListZb
 //            @Param("kvartal") Integer kvartal,
 //            @Param("jbbkIndKor") Integer jbbkIndKor
 //            );
+Optional<ZakljucniListZb> findFirstByJbbkIndKorOrderByGenMysqlDesc(Integer jbbks);
 
 }

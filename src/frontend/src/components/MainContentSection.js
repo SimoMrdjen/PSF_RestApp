@@ -12,6 +12,8 @@ function MainContentSection({
   selectedItemCancel,
   selectedItemStatus,
   access_token,
+  setSelectedItemCancel,
+  setSelectedItemStatus,
 }) {
   return (
     <>
@@ -71,6 +73,8 @@ function MainContentSection({
           selectedItem={selectedItem}
           selectedItemCancel={selectedItemCancel}
           selectedItemStatus={selectedItemStatus}
+          setSelectedItemCancel={setSelectedItemCancel}
+          setSelectedItemStatus={setSelectedItemStatus}
           access_token={access_token}
         />
       )}

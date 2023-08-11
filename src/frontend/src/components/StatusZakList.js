@@ -1,6 +1,6 @@
 import logo from "../logo.svg";
 import React, { useState, useEffect } from "react";
-import { raiseStatusZakList, getZakList } from "../api/client-api";
+import { raiseStatusZakList, getZakList,stornoZakList } from "../api/client-api";
 import { successNotification, errorNotification } from "./Notification";
 import {
   Table,
@@ -16,6 +16,8 @@ import {
 function StatusZakList({
   selectedItemCancel,
   selectedItemStatus,
+  setSelectedItemStatus,
+  setSelectedItemCancel,
   access_token,
 }) {
   const [zbs, setZbs] = useState([]);
@@ -25,56 +27,119 @@ function StatusZakList({
     //fetchUsers =>
     [
       {
+        title: "ID",
+        dataIndex: "id",
+        key: "id",
+        width: 20,
+      },
+      {
         title: "Datum",
         dataIndex: "date",
         key: "date",
-        width: 100,
+        width: 60,
       },
       {
         title: "Godina.",
         dataIndex: "year",
         key: "year",
-        width: 100,
+        width: 30,
       },
+            {
+              title: "Kvartal",
+              dataIndex: "kvartal",
+              key: "kvartal",
+              width: 10,
+            },
       {
         title: "Verzija",
         dataIndex: "version",
         key: "version",
-        width: 100,
+        width: 20,
       },
       {
         title: "Jbbk",
         dataIndex: "jbbk",
         key: "jbbk",
-        width: 150,
+        width: 50,
       },
       {
         title: "Status",
         dataIndex: "status",
         key: "status",
-        width: 140,
+        width: 20,
       },
       {
-        title: "Actions ",
+        title: "Akcija ",
         dataIndex: "actions",
         render: (text, zb) => (
           <Radio.Group>
-            <Popconfirm
+            { selectedItemStatus && <Popconfirm
               placement="topRight"
               title={`Da lis ste sigurni da zelite da poidgnete status ovom obrascu? `}
               onConfirm={() => {
-                raiseStatusZakList(60, access_token);
-                //setZb(zb);
+                raiseStatusZakList(zb.id, access_token)
+                  .then((response) => {
+                    console.log(response);
+                    return response.text(); // Get the text content from the response
+                  })
+                  .then(
+                    (text) => {
+                      successNotification(
+                        "Uspesno podignut status obrasca!",
+                        text
+                      );
+                      setSelectedItemStatus(null);
+                    }
+                  )
+                  .finally();
               }}
-              //add method to fetch user
               okText="Yes"
               cancelText="No"
             >
-              <Radio.Button value="small">Edit</Radio.Button>
+              <Radio.Button
+                            type="primary"
+                            value="small"
+                            danger
+                            style={{ background: '#99ff99', borderColor: '#99ff99', color: 'grey' }}
+              >
+              Podigni status
+              </Radio.Button>
             </Popconfirm>
+            }
+            { selectedItemCancel && <Popconfirm
+                          placement="topRight"
+                          title={`Da lis ste sigurni da zelite da stornirate ovaj obrazac? `}
+                          onConfirm={() => {
+                            stornoZakList(zb.id, access_token)
+                              .then((response) => {
+                                console.log(response);
+                                return response.text(); // Get the text content from the response
+                              })
+                              .then(
+                                (text) => {
+                                  successNotification(
+                                    "Obrazac je uspešno storniran!!",
+                                    text
+                                  );
+                                  setSelectedItemCancel(null);
+                                }
+                              )
+                              .finally();
+                          }}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                        <Radio.Button
+                            type="primary"
+                            value="small"
+                            danger
+                            style={{ background: 'transparent', borderColor: 'red', color: 'red' }}
+                        >
+                          Storniraj obrazac</Radio.Button>
+                        </Popconfirm>}
           </Radio.Group>
         ),
-        width: 100,
+        width: 120,
       },
     ];
 
@@ -85,20 +150,26 @@ function StatusZakList({
         console.log("from fetc users", access_token);
         setZbs(data);
       })
-      .catch((err) => {
-        err.response.json().then((res) => {
-          errorNotification(
-            "There was an issue",
-            `${res.message} [${res.status}] [${res.error}]`
-          );
-        });
-      })
-      .finally();
+    .catch((error) => {
+        setSelectedItemStatus(null);
+    });
+
+
+  useEffect(() => {
+    console.log("component is mounted");
+    fetchZakList(access_token);
+    console.log("Token from AdminForm: ", access_token);
+  }, []);
 
   return (
-    <div>
-      <h2>Zaklucni list</h2>
-    </div>
+    <Table
+      dataSource={zbs}
+      columns={columnsZbs} //fetchUsers)}
+      bordered
+      pagination={ false }
+      //scroll={{ y: 600 }}
+     rowKey={(zb) => zb.id}
+    />
   );
 }
 

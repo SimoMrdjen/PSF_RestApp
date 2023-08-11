@@ -15,6 +15,8 @@ import java.util.Date;
 @Data
 public class ZaKListResponse {
 
+    @JsonProperty("id")
+    Integer id;
     @JsonProperty("date")
     LocalDate date;
     @JsonProperty("kvartal")

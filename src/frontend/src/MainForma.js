@@ -9,6 +9,7 @@ import DownloadExcelButton from "./components/DownloadObrazaca";
 import HeaderSection from "./components/HeaderSection";
 import MainContentSection from "./components/MainContentSection";
 import { getZakList } from "./api/client-api";
+import {successNotification, errorNotification, warningNotification} from "./components/Notification";
 
 const { Header, Content, Footer } = Layout;
 
@@ -43,14 +44,24 @@ function MainForma({ access_token, role }) {
     setSelectedItem(null);
     setSelectedItemCancel(null);
     setSelectedItemStatus(item.key);
-    getZakList(access_token);
+    getZakList(access_token)
+    .catch((error) => {
+      errorNotification("Podizanje statusa nije moguće!", error.message);
+//      console.log("This is error message", error.message);
+    })
+    ;
   };
 
-  const handleMenuClickCancel = (item) => {
+const handleMenuClickCancel = (item) => {
     setSelectedItemStatus(null);
     setSelectedItem(null);
     setSelectedItemCancel(item.key);
-  };
+    getZakList(access_token)
+        .catch((error) => {
+            errorNotification("Storniranje nije moguće!", error.message);
+        });
+};
+
 
   useEffect(() => {
     //    console.log("This is token from MainForma", access_token);
@@ -98,6 +109,8 @@ function MainForma({ access_token, role }) {
             selectedItemCancel={selectedItemCancel}
             selectedItemStatus={selectedItemStatus}
             access_token={access_token}
+            setSelectedItemCancel={setSelectedItemCancel}
+            setSelectedItemStatus={setSelectedItemStatus}
           />
         </Content>
 

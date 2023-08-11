@@ -57,7 +57,7 @@ public class ZakljucniListZbController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         try {
-            ZaKListResponse result = zakljucniService.getLastValidVersionZList(email);
+            List<ZaKListResponse> result =  List.of(zakljucniService.getLastValidVersionZList(email));
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {

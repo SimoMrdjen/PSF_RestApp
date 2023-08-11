@@ -11,6 +11,8 @@ function StornoAndStatusSection({
   selectedItemCancel,
   selectedItemStatus,
   access_token,
+  setSelectedItemCancel,
+  setSelectedItemStatus,
 }) {
   return (
     <div style={{ padding: 24, minHeight: 380, background: "white" }}>
@@ -32,6 +34,9 @@ function StornoAndStatusSection({
                 access_token={access_token}
                 selectedItemCancel={selectedItemCancel}
                 selectedItemStatus={selectedItemStatus}
+                setSelectedItemStatus={setSelectedItemStatus}
+                setSelectedItemCancel={setSelectedItemCancel}
+
               />
             )}
 
