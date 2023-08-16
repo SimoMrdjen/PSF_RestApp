@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import BOOKPdf from '../BOOK.pdf';
+import ZakljucniListxlsx from '../ZakljucniList.xlsx';
 
 function DownloadExcelButton() {
 
         return (
             <div>
                 <a
-                    href={BOOKPdf}
-                    download="BOOK-PDF-document"
+                    href={ZakljucniListxlsx}
+                    download="ZakljucniList-xlsx-document"
                     target="_blank"
                     rel="noreferrer"
                 >

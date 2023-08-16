@@ -74,7 +74,7 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
 
       console.log(data);
       try{
-          if (true) {
+          if (false) {
             throw new Error("proba error.");
           }
       saveObrazac5(data, kvartal, access_token)

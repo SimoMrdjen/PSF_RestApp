@@ -58,6 +58,7 @@ public class UserService {
         userExisting.setEmail(userDto.getEmail());
         userExisting.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userExisting.setZa_sif_sekret(userDto.getZa_sif_sekret());
+        userExisting.setRole(userDto.getRole());
         return mapper.mappUserToDto(userRepository.save(userExisting));
     }
 }

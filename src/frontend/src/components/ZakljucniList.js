@@ -67,12 +67,16 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         return obj;
       });
 
-      const year = worksheet["E5"]?.v || "";
-      const jbbks = worksheet["B1"]?.v || "";
-      console.log("JBBK:", jbbks);
+      const year = worksheet["E4"]?.v || "";
+      const jbbks = worksheet["B3"]?.v || "";
+      const excelKvartal = worksheet["B4"]?.v || "";
+      console.log("godina:", year);
 
-      // data.splice(116,1000);
-      console.log("Data:", data);
+        if(excelKvartal != kvartal) {
+                 errorNotification("Izabrani kvartal se razlikuje od kvartala sa excel fajla!");
+                 setExcelData(null);
+                 return;
+        }
     saveZakljucni(data, kvartal, jbbks, year, access_token)
       .then((response) => {
         console.log(response);
