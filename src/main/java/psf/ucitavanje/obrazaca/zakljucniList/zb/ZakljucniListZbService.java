@@ -101,7 +101,7 @@ public class ZakljucniListZbService implements IZakListService {
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if ((zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
+            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
                throw new Exception(
                        "Za tekući kvartal već postoji učitan važeći \nZaključniList poslat Vašem DBK-u! " );
             }
@@ -137,6 +137,8 @@ public class ZakljucniListZbService implements IZakListService {
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
             var validError = obrKontrService.isKontrolaMandatory(9);
+            var isKontrolaActive = obrKontrService.isKontrolaActive(9);
+
             List<String>  duplicates = dtos.stream()
                 .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
                     .entrySet()
@@ -145,12 +147,15 @@ public class ZakljucniListZbService implements IZakListService {
                     .map(e -> e.getKey())
                     .collect(Collectors.toList());
 
-        if (!duplicates.isEmpty() && validError) {
-            throw new Exception("Imate duplirana konta: " + duplicates );
-        }else if(!duplicates.isEmpty() && !validError) {
-            responseMessage.append( "Imate duplirana konta: " + duplicates) ;
+            if (isKontrolaActive) {
+                if (!duplicates.isEmpty() && validError) {
+                    throw new Exception("Imate duplirana konta: " + duplicates);
+                }
+                else if (!duplicates.isEmpty() && !validError) {
+                    responseMessage.append("Imate duplirana konta: " + duplicates);
+                }
+            }
         }
-    }
 
     @Transactional
     public String raiseStatus(Integer id, String email) throws Exception {

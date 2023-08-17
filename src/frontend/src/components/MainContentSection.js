@@ -33,7 +33,9 @@ function MainContentSection({
                 <hr />
               </div>
 
-              {kvartal !== 0 && (
+              { true
+              //kvartal !== 0
+              && (
                 <>
                   {/* obrazacIO */}
                   {selectedItem === "ObrazacIO" && (
@@ -47,6 +49,7 @@ function MainContentSection({
                   {/* zakljucniList */}
                   {selectedItem === "ZakljucniList" && (
                     <ZakljucniList
+                    //disabled={true}
                       kvartal={kvartal}
                       setKvartal={setKvartal}
                       access_token={access_token}

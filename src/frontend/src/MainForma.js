@@ -9,7 +9,11 @@ import DownloadExcelButton from "./components/DownloadObrazaca";
 import HeaderSection from "./components/HeaderSection";
 import MainContentSection from "./components/MainContentSection";
 import { getZakList } from "./api/client-api";
-import {successNotification, errorNotification, warningNotification} from "./components/Notification";
+import {
+  successNotification,
+  errorNotification,
+  warningNotification,
+} from "./components/Notification";
 
 const { Header, Content, Footer } = Layout;
 
@@ -44,35 +48,49 @@ function MainForma({ access_token, role }) {
     setSelectedItem(null);
     setSelectedItemCancel(null);
     setSelectedItemStatus(item.key);
-    getZakList(access_token)
-    .catch((error) => {
+    getZakList(access_token).catch((error) => {
       errorNotification("Podizanje statusa nije moguće!", error.message);
-//      console.log("This is error message", error.message);
-    })
-    ;
+    });
   };
 
-const handleMenuClickCancel = (item) => {
+  const handleMenuClickCancel = (item) => {
     setSelectedItemStatus(null);
     setSelectedItem(null);
     setSelectedItemCancel(item.key);
-    getZakList(access_token)
-        .catch((error) => {
-            errorNotification("Storniranje nije moguće!", error.message);
-        });
-};
+    getZakList(access_token).catch((error) => {
+      errorNotification("Storniranje nije moguće!", error.message);
+    });
+  };
 
+    const handleDownload = (item) => {
+      console.log("Download work ", item.key);
+
+  // Create a temporary anchor element
+  const anchor = document.createElement("a");
+
+  // Set the href attribute to the download link
+  // Replace 'your_download_link' with the actual download link for the specific item
+  anchor.href = "https://user-images.githubusercontent.com/72573914/185918303-3010c9ac-7b12-4015-a016-f1231d777336.png";
+
+  // Set the 'download' attribute to specify the suggested file name
+  // Replace 'suggested_filename' with the desired file name
+  anchor.download = 'ZakljucniList.xlsx';
+
+  // Trigger a click event on the anchor element to start the download
+  anchor.click();
+
+  // Clean up: remove the temporary anchor element
+  anchor.remove();
+    };
 
   useEffect(() => {
-    //    console.log("This is token from MainForma", access_token);
-    //    console.log("This is Role from MainForma", role);
     console.log(
       "This is izabrani meni from MainForma . Ucitavanje: " +
         selectedItem +
         "\nStatus: " +
         selectedItemStatus +
         "\nCancel: " +
-        selectedItemCancel
+        selectedItemCancel,
     );
   }, [selectedItem, selectedItemStatus, selectedItemCancel]);
 
@@ -84,6 +102,7 @@ const handleMenuClickCancel = (item) => {
           handleMenuClickStatus={handleMenuClickStatus}
           handleMenuClickCancel={handleMenuClickCancel}
           menuItems={menuItems}
+          handleDownload={handleDownload}
           logo={logo}
         />
 

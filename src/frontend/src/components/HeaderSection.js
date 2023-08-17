@@ -2,7 +2,8 @@ import React from "react";
 import { Menu, Image, Layout } from "antd";
 import DownloadExcelButton from "./DownloadObrazaca";
 const { Header, Content, Footer, Sider } = Layout;
-function HeaderSection({ handleMenuClick, handleMenuClickCancel, handleMenuClickStatus, menuItems, logo }) {
+function HeaderSection({ handleMenuClick, handleMenuClickCancel,
+                    handleMenuClickStatus, menuItems, logo, handleDownload }) {
     return (
         <Header
             style={{
@@ -52,6 +53,20 @@ function HeaderSection({ handleMenuClick, handleMenuClickCancel, handleMenuClick
                             style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
                         >
                             <Menu.SubMenu title="Storniranje obrazaca" style={{ background: "#6f6f76" }}>
+                                {menuItems.map((item) => (
+                                    <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                                ))}
+                            </Menu.SubMenu>
+                        </Menu>
+
+                        <Menu
+                            theme="dark" // Use dark theme to match the Windows style
+                            mode="horizontal"
+                            defaultSelectedKeys={["1"]}
+                            onClick={handleDownload}
+                            style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                        >
+                            <Menu.SubMenu title="Preuzimanje obrazaca" style={{ background: "#6f6f76" }}>
                                 {menuItems.map((item) => (
                                     <Menu.Item key={item.key}>{item.label}</Menu.Item>
                                 ))}

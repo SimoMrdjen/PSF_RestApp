@@ -12,6 +12,13 @@ public class ObrKontrService {
     private final ObrKontrRepository repository;
 
     public boolean isKontrolaMandatory(Integer id) {
+        if (repository.findById(id).get().getSTROGA_PROVERA() == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isKontrolaActive(Integer id) {
         if (repository.findById(id).get().getAKTIVNO() == 0) {
             return false;
         }
