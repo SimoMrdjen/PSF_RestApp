@@ -31,6 +31,32 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                     ))}
                 </Menu.SubMenu>
             </Menu>
+            <Menu
+                theme="dark" // Use dark theme to match the Windows style
+                mode="horizontal"
+                defaultSelectedKeys={["1"]}
+                onClick={handleMenuClick}
+                style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+            >
+                <Menu.SubMenu title="Podizanje statusa" style={{ background: "#6f6f76" }}>
+                    {menuItems.map((item) => (
+                        <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                    ))}
+                </Menu.SubMenu>
+            </Menu>
+                        <Menu
+                            theme="dark" // Use dark theme to match the Windows style
+                            mode="horizontal"
+                            defaultSelectedKeys={["1"]}
+                            onClick={handleMenuClick}
+                            style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                        >
+                            <Menu.SubMenu title="Storniranje obrazaca" style={{ background: "#6f6f76" }}>
+                                {menuItems.map((item) => (
+                                    <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                                ))}
+                            </Menu.SubMenu>
+                        </Menu>
 
             <div align="left">
                 <DownloadExcelButton />

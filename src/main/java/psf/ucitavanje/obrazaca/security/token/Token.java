@@ -36,7 +36,7 @@ public class Token {
 
     public boolean expired;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sifraradnika")
     public User user;
 }

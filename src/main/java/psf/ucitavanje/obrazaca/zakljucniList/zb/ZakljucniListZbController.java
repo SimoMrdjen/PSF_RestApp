@@ -41,8 +41,10 @@ public class ZakljucniListZbController {
 
     @PutMapping(value = "/status/{id}")
     public ResponseEntity<?> raiseStatus(@PathVariable(name = "id") Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
         try {
-            String result = String.valueOf(zakljucniService.raiseStatus(id));
+            String result = String.valueOf(zakljucniService.raiseStatus(id, email));
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {
@@ -52,8 +54,24 @@ public class ZakljucniListZbController {
     }
     @GetMapping
     public ResponseEntity<?> getZakList() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
         try {
-            ZaKListResponse zb = String.valueOf(zakljucniService.raiseStatus(id));
+            ZaKListResponse result = zakljucniService.getLastValidVersionZList(email);
+            return ResponseEntity.ok(result);
+        }
+        catch (Exception e) {
+            // Handle the exception and return an error response with status code 400
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/storno/{id}")
+    public ResponseEntity<?> stornoZakList(@PathVariable(name = "id") Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        try {
+            String result = String.valueOf(zakljucniService.stornoZakList(id, email));
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {

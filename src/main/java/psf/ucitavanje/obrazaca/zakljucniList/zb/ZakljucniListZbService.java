@@ -81,8 +81,13 @@ public class ZakljucniListZbService implements IZakListService {
         return responseMessage;
     }
 
+    private Integer getJbbksIBK(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        return pPartnerService.getJBBKS(user.getSifra_pp());
+    }
+
     public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
-        var jbbkDb = pPartnerService.getJBBKS(user.getSifra_pp()); //find  in PPARTNER by sifraPP in ind_lozinka
+        var jbbkDb =getJbbksIBK(user.getEmail()); //find  in PPARTNER by sifraPP in ind_lozinka
 
         if (!jbbkDb.equals(jbbksExcell)) {
             throw new Exception("Niste uneli (odabrali) vaš JBKJS!");
@@ -105,6 +110,29 @@ public class ZakljucniListZbService implements IZakListService {
        return zb.get().getVerzija() + 1;
     }
 
+    public ZaKListResponse getLastValidVersionZList(String email) throws Exception {
+        var kvartal = 5;// need to find kvartal
+        var jbbks = getJbbksIBK(email);
+        Optional<ZakljucniListZb> zb =
+                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
+        if(zb.isEmpty()|| zb.get().getSTORNO() == 1 ) {
+            throw new IllegalArgumentException("Ne postoji vazeci ucitan Zakljucni list");
+        }
+        if(zb.get().getSTATUS() >= 20) {
+            throw new Exception("Vazeca verzija ucitanog \n" +
+                    "Zakljucnog lista poslata je vasem DBK!");
+        }
+        LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 25569);
+        return ZaKListResponse.builder()
+                .date(date)
+                .kvartal(zb.get().getKojiKvartal())
+                .year(zb.get().getGODINA())
+                .version(zb.get().getVerzija())
+                .status(zb.get().getSTATUS())
+                .jbbk(zb.get().getJBBK())
+                .build();
+    }
+
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
             var validError = obrKontrService.isKontrolaMandatory(9);
@@ -124,7 +152,10 @@ public class ZakljucniListZbService implements IZakListService {
         }
     }
 
-    public String raiseStatus(Integer id) throws Exception {
+    @Transactional
+    public String raiseStatus(Integer id, String email) throws Exception {
+        User user = userRepository.findByEmail(email).orElseThrow();
+
         var zb = zakljucniRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Zakljucni lis ne postoji!"));
 
@@ -134,7 +165,26 @@ public class ZakljucniListZbService implements IZakListService {
         }
             var raisedStatus = zb.getSTATUS() + 10;
             zb.setSTATUS(raisedStatus);
+            zb.setPODIGAO_STATUS(user.getSifraradnika());
+            zakljucniRepository.save(zb);
             return "Zakljucnom listu je status \npodignu na nivo " +
                     raisedStatus;
+    }
+
+    @Transactional
+    public String stornoZakList(Integer id, String email) throws Exception {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        var zb = zakljucniRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Zakljucni list ne postoji!"));
+
+        if (zb.getSTATUS() >= 20 || zb.getSTORNO() == 1) {
+            throw new Exception("Zakljucni list ima status veci od 10 \n" +
+                    "ili je vec storniran");
+        }
+        zb.setSTORNO(1);
+        zb.setSTOSIFRAD(user.getSifraradnika());
+        zakljucniRepository.save(zb);
+        return "Zakljucni list je storniran!";
+
     }
 }

@@ -1,4 +1,30 @@
 package psf.ucitavanje.obrazaca.zakljucniList.zb;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.Date;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ZaKListResponse {
+
+    @JsonProperty("date")
+    LocalDate date;
+    @JsonProperty("kvartal")
+    Integer kvartal;
+    @JsonProperty("year")
+    Integer year;
+    @JsonProperty("version")
+    Integer version;
+    @JsonProperty("jbbk")
+    Integer jbbk;
+    @JsonProperty("status")
+    Integer status;
 }
