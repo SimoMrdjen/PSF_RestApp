@@ -89,7 +89,8 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         setExcelData(null);
         return;
       }
-      saveZakljucni(data, kvartal, jbbks, year, access_token)
+      let token = localStorage.getItem("token");
+      saveZakljucni(data, kvartal, jbbks, year, token)
         .then((response) => {
           console.log(response);
           return response.text(); // Get the text content from the response
@@ -115,7 +116,10 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       setExcelData(null);
     }
     setKvartal(0);
-//    setSelectedFile(null);
+    setExcelFile(null);
+    setExcelFileError(null);
+    setExcelData(null);
+    setActiveButton(false);
   };
   //
   //    const onFinishFailed = (errorInfo) => {
@@ -149,7 +153,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
           type="submit"
           className="btn btn-primary"
           style={{ marginTop: 15 + "px" }}
-          disabled={!activeButton}
+          disabled={!activeButton || kvartal === 0}
           style={{ backgroundColor: "#98b4d4" }}
         >
           Učitaj Zakljucni List

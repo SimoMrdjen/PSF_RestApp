@@ -77,7 +77,8 @@ function StatusZakList({
               placement="topRight"
               title={`Da lis ste sigurni da zelite da poidgnete status ovom obrascu? `}
               onConfirm={() => {
-                raiseStatusZakList(zb.id, access_token)
+              let token = localStorage.getItem("token");
+                raiseStatusZakList(zb.id, token)
                   .then((response) => {
                     console.log(response);
                     return response.text(); // Get the text content from the response
@@ -110,7 +111,8 @@ function StatusZakList({
                           placement="topRight"
                           title={`Da lis ste sigurni da zelite da stornirate ovaj obrazac? `}
                           onConfirm={() => {
-                            stornoZakList(zb.id, access_token)
+                          let token = localStorage.getItem("token");
+                            stornoZakList(zb.id, token)
                               .then((response) => {
                                 console.log(response);
                                 return response.text(); // Get the text content from the response
@@ -157,7 +159,8 @@ function StatusZakList({
 
   useEffect(() => {
     console.log("component is mounted");
-    fetchZakList(access_token);
+    let token = localStorage.getItem("token");
+    fetchZakList(token);
     console.log("Token from AdminForm: ", access_token);
   }, []);
 

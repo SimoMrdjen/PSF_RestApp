@@ -32,7 +32,7 @@ const menuItems = [
   },
 ];
 
-function MainForma({ access_token, role }) {
+function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
   const [kvartal, setKvartal] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemStatus, setSelectedItemStatus] = useState(null);
@@ -48,40 +48,50 @@ function MainForma({ access_token, role }) {
     setSelectedItem(null);
     setSelectedItemCancel(null);
     setSelectedItemStatus(item.key);
-    getZakList(access_token).catch((error) => {
+    let token = localStorage.getItem("token");
+    getZakList(token).catch((error) => {
       errorNotification("Podizanje statusa nije moguće!", error.message);
     });
   };
 
   const handleMenuClickCancel = (item) => {
+    let token = localStorage.getItem("token");
     setSelectedItemStatus(null);
     setSelectedItem(null);
     setSelectedItemCancel(item.key);
-    getZakList(access_token).catch((error) => {
+    getZakList(token).catch((error) => {
       errorNotification("Storniranje nije moguće!", error.message);
     });
   };
 
-    const handleDownload = (item) => {
-      console.log("Download work ", item.key);
 
-  // Create a temporary anchor element
-  const anchor = document.createElement("a");
+   const handleDownload = async (item) => {
+     try {
+       const response = await fetch('https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
 
-  // Set the href attribute to the download link
-  // Replace 'your_download_link' with the actual download link for the specific item
-  anchor.href = "https://user-images.githubusercontent.com/72573914/185918303-3010c9ac-7b12-4015-a016-f1231d777336.png";
+       if (!response.ok) {
+         errorNotification('Neuspesno preuzimanje');
+         return;
+       }
+       const blob = await response.blob();
+       // Create a URL for the blob
+       const blobUrl = URL.createObjectURL(blob);
+       // Create a temporary anchor element
+       const anchor = document.createElement("a");
+       // Set the href attribute to the blob URL
+       anchor.href = blobUrl;
+       // Set the 'download' attribute to specify the suggested file name
+       anchor.download = 'ZamenicemoSlikuSaExcelFile.jpg';
+       // Trigger a click event on the anchor element to start the download
+       anchor.click();
+       // Clean up: remove the temporary anchor element and revoke the blob URL
+       anchor.remove();
+       URL.revokeObjectURL(blobUrl);
+     } catch (error) {
+         errorNotification('Neuspesno preuzimanje');
+     }
+   };
 
-  // Set the 'download' attribute to specify the suggested file name
-  // Replace 'suggested_filename' with the desired file name
-  anchor.download = 'ZakljucniList.xlsx';
-
-  // Trigger a click event on the anchor element to start the download
-  anchor.click();
-
-  // Clean up: remove the temporary anchor element
-  anchor.remove();
-    };
 
   useEffect(() => {
     console.log(
@@ -98,6 +108,8 @@ function MainForma({ access_token, role }) {
     <>
       <Layout>
         <HeaderSection
+          loggedIn = {loggedIn}
+          setLoggedIn = {setLoggedIn}
           handleMenuClick={handleMenuClick}
           handleMenuClickStatus={handleMenuClickStatus}
           handleMenuClickCancel={handleMenuClickCancel}
