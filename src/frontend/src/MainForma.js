@@ -8,6 +8,12 @@ import Obrazac5 from "./components/Obrazac5";
 import DownloadExcelButton from "./components/DownloadObrazaca";
 import HeaderSection from "./components/HeaderSection";
 import MainContentSection from "./components/MainContentSection";
+import { getZakList } from "./api/client-api";
+import {
+  successNotification,
+  errorNotification,
+  warningNotification,
+} from "./components/Notification";
 
 const { Header, Content, Footer } = Layout;
 
@@ -26,55 +32,128 @@ const menuItems = [
   },
 ];
 
-function MainForma({ access_token, role }) {
+function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
   const [kvartal, setKvartal] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemStatus, setSelectedItemStatus] = useState(null);
+  const [selectedItemCancel, setSelectedItemCancel] = useState(null);
 
   const handleMenuClick = (item) => {
+    setSelectedItemStatus(null);
+    setSelectedItemCancel(null);
     setSelectedItem(item.key);
   };
+
+  const handleMenuClickStatus = (item) => {
+    setSelectedItem(null);
+    setSelectedItemCancel(null);
+    setSelectedItemStatus(item.key);
+    let token = localStorage.getItem("token");
+    getZakList(token).catch((error) => {
+      errorNotification("Podizanje statusa nije moguće!", error.message);
+    });
+  };
+
+  const handleMenuClickCancel = (item) => {
+    let token = localStorage.getItem("token");
+    setSelectedItemStatus(null);
+    setSelectedItem(null);
+    setSelectedItemCancel(item.key);
+    getZakList(token).catch((error) => {
+      errorNotification("Storniranje nije moguće!", error.message);
+    });
+  };
+
+
+   const handleDownload = async (item) => {
+     try {
+       const response = await fetch('https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
+
+       if (!response.ok) {
+         errorNotification('Neuspesno preuzimanje');
+         return;
+       }
+       const blob = await response.blob();
+       // Create a URL for the blob
+       const blobUrl = URL.createObjectURL(blob);
+       // Create a temporary anchor element
+       const anchor = document.createElement("a");
+       // Set the href attribute to the blob URL
+       anchor.href = blobUrl;
+       // Set the 'download' attribute to specify the suggested file name
+       anchor.download = 'ZamenicemoSlikuSaExcelFile.jpg';
+       // Trigger a click event on the anchor element to start the download
+       anchor.click();
+       // Clean up: remove the temporary anchor element and revoke the blob URL
+       anchor.remove();
+       URL.revokeObjectURL(blobUrl);
+     } catch (error) {
+         errorNotification('Neuspesno preuzimanje');
+     }
+   };
+
+
   useEffect(() => {
-    console.log("This is token from MainForma", access_token);
-    console.log("This is Role from MainForma", role);
-  }, []);
+    console.log(
+      "This is izabrani meni from MainForma . Ucitavanje: " +
+        selectedItem +
+        "\nStatus: " +
+        selectedItemStatus +
+        "\nCancel: " +
+        selectedItemCancel,
+    );
+  }, [selectedItem, selectedItemStatus, selectedItemCancel]);
 
   return (
-      <>
-        <Layout>
-          <HeaderSection
-              handleMenuClick={handleMenuClick}
-              menuItems={menuItems}
-              logo={logo}
+    <>
+      <Layout>
+        <HeaderSection
+          loggedIn = {loggedIn}
+          setLoggedIn = {setLoggedIn}
+          handleMenuClick={handleMenuClick}
+          handleMenuClickStatus={handleMenuClickStatus}
+          handleMenuClickCancel={handleMenuClickCancel}
+          menuItems={menuItems}
+          handleDownload={handleDownload}
+          logo={logo}
+        />
+
+        <Content className="site-layout" style={{ padding: "0 50px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>PSF</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              {selectedItem ? `Ucitavanje` : ""}
+              {selectedItemCancel ? `Storniranje` : ""}
+              {selectedItemStatus ? `Podizanje statusa` : ""}
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              {selectedItem}
+              {selectedItemStatus}
+              {selectedItemCancel}
+            </Breadcrumb.Item>
+          </Breadcrumb>
+
+          <MainContentSection
+            kvartal={kvartal}
+            setKvartal={setKvartal}
+            selectedItem={selectedItem}
+            selectedItemCancel={selectedItemCancel}
+            selectedItemStatus={selectedItemStatus}
+            access_token={access_token}
+            setSelectedItemCancel={setSelectedItemCancel}
+            setSelectedItemStatus={setSelectedItemStatus}
           />
+        </Content>
 
-          <Content className="site-layout" style={{ padding: "0 50px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>PSF</Breadcrumb.Item>
-              <Breadcrumb.Item>Ucitavanje</Breadcrumb.Item>
-              <Breadcrumb.Item>{selectedItem}</Breadcrumb.Item>
-            </Breadcrumb>
-
-            <MainContentSection
-                kvartal={kvartal}
-                setKvartal={setKvartal}
-                selectedItem={selectedItem}
-                access_token={access_token}
-            />
-          </Content>
-
-          <Footer style={{ textAlign: "center" }}>
-            <Image width={400} src={logo} />
-          </Footer>
-        </Layout>
-      </>
+        <Footer style={{ textAlign: "center" }}>
+          <Image width={400} src={logo} />
+        </Footer>
+      </Layout>
+    </>
   );
 }
 
 export default MainForma;
-
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import logo from "./APV.png";

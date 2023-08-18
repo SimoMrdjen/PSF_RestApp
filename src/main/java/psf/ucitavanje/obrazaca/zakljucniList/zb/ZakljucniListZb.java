@@ -18,9 +18,11 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ZakljucniListZb {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer GEN_MYSQL;
+    @Column(name = "GEN_MYSQL")
+    private Integer genMysql;
 
 //    @OneToMany(mappedBy = "REDNI", fetch = FetchType.LAZY,
 //            cascade = {CascadeType.PERSIST, CascadeType.MERGE)

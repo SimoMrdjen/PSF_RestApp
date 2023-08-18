@@ -2,7 +2,15 @@ import React from "react";
 import { Menu, Image, Layout } from "antd";
 import DownloadExcelButton from "./DownloadObrazaca";
 const { Header, Content, Footer, Sider } = Layout;
-function HeaderSection({ handleMenuClick, menuItems, logo }) {
+function HeaderSection({ handleMenuClick, handleMenuClickCancel,
+                    handleMenuClickStatus, menuItems, logo, handleDownload,
+                     loggedIn, setLoggedIn }) {
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setLoggedIn(false);
+
+    }
     return (
         <Header
             style={{
@@ -23,7 +31,7 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                 mode="horizontal"
                 defaultSelectedKeys={["1"]}
                 onClick={handleMenuClick}
-                style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px"}} // Set the menu background to blue
             >
                 <Menu.SubMenu title="Učitavanja obrazaca" style={{ background: "#6f6f76" }}>
                     {menuItems.map((item) => (
@@ -35,8 +43,8 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                 theme="dark" // Use dark theme to match the Windows style
                 mode="horizontal"
                 defaultSelectedKeys={["1"]}
-                onClick={handleMenuClick}
-                style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                onClick={handleMenuClickStatus}
+                style={{ flexGrow: 1, background: "#6f6f76", marginRight: "10px" }} // Set the menu background to blue
             >
                 <Menu.SubMenu title="Podizanje statusa" style={{ background: "#6f6f76" }}>
                     {menuItems.map((item) => (
@@ -48,8 +56,8 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                             theme="dark" // Use dark theme to match the Windows style
                             mode="horizontal"
                             defaultSelectedKeys={["1"]}
-                            onClick={handleMenuClick}
-                            style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                            onClick={handleMenuClickCancel}
+                            style={{ flexGrow: 1, background: "#6f6f76", marginRight: "10px" }} // Set the menu background to blue
                         >
                             <Menu.SubMenu title="Storniranje obrazaca" style={{ background: "#6f6f76" }}>
                                 {menuItems.map((item) => (
@@ -58,13 +66,41 @@ function HeaderSection({ handleMenuClick, menuItems, logo }) {
                             </Menu.SubMenu>
                         </Menu>
 
-            <div align="left">
-                <DownloadExcelButton />
-            </div>
+                        <Menu
+                            theme="dark" // Use dark theme to match the Windows style
+                            mode="horizontal"
+                            defaultSelectedKeys={["1"]}
+                            onClick={handleDownload}
+                            style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
+                        >
+                            <Menu.SubMenu title="Preuzimanje obrazaca" style={{ background: "#6f6f76" }}>
+                                {menuItems.map((item) => (
+                                    <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                                ))}
+                            </Menu.SubMenu>
+                        </Menu>
 
+          {/* <div align="left">
+                <DownloadExcelButton />
+            </div>*/}
             <div>
-                <Image align="center" width={100} src={logo} />
+                <Image align="center" width={100} src={logo}
+                         style={{ marginRight: "50px" }} // Adding right margin
+                 />
             </div>
+                   <button
+                      type="button"
+                      className="btn btn-dark"
+                      style={{
+                       marginLeft: "50px",
+                      backgroundColor: "#a3a3a8",
+                      fontSize: "12px", // Adjust the font size as needed
+                      padding: "8px 8px", // Adjust the padding as needed
+                     }}
+                      onClick ={logout}
+                      >
+                        Odjavi se
+                    </button>
         </Header>
     );
 }

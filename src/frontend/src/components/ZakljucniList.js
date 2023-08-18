@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveZakljucni } from "../api/client-api";
-import {successNotification, errorNotification, warningNotification} from "./Notification";
+import {
+  successNotification,
+  errorNotification,
+  warningNotification,
+} from "./Notification";
 
 function ZakljucniList({ kvartal, setKvartal, access_token }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [message, setMessage] = useState("");
+  const [activeButton, setActiveButton] = useState(false);
+  //const [selectedFile, setSelectedFile] = useState(null);
+
 
   useEffect(() => {
     console.log("This is token from Zakljucni List", access_token);
+    //setKvartal(0);
   }, []);
 
   const handleFile = (e) => {
+//  setSelectedFile(e.target.files[0]);
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (
@@ -26,6 +35,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         reader.onload = (e) => {
           setExcelFileError(null);
           setExcelFile(e.target.result);
+          setActiveButton(true);
         };
       } else {
         console.log(selectedFile.type);
@@ -50,7 +60,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined"
+        (row) => typeof row[0] !== "undefined",
       );
 
       const headers = filteredData[0];
@@ -67,40 +77,54 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         return obj;
       });
 
-      const year = worksheet["E5"]?.v || "";
-      const jbbks = worksheet["B1"]?.v || "";
-      console.log("JBBK:", jbbks);
+      const year = worksheet["E4"]?.v || "";
+      const jbbks = worksheet["B3"]?.v || "";
+      const excelKvartal = worksheet["B4"]?.v || "";
+      console.log("godina:", year);
 
-      // data.splice(116,1000);
-      console.log("Data:", data);
-    saveZakljucni(data, kvartal, jbbks, year, access_token)
-      .then((response) => {
-        console.log(response);
-        return response.text(); // Get the text content from the response
-      })
-      .then((text) => {
-      // console.log(res);
-        if (text === '') {
-                successNotification("Obrazac je uspesno ucitan!");
-        }else{
-        console.log("responseText:",text);
-        warningNotification( text,  "Obrazac je učitan ali postoje greške. \n " );
-        }
-        // Handle successful response if needed
-      })
-.catch((error) => {
-  errorNotification("Neuspešno učitavanje!", error.message);
-  console.log("This is error message", error.message);
-});
+      if (excelKvartal != kvartal) {
+        errorNotification(
+          "Izabrani kvartal se razlikuje od kvartala sa excel fajla!",
+        );
+        setExcelData(null);
+        return;
+      }
+      let token = localStorage.getItem("token");
+      saveZakljucni(data, kvartal, jbbks, year, token)
+        .then((response) => {
+          console.log(response);
+          return response.text(); // Get the text content from the response
+        })
+        .then((text) => {
+          // console.log(res);
+          if (text === "") {
+            successNotification("Obrazac je uspesno ucitan!");
+          } else {
+            console.log("responseText:", text);
+            warningNotification(
+              text,
+              "Obrazac je učitan ali postoje greške. \n ",
+            );
+          }
+          // Handle successful response if needed
+        })
+        .catch((error) => {
+          errorNotification("Neuspešno učitavanje!", error.message);
+          console.log("This is error message", error.message);
+        });
     } else {
-          setExcelData(null);
-        }
+      setExcelData(null);
+    }
+    setKvartal(0);
+    setExcelFile(null);
+    setExcelFileError(null);
+    setExcelData(null);
+    setActiveButton(false);
   };
-//
-//    const onFinishFailed = (errorInfo) => {
-//      alert(JSON.stringify(errorInfo, null, 2));
-//    };
-
+  //
+  //    const onFinishFailed = (errorInfo) => {
+  //      alert(JSON.stringify(errorInfo, null, 2));
+  //    };
 
   return (
     <div>
@@ -110,10 +134,12 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         </label>
         <br></br>
         <input
+        disabled={kvartal === 0}
           type="file"
           className="form-control"
           onChange={handleFile}
-          lang="sr" placeholder="Unesite tekst"
+          lang="sr"
+          placeholder="Unesite tekst"
           required
         ></input>
         {excelFileError && (
@@ -121,13 +147,13 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
             {excelFileError}
           </div>
         )}
-        <br/>
+        <br />
 
         <button
           type="submit"
           className="btn btn-primary"
           style={{ marginTop: 15 + "px" }}
-          disabled={false}
+          disabled={!activeButton || kvartal === 0}
           style={{ backgroundColor: "#98b4d4" }}
         >
           Učitaj Zakljucni List

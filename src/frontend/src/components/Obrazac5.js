@@ -74,10 +74,11 @@ function Obrazac5({ kvartal, setKvartal, access_token }) {
 
       console.log(data);
       try{
-          if (true) {
+          if (false) {
             throw new Error("proba error.");
           }
-      saveObrazac5(data, kvartal, access_token)
+          let token = localStorage.getItem("token");
+      saveObrazac5(data, kvartal, token)
           .then((res) => {
             console.log(res);
             successNotification("Obrazac je uspesno ucitan!");

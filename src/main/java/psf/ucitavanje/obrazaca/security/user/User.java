@@ -102,4 +102,8 @@ public class User implements UserDetails {
         this.sifra_pp = sifra_pp;
         this.email = email;
     }
+
+    public void setRole(Role  role) {
+        this.role = role;
+    }
 }

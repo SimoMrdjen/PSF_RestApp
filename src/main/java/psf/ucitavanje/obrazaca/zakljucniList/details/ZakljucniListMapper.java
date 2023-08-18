@@ -8,11 +8,12 @@ import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 public class ZakljucniListMapper {
 
     public ZakljucniListDetails mapDtoToEntity(ZakljucniListDto dto,
-                                               ZakljucniListZb zb) {
+                                               ZakljucniListZb zb,
+                                               String oznakaGlave) {
         var konto = Integer
                 .parseInt(dto.getProp1().trim());
         return ZakljucniListDetails.builder()
-                .GEN_MYSQL(zb.getGEN_MYSQL())
+                .GEN_MYSQL(zb.getGenMysql())
                 .GEN_INTERBASE(0)
                 .GEN_OPENTAB(zb.getGEN_OPENTAB())
                 .GEN_APVDBK(zb.getGEN_APVDBK())
@@ -24,6 +25,7 @@ public class ZakljucniListMapper {
                 .JBBK_IND_KOR(zb.getJbbkIndKor())
                 .SIF_RAC(zb.getSIF_RAC())
                 .RAZDEO(zb.getRAZDEO())
+                .OZNAKAGLAVE(oznakaGlave)
                 .SIN_KONTO(konto / 100)
                 .KONTO(konto)
                 .RED_BROJ_AKT(0)

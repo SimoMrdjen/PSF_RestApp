@@ -22,6 +22,7 @@ const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => 
         console.log("Ovo je iz token login", access_token);
         setRole(data.role);
         onLogin(true);
+        localStorage.setItem("token", data.access_token);
       })
       .catch((err) => {
         //err.response.json().then((res) => {});

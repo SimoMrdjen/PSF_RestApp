@@ -101,29 +101,30 @@ public class ZakljucniListZbService implements IZakListService {
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if ((zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
+            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
                throw new Exception(
-                       "Za tekući kvartal već postoji učitan važeći \nZaključniList. " +
-                               "Ukoliko ipak želite da \nučitate ovu verziju, prethodni morate \nstornirati!");
+                       "Za tekući kvartal već postoji učitan važeći \nZaključniList poslat Vašem DBK-u! " );
             }
         }
        return zb.get().getVerzija() + 1;
     }
 
     public ZaKListResponse getLastValidVersionZList(String email) throws Exception {
-        var kvartal = 5;// need to find kvartal
+
         var jbbks = getJbbksIBK(email);
         Optional<ZakljucniListZb> zb =
-                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
+                zakljucniRepository.findFirstByJbbkIndKorOrderByGenMysqlDesc(jbbks);
+
         if(zb.isEmpty()|| zb.get().getSTORNO() == 1 ) {
             throw new IllegalArgumentException("Ne postoji vazeci ucitan Zakljucni list");
         }
         if(zb.get().getSTATUS() >= 20) {
-            throw new Exception("Vazeca verzija ucitanog \n" +
-                    "Zakljucnog lista poslata je vasem DBK!");
+            throw new Exception("Važeća verzija učitanog \n" +
+                    "Zaključnog lista poslata je Vašem DBK-u!");
         }
         LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 25569);
         return ZaKListResponse.builder()
+                .id(zb.get().getGenMysql())
                 .date(date)
                 .kvartal(zb.get().getKojiKvartal())
                 .year(zb.get().getGODINA())
@@ -136,6 +137,8 @@ public class ZakljucniListZbService implements IZakListService {
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
             var validError = obrKontrService.isKontrolaMandatory(9);
+            var isKontrolaActive = obrKontrService.isKontrolaActive(9);
+
             List<String>  duplicates = dtos.stream()
                 .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
                     .entrySet()
@@ -144,13 +147,15 @@ public class ZakljucniListZbService implements IZakListService {
                     .map(e -> e.getKey())
                     .collect(Collectors.toList());
 
-        if (!duplicates.isEmpty() && validError) {
-            throw new Exception("Imate duplirana konta: " + duplicates );
-        }else if(!duplicates.isEmpty() && !validError) {
-            responseMessage.append( "Imate duplirana konta: " + duplicates) ;
-            //responseMessage.append("Imate duplirana konta: " + duplicates );
+            if (isKontrolaActive) {
+                if (!duplicates.isEmpty() && validError) {
+                    throw new Exception("Imate duplirana konta: " + duplicates);
+                }
+                else if (!duplicates.isEmpty() && !validError) {
+                    responseMessage.append("Imate duplirana konta: " + duplicates);
+                }
+            }
         }
-    }
 
     @Transactional
     public String raiseStatus(Integer id, String email) throws Exception {
@@ -167,8 +172,8 @@ public class ZakljucniListZbService implements IZakListService {
             zb.setSTATUS(raisedStatus);
             zb.setPODIGAO_STATUS(user.getSifraradnika());
             zakljucniRepository.save(zb);
-            return "Zakljucnom listu je status \npodignu na nivo " +
-                    raisedStatus;
+            return "Zakljucnom listu je status \npodignut na nivo " +
+                    raisedStatus + "!";
     }
 
     @Transactional
@@ -185,6 +190,5 @@ public class ZakljucniListZbService implements IZakListService {
         zb.setSTOSIFRAD(user.getSifraradnika());
         zakljucniRepository.save(zb);
         return "Zakljucni list je storniran!";
-
     }
 }

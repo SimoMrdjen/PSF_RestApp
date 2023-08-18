@@ -1,0 +1,12 @@
+package psf.ucitavanje.obrazaca.glavaSvi;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
+
+public interface GlavaSviRepository extends JpaRepository<GlavaSvi, Integer> {
+
+    @Query(value = "SELECT * FROM GLAVASVI WHERE JED_BROJ_KORISNIKA = ?1", nativeQuery = true)
+    Optional<GlavaSvi> findByJedBrojKorisnika(Integer jedBrojKorisnika);
+}

@@ -29,6 +29,8 @@ public class ZakljucniListZbController {
                                           @PathVariable(name = "year") Integer year) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
+        //User user = (User) authentication.getPrincipal();
+
         try {
             String result = String.valueOf(zakljucniService.saveZakljucniList(dtos, kvartal, jbbks, year, email));
             return ResponseEntity.ok(result);
@@ -57,7 +59,7 @@ public class ZakljucniListZbController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         try {
-            ZaKListResponse result = zakljucniService.getLastValidVersionZList(email);
+            List<ZaKListResponse> result =  List.of(zakljucniService.getLastValidVersionZList(email));
             return ResponseEntity.ok(result);
         }
         catch (Exception e) {

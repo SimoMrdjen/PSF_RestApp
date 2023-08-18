@@ -1,5 +1,5 @@
 import fetch from "unfetch";
-import {errorNotification} from "../components/Notification";
+import { errorNotification } from "../components/Notification";
 
 //const checkStatus = (response) => {
 //  if (response.ok) {
@@ -13,12 +13,12 @@ import {errorNotification} from "../components/Notification";
 //};
 
 const checkStatus = async (response) => {
-    if (response.ok) {
-        console.log("Response from cheCHECK STATUS", response);
-        return response; // If you expect JSON as a successful response
-    }
-    const errorText = await response.text();
-    throw new Error(errorText );
+  if (response.ok) {
+    console.log("Response from cheCHECK STATUS", response);
+    return response; // If you expect JSON as a successful response
+  }
+  const errorText = await response.text();
+  throw new Error(errorText);
 };
 
 export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
@@ -29,8 +29,7 @@ export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
     },
     method: "POST",
     body: JSON.stringify(data),
-  })
-  .then(checkStatus);
+  }).then(checkStatus);
 
 export const saveObrazac5 = async (data, kvartal, access_token) => {
   return fetch(`/api/obrazac_zb/${kvartal}`, {
@@ -63,38 +62,63 @@ export const login = (data) =>
   }).then(checkStatus);
 
 export const getAllUsers = (access_token) =>
-    fetch("api/v1/users",
-        {
-            headers: {
-               Authorization: `Bearer ${access_token}`
-            }
-        }).then(checkStatus);
+  fetch("api/v1/users", {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  }).then(checkStatus);
 
 export const getUsersLike = (likeUser, access_token) =>
-    fetch(`api/v1/users/${likeUser}`,
-        {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        }).then(checkStatus);
+  fetch(`api/v1/users/${likeUser}`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  }).then(checkStatus);
 
 export const addNewUser = (data, access_token) =>
-    fetch(`/api/v1/users`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${access_token}`
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-    }).then(checkStatus);
+  fetch(`/api/v1/users`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "POST",
+    body: JSON.stringify(data),
+  }).then(checkStatus);
 
 export const editUser = (user, access_token) =>
-     fetch(`api/v1/users/${user.sifraradnika}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${access_token}`
-            },
-            method: 'PUT',
-            body: JSON.stringify(user)
-            }
-         );
+  fetch(`api/v1/users/${user.sifraradnika}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "PUT",
+    body: JSON.stringify(user),
+  });
+
+export const getZakList = (access_token) =>
+  fetch(`api/zakljucni_list`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "GET",
+  }).then(checkStatus);
+
+export const raiseStatusZakList = (id, access_token) =>
+  fetch(`api/zakljucni_list/status/${id}`, {
+    headers: {
+      //"Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "PUT",
+    //body: JSON.stringify(user),
+  }).then(checkStatus);
+
+export const stornoZakList = (id, access_token) =>
+  fetch(`api/zakljucni_list/storno/${id}`, {
+    headers: {
+      //"Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+    },
+    method: "PUT",
+    //body: JSON.stringify(user),
+  }).then(checkStatus);

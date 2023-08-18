@@ -18,7 +18,9 @@ const MainApp = () => {
 
   return (
     <div>
-      {loggedIn ? (
+      {loggedIn
+//      { (localStorage.getItem("loggedIn") != null)
+      ? (
           role === 'ADMIN' ? (
               <AdminMainForma
                   access_token={access_token}
@@ -29,6 +31,8 @@ const MainApp = () => {
                   access_token={access_token}
                   //setAccessToken={setAccessToken}
                   role={role}
+                  loggedIn = {loggedIn}
+                  setLoggedIn = {setLoggedIn}
               />
           )
       ) : (

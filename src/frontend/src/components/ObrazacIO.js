@@ -73,7 +73,8 @@ function ObrazacIO({ kvartal, setKvartal, access_token }) {
       console.log(jbbk);
       //data.splice(116,1000);
       console.log(data);
-      saveObrazacIO(data, kvartal, year, access_token);
+      let token = localStorage.getItem("token");
+      saveObrazacIO(data, kvartal, year, token);
       setMessage("Obrazac je uspesno ucitan!");
       setExcelData(JSON.stringify(data, null, 4));
     } else {
