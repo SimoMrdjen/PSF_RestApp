@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import psf.ucitavanje.obrazaca.kontrole.obrazac.ObrKontrService;
 import psf.ucitavanje.obrazaca.obrazac5.obrazacZb.ObrazacZbRepository;
 import psf.ucitavanje.obrazaca.obrazac5.ppartner.PPartnerService;
 import psf.ucitavanje.obrazaca.obrazac5.sekretarijat.SekretarijarService;
@@ -29,20 +30,23 @@ public class ZakljucniListZbService implements IZakListService {
     private final UserRepository userRepository;
     private final ObrazacZbRepository obrazacZbRepository;
     private final ZakljucniDetailsService zakljucniDetailsService;
+    private StringBuilder responseMessage =  new StringBuilder();
+    private final ObrKontrService obrKontrService;
 
     @Transactional
-    public ZakljucniListZb saveZakljucniList(List<ZakljucniListDto> dtos,
-                                             Integer kvartal,
-                                             Integer jbbks,
-                                             Integer year,
-                                             String email) throws Exception {
+    public StringBuilder saveZakljucniList(List<ZakljucniListDto> dtos,
+                                           Integer kvartal,
+                                           Integer jbbks,
+                                           Integer year,
+                                           String email) throws Exception {
 
+        responseMessage.delete(0, responseMessage.length());
         User user = userRepository.findByEmail(email).orElseThrow();
-        Integer sifSekret = user.getZa_sif_sekret(); //fetch from table user-bice- user.getZa_sif_sekret();
+        Integer sifSekret = user.getZa_sif_sekret();
         Sekretarijat sekretarijat = sekretarijarService.getSekretarijat(sifSekret);
         Integer today = (int) LocalDate.now().toEpochDay() + 25569;
-        Integer version = checkIfExistValidZListAndFindVersion(kvartal, jbbks);
         //provere
+        Integer version = checkIfExistValidZListAndFindVersion(kvartal, jbbks);
         checkJbbks(user, jbbks);
         checkDuplicatesKonta(dtos);
 
@@ -74,7 +78,7 @@ public class ZakljucniListZbService implements IZakListService {
         var zbSaved = zakljucniRepository.save(zb);
 
         zakljucniDetailsService.saveDetails(dtos, zbSaved);
-        return zbSaved;
+        return responseMessage;
     }
 
     public void checkJbbks(User user, Integer jbbksExcell) throws Exception {
@@ -92,10 +96,10 @@ public class ZakljucniListZbService implements IZakListService {
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if (zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0 ) {
+            if ((zb.get().getRadna() == 1 || zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
                throw new Exception(
-                       "Za tekući kvartal već postoji učitan važeći ZaključniList. " +
-                               "Ukoliko ipak želite da učitate ovu verziju, prethodni morate stornirati!");
+                       "Za tekući kvartal već postoji učitan važeći \nZaključniList. " +
+                               "Ukoliko ipak želite da \nučitate ovu verziju, prethodni morate \nstornirati!");
             }
         }
        return zb.get().getVerzija() + 1;
@@ -103,6 +107,7 @@ public class ZakljucniListZbService implements IZakListService {
 
     public void checkDuplicatesKonta(List<ZakljucniListDto> dtos) throws Exception {
 
+            var validError = obrKontrService.isKontrolaMandatory(9);
             List<String>  duplicates = dtos.stream()
                 .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
                     .entrySet()
@@ -111,9 +116,25 @@ public class ZakljucniListZbService implements IZakListService {
                     .map(e -> e.getKey())
                     .collect(Collectors.toList());
 
-        if (!duplicates.isEmpty()) {
+        if (!duplicates.isEmpty() && validError) {
             throw new Exception("Imate duplirana konta: " + duplicates );
+        }else if(!duplicates.isEmpty() && !validError) {
+            responseMessage.append( "Imate duplirana konta: " + duplicates) ;
+            //responseMessage.append("Imate duplirana konta: " + duplicates );
         }
     }
 
+    public String raiseStatus(Integer id) throws Exception {
+        var zb = zakljucniRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Zakljucni lis ne postoji!"));
+
+        if (zb.getSTATUS() >= 20 || zb.getSTORNO() == 1) {
+            throw new Exception("Zakljucni list ima status veci od 10 \n" +
+                    "ili je vec storniran");
+        }
+            var raisedStatus = zb.getSTATUS() + 10;
+            zb.setSTATUS(raisedStatus);
+            return "Zakljucnom listu je status \npodignu na nivo " +
+                    raisedStatus;
+    }
 }

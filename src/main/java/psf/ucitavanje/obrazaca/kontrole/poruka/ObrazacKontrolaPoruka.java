@@ -26,9 +26,9 @@ public class ObrazacKontrolaPoruka {
 
     private Integer RBR;
 
-    private Integer OPIS;
+    private String OPIS;
 
-    private Integer USLOV_VREDNOST;
+    private String USLOV_VREDNOST;
 
     private String PORUKA;
 }

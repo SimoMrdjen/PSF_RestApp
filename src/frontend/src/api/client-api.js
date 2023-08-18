@@ -14,6 +14,7 @@ import {errorNotification} from "../components/Notification";
 
 const checkStatus = async (response) => {
     if (response.ok) {
+        console.log("Response from cheCHECK STATUS", response);
         return response; // If you expect JSON as a successful response
     }
     const errorText = await response.text();
