@@ -226,29 +226,6 @@ function AdminMainForma({ access_token, role }) {
           pagination={{ pageSize: 10 }}
           scroll={{ y: 600 }}
           rowKey={(user) => user.sifraradnika}
-        />        <Table
-          dataSource={users}
-          columns={columnsUsers} //fetchUsers)}
-          bordered
-          title={() => (
-            <>
-              <Tag>Number of users</Tag>
-              <Badge count={users.length} className="site-badge-count-4" />
-              <br /> <br />
-              <Button
-                onClick={() => setShowDrawer(!showDrawer)}
-                type="primary"
-                shape="round"
-                icon={<PlusOutlined />}
-                size="small"
-              >
-                Add New User
-              </Button>
-            </>
-          )}
-          pagination={{ pageSize: 10 }}
-          scroll={{ y: 600 }}
-          rowKey={(user) => user.sifraradnika}
         />
       </>
     );
@@ -259,5 +236,4 @@ function AdminMainForma({ access_token, role }) {
           renderUsers={() => renderUsers(access_token)} // Pass the function reference, don't call it here
       />  );
 }
-
 export default AdminMainForma;

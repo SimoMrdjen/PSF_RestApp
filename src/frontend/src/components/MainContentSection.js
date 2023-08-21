@@ -9,6 +9,7 @@ function MainContentSection({
   kvartal,
   setKvartal,
   selectedItem,
+  setSelectedItem,
   selectedItemCancel,
   selectedItemStatus,
   access_token,
@@ -53,6 +54,8 @@ function MainContentSection({
                       kvartal={kvartal}
                       setKvartal={setKvartal}
                       access_token={access_token}
+                      selectedItem={selectedItem}
+                       setSelectedItem={setSelectedItem}
                     />
                   )}
 

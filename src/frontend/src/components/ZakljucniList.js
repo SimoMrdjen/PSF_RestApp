@@ -7,7 +7,7 @@ import {
   warningNotification,
 } from "./Notification";
 
-function ZakljucniList({ kvartal, setKvartal, access_token }) {
+function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSelectedItem }) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -45,6 +45,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
     } else {
       console.log("Plz select your file");
     }
+      setActiveButton(true);
   };
 
   const handleSubmit = (e) => {
@@ -87,6 +88,8 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
           "Izabrani kvartal se razlikuje od kvartala sa excel fajla!",
         );
         setExcelData(null);
+        setKvartal(0);
+        setSelectedItem(null);
         return;
       }
       let token = localStorage.getItem("token");
@@ -111,15 +114,17 @@ function ZakljucniList({ kvartal, setKvartal, access_token }) {
         .catch((error) => {
           errorNotification("Neuspešno učitavanje!", error.message);
           console.log("This is error message", error.message);
+          setKvartal(0);
         });
     } else {
       setExcelData(null);
     }
-    setKvartal(0);
-    setExcelFile(null);
-    setExcelFileError(null);
-    setExcelData(null);
-    setActiveButton(false);
+   setKvartal(0);
+//    setExcelFile(null);
+//    setExcelFileError(null);
+//    setExcelData(null);
+   // setActiveButton(false);
+   setSelectedItem(null);
   };
   //
   //    const onFinishFailed = (errorInfo) => {
