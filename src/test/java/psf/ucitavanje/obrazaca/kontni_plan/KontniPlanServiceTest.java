@@ -55,6 +55,5 @@ class KontniPlanServiceTest {
 
         assertEquals(service.getKontniPlan(),List.of(1001,2002));
 
-
     }
 }

@@ -191,4 +191,6 @@ public class ZakljucniListZbService implements IZakListService {
         zakljucniRepository.save(zb);
         return "Zakljucni list je storniran!";
     }
+
+
 }

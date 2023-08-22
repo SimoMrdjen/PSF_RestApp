@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.glavaSvi.GlavaSvi;
 import psf.ucitavanje.obrazaca.glavaSvi.GlavaSviRepository;
+import psf.ucitavanje.obrazaca.kontni_plan.KontniPlanService;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 
@@ -19,9 +20,13 @@ public class ZakljucniDetailsService {
     private final ZakljucniListMapper mapper;
     private final ZakljucniDetailsRepository zakljucniDetailsRepository;
     private final GlavaSviRepository glaviSviRepository;
+    private final KontniPlanService kontniPlanService;
 
     @Transactional
-    public List<ZakljucniListDetails> saveDetails(List<ZakljucniListDto> dtos, ZakljucniListZb zbSaved) {
+    public List<ZakljucniListDetails> saveDetails(List<ZakljucniListDto> dtos, ZakljucniListZb zbSaved) throws Exception {
+        //provera da li su ucitani samo postojeci 6-cifreni kontoi
+        this.checkIfKontosAreExisting(dtos);
+
         var jbbk = zbSaved.getJbbkIndKor();
         String oznakaGlave;
 
@@ -31,13 +36,25 @@ public class ZakljucniDetailsService {
         }else{
             oznakaGlave = "00";}
 
-
         List<ZakljucniListDetails> details = dtos.stream()
                 .map(d -> mapper.mapDtoToEntity(d, zbSaved, oznakaGlave))
                 .collect(Collectors.toList());
 
         return zakljucniDetailsRepository.saveAll(details);
+    }
 
+    public void checkIfKontosAreExisting(List<ZakljucniListDto> dtos) throws Exception {
 
+        List<Integer> kontosInKontniPlan = kontniPlanService.getKontniPlan();
+
+        List<Integer> nonExistingKontos = dtos.stream()
+                .map(ZakljucniListDto::getProp1)
+                .map(Integer::parseInt)
+                .filter((k) -> !kontosInKontniPlan.contains(k))
+                .collect(Collectors.toList());
+
+        if (!nonExistingKontos.isEmpty()) {
+            throw new Exception("U Zakljucnom list postoje konta koja nisu \ndeo Kontnog plana: " + nonExistingKontos);
+        }
     }
 }

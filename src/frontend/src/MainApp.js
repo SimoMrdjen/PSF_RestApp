@@ -14,6 +14,7 @@ const MainApp = () => {
   };
   useEffect(() => {
     console.log("This is token from MainApp", access_token);
+    setLoggedIn(localStorage.getItem("token"));
   }, []);
 
   return (
