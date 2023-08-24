@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import psf.ucitavanje.obrazaca.glavaSvi.GlavaSvi;
 import psf.ucitavanje.obrazaca.glavaSvi.GlavaSviRepository;
-import psf.ucitavanje.obrazaca.kontni_plan.KontniPlanService;
+import psf.ucitavanje.obrazaca.subkonto.SubkontoService;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 
@@ -20,7 +20,7 @@ public class ZakljucniDetailsService {
     private final ZakljucniListMapper mapper;
     private final ZakljucniDetailsRepository zakljucniDetailsRepository;
     private final GlavaSviRepository glaviSviRepository;
-    private final KontniPlanService kontniPlanService;
+    private final SubkontoService subkontoService;
 
     @Transactional
     public List<ZakljucniListDetails> saveDetails(List<ZakljucniListDto> dtos, ZakljucniListZb zbSaved) throws Exception {
@@ -45,7 +45,7 @@ public class ZakljucniDetailsService {
 
     public void checkIfKontosAreExisting(List<ZakljucniListDto> dtos) throws Exception {
 
-        List<Integer> kontosInKontniPlan = kontniPlanService.getKontniPlan();
+        List<Integer> kontosInKontniPlan = subkontoService.getKontniPlan();
 
         List<Integer> nonExistingKontos = dtos.stream()
                 .map(ZakljucniListDto::getProp1)

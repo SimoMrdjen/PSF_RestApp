@@ -20,7 +20,6 @@ const MainApp = () => {
   return (
     <div>
       {loggedIn
-//      { (localStorage.getItem("loggedIn") != null)
       ? (
           role === 'ADMIN' ? (
               <AdminMainForma

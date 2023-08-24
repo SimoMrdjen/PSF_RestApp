@@ -5,8 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import psf.ucitavanje.obrazaca.glavaSvi.GlavaSviRepository;
-import psf.ucitavanje.obrazaca.kontni_plan.KontniPlanRepository;
-import psf.ucitavanje.obrazaca.kontni_plan.KontniPlanService;
+import psf.ucitavanje.obrazaca.subkonto.SubkontoService;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.when;
 class ZakljucniDetailsServiceTest {
 
     @Mock
-    private KontniPlanService kontniPlanService;
+    private SubkontoService subkontoService;
     @Mock
     private  ZakljucniListMapper mapper;
     @Mock
@@ -29,11 +28,11 @@ class ZakljucniDetailsServiceTest {
 
     @BeforeEach
     void setUp() {
-        kontniPlanService = mock(KontniPlanService.class);
+        subkontoService = mock(SubkontoService.class);
         mapper = mock(ZakljucniListMapper.class);
         zakljucniDetailsRepository = mock(ZakljucniDetailsRepository.class);
         glaviSviRepository = mock(GlavaSviRepository.class);
-        service = new ZakljucniDetailsService(mapper,  zakljucniDetailsRepository, glaviSviRepository,kontniPlanService);
+        service = new ZakljucniDetailsService(mapper,  zakljucniDetailsRepository, glaviSviRepository, subkontoService);
     }
 
     @AfterEach
@@ -67,7 +66,7 @@ class ZakljucniDetailsServiceTest {
         obj2.setProp8(77.0);
         var dtos = List.of(obj1, obj2);
 
-        when(kontniPlanService.getKontniPlan()).thenReturn(List.of(1,2,3));
+        when(subkontoService.getKontniPlan()).thenReturn(List.of(1,2,3));
         assertThrows(Exception.class,
                 () -> service.checkIfKontosAreExisting(dtos), "U Zakljucnom list postoje konta koja nisu deo Kontnog " +
                         "plana: 4");
