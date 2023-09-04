@@ -7,7 +7,13 @@ import {
   warningNotification,
 } from "./Notification";
 
-function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSelectedItem }) {
+function ZakljucniList({
+  kvartal,
+  setKvartal,
+  access_token,
+  selectedItem,
+  setSelectedItem,
+}) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -15,14 +21,13 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
   const [activeButton, setActiveButton] = useState(false);
   //const [selectedFile, setSelectedFile] = useState(null);
 
-
   useEffect(() => {
     console.log("This is token from Zakljucni List", access_token);
     //setKvartal(0);
   }, []);
 
   const handleFile = (e) => {
-//  setSelectedFile(e.target.files[0]);
+    //  setSelectedFile(e.target.files[0]);
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (
@@ -45,7 +50,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
     } else {
       console.log("Plz select your file");
     }
-      setActiveButton(true);
+    setActiveButton(true);
   };
 
   const handleSubmit = (e) => {
@@ -61,7 +66,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined",
+        (row) => typeof row[0] !== "undefined"
       );
 
       const headers = filteredData[0];
@@ -85,7 +90,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
 
       if (excelKvartal != kvartal) {
         errorNotification(
-          "Izabrani kvartal se razlikuje od kvartala sa excel fajla!",
+          "Izabrani kvartal se razlikuje od kvartala sa excel fajla!"
         );
         setExcelData(null);
         setKvartal(0);
@@ -106,7 +111,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
             console.log("responseText:", text);
             warningNotification(
               text,
-              "Obrazac je učitan ali postoje greške. \n ",
+              "Obrazac je učitan ali postoje greške. \n "
             );
           }
           // Handle successful response if needed
@@ -119,17 +124,9 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
     } else {
       setExcelData(null);
     }
-   setKvartal(0);
-//    setExcelFile(null);
-//    setExcelFileError(null);
-//    setExcelData(null);
-   // setActiveButton(false);
-   setSelectedItem(null);
+    setKvartal(0);
+    setSelectedItem(null);
   };
-  //
-  //    const onFinishFailed = (errorInfo) => {
-  //      alert(JSON.stringify(errorInfo, null, 2));
-  //    };
 
   return (
     <div>
@@ -139,7 +136,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
         </label>
         <br></br>
         <input
-        disabled={kvartal === 0}
+          disabled={kvartal === 0}
           type="file"
           className="form-control"
           onChange={handleFile}

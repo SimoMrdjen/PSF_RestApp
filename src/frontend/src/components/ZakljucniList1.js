@@ -6,7 +6,7 @@ import {
   errorNotification,
   warningNotification,
 } from "./Notification";
-import { handleUpload } from "../api/upload";
+import { handleUpload , handleUploadTxt} from "../api/upload";
 
 
 function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSelectedItem }) {
@@ -42,23 +42,25 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
           setActiveButton(true);
         };
       } else {
-        console.log(selectedFile.type);
+        //console.log(selectedFile.type);
         setExcelFileError("Izabrani dokument nije XLSX ili XLS!");
         setExcelFile(null);
       }
     } else {
-      console.log("Plz select your file");
+     // console.log("Plz select your file");
     }
     setActiveButton(true);
   };
 
 
 ///submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     setMessage("");
+    let txtMessagge;
+
     e.preventDefault();
     if (excelFile !== null) {
-      const workbook = XLSX.read(excelFile, { type: "buffer" });
+      const workbook = XLSX.read(excelFile, {type: "buffer"});
       const worksheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[worksheetName];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, {
@@ -67,7 +69,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
       });
 
       const filteredData = jsonData.filter(
-        (row) => typeof row[0] !== "undefined",
+          (row) => typeof row[0] !== "undefined",
       );
 
       const headers = filteredData[0];
@@ -88,63 +90,59 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
       const jbbks = worksheet["B3"]?.v || "";
       const excelKvartal = worksheet["B4"]?.v || "";
 
-      console.log("godina:", year);
-       console.log("excelKvartal :", excelKvartal);
 
       if (excelKvartal != kvartal) {
         errorNotification(
-          "Izabrani kvartal se razlikuje od kvartala sa excel fajla!",
+            "Izabrani kvartal se razlikuje od kvartala sa excel fajla!",
         );
         setExcelData(null);
         setKvartal(0);
         setSelectedItem(null);
         return;
       }
-         let token = localStorage.getItem("token");
-               const formData = new FormData();
-             if (excelFileUpload) {
+      let token = localStorage.getItem("token");
 
-      formData.append('file', excelFileUpload);}
+      try {
+        const formData = new FormData();
+        if (excelFileUpload) {
+          formData.append('file', excelFileUpload);
+          handleUpload(formData, token, year, excelKvartal, selectedItem, "excel");
+        }
+        console.log("Data from ZB ", data);
+        const response = await saveZakljucni(data, kvartal, jbbks, year, token);
+        let txtMessagge = "";
 
-      handleUpload(formData, token, year, excelKvartal, selectedItem );
+        if (response === "") {
+          txtMessagge = "Obrazac je uspesno ucitan!";
+          successNotification("Obrazac je uspesno ucitan!");
+        } else {
+          //console.log("responseText:", response);
+          warningNotification(
+              response,
+              "Obrazac je učitan ali postoje greške. \n "
+          );
+          txtMessagge = "Obrazac je učitan ali postoje greške. \n " + JSON.stringify(response);
+        }
+        const txtObject = {text: txtMessagge};
+        const txtObjectJSON = JSON.stringify(txtObject);
+        console.log("TXT object", txtObjectJSON);
+        await handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
+      } catch (error) {
+        errorNotification("Neuspešno učitavanje!", error.message);
+        console.log("This is error message", error.message);
+        const txtObject = {text: "Neuspešno učitavanje! \n" + JSON.stringify(error.message)};
 
-      saveZakljucni(data, kvartal, jbbks, year, token)
-        .then((response) => {
-          console.log(response);
-          return response.text(); // Get the text content from the response
-        })
-        .then((text) => {
-          // console.log(res);
-          if (text === "") {
-            successNotification("Obrazac je uspesno ucitan!");
-          } else {
-            console.log("responseText:", text);
-            warningNotification(
-              text,
-              "Obrazac je učitan ali postoje greške. \n ",
-            );
-          }
-          // Handle successful response if needed
-        })
-        .catch((error) => {
-          errorNotification("Neuspešno učitavanje!", error.message);
-          console.log("This is error message", error.message);
-          setKvartal(0);
-        });
+        await handleUploadTxt(txtObject,
+             token, year, excelKvartal, selectedItem, "txt");
+        setKvartal(0);
+      }
     } else {
       setExcelData(null);
     }
-   setKvartal(0);
-//    setExcelFile(null);
-//    setExcelFileError(null);
-//    setExcelData(null);
-   // setActiveButton(false);
-   setSelectedItem(null);
+    setKvartal(0);
+    setSelectedItem(null);
   };
-  //
-  //    const onFinishFailed = (errorInfo) => {
-  //      alert(JSON.stringify(errorInfo, null, 2));
-  //    };
+
 
   return (
     <div>
