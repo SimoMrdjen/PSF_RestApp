@@ -49,6 +49,7 @@ public class SecurityConfiguration {
                 )
                 .permitAll()
 
+                .requestMatchers("/api/upload/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/obrazac_zb/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/obrazac_io/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/zakljucni_list/**").hasAnyRole(ADMIN.name(), USER.name())
