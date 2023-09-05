@@ -6,7 +6,7 @@ import {
   errorNotification,
   warningNotification,
 } from "./Notification";
-import { handleUpload , handleUploadTxt} from "../api/upload";
+import { handleUpload , handleUploadTxt, saveTxtFile} from "../api/upload";
 
 function ZakljucniList({
   kvartal,
@@ -101,15 +101,12 @@ function ZakljucniList({
 
       saveZakljucni(data, kvartal, jbbks, year, token)
         .then((response) => {
-          console.log(response);
           return response.text(); // Get the text content from the response
         })
         .then((text) => {
-          // console.log(res);
           if (text === "") {
             successNotification("Obrazac je uspesno ucitan!");
-            const txtObject = {text: "Obrazac je uspesno ucitan!"};
-            handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
+            saveTxtFile("Obrazac je uspesno ucitan!", token, year, excelKvartal, selectedItem);
           } else {
             console.log("responseText:", text);
             warningNotification(
@@ -117,16 +114,14 @@ function ZakljucniList({
               "Obrazac je učitan ali postoje greške. \n "
             );
             txtMessagge = "Obrazac je učitan ali postoje greške. \n " + text;
-            const txtObject = {text: txtMessagge};
-            handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
+            saveTxtFile(txtMessagge, token, year, excelKvartal, selectedItem);
           }
           // Handle successful response if needed
         })
         .catch((error) => {
           errorNotification("Neuspešno učitavanje!", error.message);
           txtMessagge = "Neuspešno učitavanje!\n" +  error.message;
-          const txtObject = {text: txtMessagge};
-          handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
+          saveTxtFile(txtMessagge, token, year, excelKvartal, selectedItem);
           setKvartal(0);
         });
     } else {
@@ -173,19 +168,9 @@ function ZakljucniList({
         <br></br>
         <hr></hr>
         <h5>{message}</h5>
-        {/*} {false &&
-                <div className="viewer">
-                  {excelData === null && <>Nije izabran nijedan dokument</>}
-                  {excelData !== null && (
-                    <div className="table">
-                      <pre>{excelData}</pre>
-                    </div>
-                  )}
-                </div>
-        } */}
+
       </div>
     </div>
   );
 }
-
 export default ZakljucniList;
