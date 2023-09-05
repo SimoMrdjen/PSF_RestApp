@@ -6,6 +6,7 @@ import {
   errorNotification,
   warningNotification,
 } from "./Notification";
+import { handleUpload , handleUploadTxt} from "../api/upload";
 
 function ZakljucniList({
   kvartal,
@@ -19,15 +20,9 @@ function ZakljucniList({
   const [excelData, setExcelData] = useState(null);
   const [message, setMessage] = useState("");
   const [activeButton, setActiveButton] = useState(false);
-  //const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => {
-    console.log("This is token from Zakljucni List", access_token);
-    //setKvartal(0);
-  }, []);
+  const [excelFileUpload, setExcelFileUpload] = useState(null);
 
   const handleFile = (e) => {
-    //  setSelectedFile(e.target.files[0]);
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (
@@ -41,14 +36,13 @@ function ZakljucniList({
           setExcelFileError(null);
           setExcelFile(e.target.result);
           setActiveButton(true);
+          setExcelFileUpload(selectedFile);
         };
       } else {
-        console.log(selectedFile.type);
         setExcelFileError("Izabrani dokument nije XLSX ili XLS!");
         setExcelFile(null);
       }
     } else {
-      console.log("Plz select your file");
     }
     setActiveButton(true);
   };
@@ -86,7 +80,6 @@ function ZakljucniList({
       const year = worksheet["E4"]?.v || "";
       const jbbks = worksheet["B3"]?.v || "";
       const excelKvartal = worksheet["B4"]?.v || "";
-      console.log("godina:", year);
 
       if (excelKvartal != kvartal) {
         errorNotification(
@@ -98,6 +91,14 @@ function ZakljucniList({
         return;
       }
       let token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      if (excelFileUpload) {
+        formData.append('file', excelFileUpload);
+        handleUpload(formData, token, year, excelKvartal, selectedItem, "excel");
+      }
+      let txtMessagge = "";
+
       saveZakljucni(data, kvartal, jbbks, year, token)
         .then((response) => {
           console.log(response);
@@ -107,18 +108,25 @@ function ZakljucniList({
           // console.log(res);
           if (text === "") {
             successNotification("Obrazac je uspesno ucitan!");
+            const txtObject = {text: "Obrazac je uspesno ucitan!"};
+            handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
           } else {
             console.log("responseText:", text);
             warningNotification(
               text,
               "Obrazac je učitan ali postoje greške. \n "
             );
+            txtMessagge = "Obrazac je učitan ali postoje greške. \n " + text;
+            const txtObject = {text: txtMessagge};
+            handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
           }
           // Handle successful response if needed
         })
         .catch((error) => {
           errorNotification("Neuspešno učitavanje!", error.message);
-          console.log("This is error message", error.message);
+          txtMessagge = "Neuspešno učitavanje!\n" +  error.message;
+          const txtObject = {text: txtMessagge};
+          handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt");
           setKvartal(0);
         });
     } else {

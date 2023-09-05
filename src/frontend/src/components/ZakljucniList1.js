@@ -37,17 +37,13 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
           setExcelFileError(null);
           setExcelFile(e.target.result);
           setExcelFileUpload(selectedFile);
-
-         // setExcelFileUpload(new Blob([e.target.result]));
           setActiveButton(true);
         };
       } else {
-        //console.log(selectedFile.type);
         setExcelFileError("Izabrani dokument nije XLSX ili XLS!");
         setExcelFile(null);
       }
     } else {
-     // console.log("Plz select your file");
     }
     setActiveButton(true);
   };
@@ -108,7 +104,7 @@ function ZakljucniList({ kvartal, setKvartal, access_token, selectedItem, setSel
           formData.append('file', excelFileUpload);
           handleUpload(formData, token, year, excelKvartal, selectedItem, "excel");
         }
-        console.log("Data from ZB ", data);
+
         const response = await saveZakljucni(data, kvartal, jbbks, year, token);
         let txtMessagge = "";
 

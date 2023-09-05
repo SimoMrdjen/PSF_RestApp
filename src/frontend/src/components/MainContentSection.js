@@ -1,7 +1,7 @@
 import React from "react";
 import Kvartal from "./Kvartal";
 import ObrazacIO from "./ObrazacIO";
-import ZakljucniList from "./ZakljucniList1";
+import ZakljucniList from "./ZakljucniList";
 import Obrazac5 from "./Obrazac5";
 import StornoAndStatusSection from "./StornoAndStatusSection";
 
