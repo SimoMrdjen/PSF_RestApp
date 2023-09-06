@@ -14,12 +14,12 @@ const MainApp = () => {
   };
   useEffect(() => {
     console.log("This is token from MainApp", access_token);
+    setLoggedIn(localStorage.getItem("token"));
   }, []);
 
   return (
     <div>
       {loggedIn
-//      { (localStorage.getItem("loggedIn") != null)
       ? (
           role === 'ADMIN' ? (
               <AdminMainForma

@@ -81,7 +81,7 @@ public class ZakljucniListZbService implements IZakListService {
         return responseMessage;
     }
 
-    private Integer getJbbksIBK(String email) {
+    public Integer getJbbksIBK(String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         return pPartnerService.getJBBKS(user.getSifra_pp());
     }
@@ -130,7 +130,7 @@ public class ZakljucniListZbService implements IZakListService {
                 .year(zb.get().getGODINA())
                 .version(zb.get().getVerzija())
                 .status(zb.get().getSTATUS())
-                .jbbk(zb.get().getJBBK())
+                .jbbk(zb.get().getJbbkIndKor())
                 .build();
     }
 
@@ -191,4 +191,6 @@ public class ZakljucniListZbService implements IZakListService {
         zakljucniRepository.save(zb);
         return "Zakljucni list je storniran!";
     }
+
+
 }

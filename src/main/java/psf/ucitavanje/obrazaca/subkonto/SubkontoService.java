@@ -1,4 +1,4 @@
-package psf.ucitavanje.obrazaca.kontni_plan;
+package psf.ucitavanje.obrazaca.subkonto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Component
-public class KontniPlanService {
+public class SubkontoService {
 
-    private final KontniPlanRepository repository;
+    private final SubkontoRepository repository;
 
     public List<Integer> getKontniPlan() {
         return repository.findAll()
                 .stream()
-                .map(KontniPlan::getSubKonto)
+                .map(Subkonto::getSubKonto)
                 .collect(Collectors.toList());
     }
 }
