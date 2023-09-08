@@ -17,37 +17,79 @@ function UserDrawerForm({ showDrawer, setShowDrawer, fetchUsers , access_token})
       console.log("Token fro AddUser : ", access_token);
     }, []);
 
+const onFinish = (user) => {
+    // Convert specific fields to numbers
+    user.sifraradnika = parseInt(user.sifraradnika, 10);
+    user.za_sif_sekret = parseInt(user.za_sif_sekret, 10);
+    user.sif_oblast = parseInt(user.sif_oblast, 10);
+    user.sifra_pp = parseInt(user.sifra_pp, 10);
 
-  const onFinish = (user) => {
     setSubmitting(true);
-    //console.log(JSON.stringify(user, null, 2));
-    console.log("Token:", access_token);
+
     addNewUser(user, access_token)
-      .then(() => {
-        console.log("User added");
-        onCLose();
-        successNotification(
-          "User successfully added",
-          `${user.email} was added`,
-        );
-        fetchUsers(access_token);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err);
-        err.response.json().then((res) => {
-          console.log(res);
-          errorNotification(
-            "There was an issue",
-            `${res.message} [${res.status}] [${res.error}]`,
-            "bottomLeft",
-          );
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("User added");
+            onCLose();
+            successNotification(
+                "User successfully added",
+                `${user.email} was added`,
+            );
+            fetchUsers(access_token);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            errorNotification(
+                "There was an issue",
+                error.message,
+                "bottomLeft",
+            );
+        })
+        .finally(() => {
+            setSubmitting(false);
         });
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
-  };
+};
+
+//  const onFinish = (user) => {
+//      user.sifraradnika = parseInt(user.sifraradnika, 10);
+//      user.za_sif_sekret = parseInt(user.za_sif_sekret, 10);
+//      user.sif_oblast = parseInt(user.sif_oblast, 10);
+//      user.sifra_pp = parseInt(user.sifra_pp, 10);
+//
+//    setSubmitting(true);
+//    //console.log(JSON.stringify(user, null, 2));
+//    console.log("Token:", access_token);
+//    addNewUser(user, access_token)
+//      .then(() => {
+//        console.log("User added");
+//        onCLose();
+//        successNotification(
+//          "User successfully added",
+//          `${user.email} was added`,
+//        );
+//        fetchUsers(access_token);
+//      })
+//      .catch((err) => {
+//        console.log(err);
+//        console.log(err);
+//        err.response.json().then((res) => {
+//          console.log(res);
+//          errorNotification(
+//            "There was an issue",
+//            `${res.message} [${res.status}] [${res.error}]`,
+//            "bottomLeft",
+//          );
+//        });
+//      })
+//      .finally(() => {
+//        setSubmitting(false);
+//      });
+//  };
 
   const onFinishFailed = (errorInfo) => {
     alert(JSON.stringify(errorInfo, null, 2));

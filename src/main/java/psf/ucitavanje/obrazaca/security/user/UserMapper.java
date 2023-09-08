@@ -36,6 +36,7 @@ public class UserMapper {
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .role(dto.getRole())
+                .za_sif_rac(0)
                 .build();
     }
 }
