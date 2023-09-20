@@ -9,9 +9,9 @@ const MainApp = () => {
   const [access_token, setAccessToken] = useState();
   const [role, setRole] = useState();
 
-  const handleLogin = (isLoggedIn) => {
-    setLoggedIn(isLoggedIn);
-  };
+  // const onLoggin = (isLoggedIn) => {
+  //   setLoggedIn(isLoggedIn);
+  // };
   useEffect(() => {
     console.log("This is token from MainApp", access_token);
     setLoggedIn(localStorage.getItem("token"));
@@ -37,11 +37,12 @@ const MainApp = () => {
           )
       ) : (
           <LoginForm
-              onLogin={handleLogin}
+              setLoggedIn={setLoggedIn}
               access_token={access_token}
               setAccessToken={setAccessToken}
               role={role}
               setRole={setRole}
+              loggedIn={loggedIn}
           />
       )}
     </div>

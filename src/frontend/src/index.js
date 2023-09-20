@@ -1,31 +1,18 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import { AuthProvider } from "./context/AuthProvider";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 import MainApp from "./MainApp";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <MainApp />
-      {/* //
-    <BrowserRouter>
-      //{" "}
-      <AuthProvider>
-        //{" "}
-        <Routes>
-          // <Route path="/*" element={<App />} />
-          //{" "}
-        </Routes>
-        //{" "}
-      </AuthProvider>
-      //{" "}
-    </BrowserRouter> */}
-  </React.StrictMode>
+    <Router>
+        <App />
+    </Router>
 );
 
 reportWebVitals();

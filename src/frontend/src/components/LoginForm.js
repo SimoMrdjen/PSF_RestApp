@@ -8,7 +8,7 @@ import {errorNotification, successNotification} from "./Notification";
 
 const { Content, Footer } = Layout;
 
-const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => {
+const LoginForm = ({ loggedIn,setLoggedIn, access_token, setAccessToken, role, setRole }) => {
   const { setAuth } = useAuth();
   const [form] = Form.useForm(); // Add this line to create a form instanc
   const [message, setMessage] = useState("");
@@ -21,13 +21,13 @@ const LoginForm = ({ onLogin, access_token, setAccessToken, role, setRole }) => 
         setAccessToken(data.access_token);
         console.log("Ovo je iz token login", access_token);
         setRole(data.role);
-        onLogin(true);
+        setLoggedIn(true);
          localStorage.removeItem("token");
         localStorage.setItem("token", data.access_token);
       })
       .catch((err) => {
         //err.response.json().then((res) => {});
-        onLogin(false);
+        setLoggedIn(false);
         errorNotification("Pogresno ste uneli korisnicko ime ili lozinku!");
         //setMessage("Pogresno ste uneli korisnicko ime ili lozinku!");
       })

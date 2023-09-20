@@ -53,7 +53,7 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
   }).then(checkStatus);
 
 export const login = (data) =>
-  fetch(`/api/v1/auth/authenticate`, {
+  fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
     headers: {
       "Content-Type": "application/json",
     },
