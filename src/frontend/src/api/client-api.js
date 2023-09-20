@@ -1,5 +1,6 @@
 import fetch from "unfetch";
 import { errorNotification } from "../components/Notification";
+import { API_BASE_URL } from "../config"; // Import the API_BASE_URL from your config file
 
 //const checkStatus = (response) => {
 //  if (response.ok) {
@@ -22,7 +23,7 @@ const checkStatus = async (response) => {
 };
 
 export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
-  fetch(`/api/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
+  fetch(`${API_BASE_URL}/zakljucni_list/${kvartal}/${jbbks}/${year}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -32,7 +33,7 @@ export const saveZakljucni = (data, kvartal, jbbks, year, access_token) =>
   }).then(checkStatus);
 
 export const saveObrazac5 = async (data, kvartal, access_token) => {
-  return fetch(`/api/obrazac_zb/${kvartal}`, {
+  return fetch(`${API_BASE_URL}/obrazac_zb/${kvartal}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -43,7 +44,7 @@ export const saveObrazac5 = async (data, kvartal, access_token) => {
 };
 
 export const saveObrazacIO = (data, kvartal, year, access_token) =>
-  fetch(`/api/obrazac_io/${kvartal}/${year}`, {
+  fetch(`${API_BASE_URL}/obrazac_io/${kvartal}/${year}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -53,7 +54,7 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
   }).then(checkStatus);
 
 export const login = (data) =>
-  fetch(`http://localhost:8080/api/v1/auth/authenticate`, {
+  fetch(`${API_BASE_URL}/v1/auth/authenticate`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -62,21 +63,21 @@ export const login = (data) =>
   }).then(checkStatus);
 
 export const getAllUsers = (access_token) =>
-  fetch("api/v1/users", {
+  fetch("${API_BASE_URL}/v1/users", {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
   }).then(checkStatus);
 
 export const getUsersLike = (likeUser, access_token) =>
-  fetch(`api/v1/users/${likeUser}`, {
+  fetch(`${API_BASE_URL}/v1/users/${likeUser}`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
   }).then(checkStatus);
 
 export const addNewUser = (data, access_token) =>
-  fetch(`/api/v1/users`, {
+  fetch(`${API_BASE_URL}/v1/users`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -86,7 +87,7 @@ export const addNewUser = (data, access_token) =>
   }).then(checkStatus);
 
 export const editUser = (user, access_token) =>
-  fetch(`api/v1/users/${user.sifraradnika}`, {
+  fetch(`${API_BASE_URL}/v1/users/${user.sifraradnika}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -96,7 +97,7 @@ export const editUser = (user, access_token) =>
   });
 
 export const getZakList = (access_token) =>
-  fetch(`api/zakljucni_list`, {
+  fetch(`${API_BASE_URL}/zakljucni_list`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },
@@ -104,7 +105,7 @@ export const getZakList = (access_token) =>
   }).then(checkStatus);
 
 export const raiseStatusZakList = (id, access_token) =>
-  fetch(`api/zakljucni_list/status/${id}`, {
+  fetch(`${API_BASE_URL}/zakljucni_list/status/${id}`, {
     headers: {
       //"Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,
@@ -114,7 +115,7 @@ export const raiseStatusZakList = (id, access_token) =>
   }).then(checkStatus);
 
 export const stornoZakList = (id, access_token) =>
-  fetch(`api/zakljucni_list/storno/${id}`, {
+  fetch(`${API_BASE_URL}/zakljucni_list/storno/${id}`, {
     headers: {
       //"Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`,

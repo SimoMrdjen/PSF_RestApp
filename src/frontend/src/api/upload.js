@@ -1,7 +1,8 @@
+import { API_BASE_URL } from "../config";
 
- export const handleUpload = async (formData, token, year, kvartal, typeOfObrazac, txtOrExcel) => {
+export const handleUpload = async (formData, token, year, kvartal, typeOfObrazac, txtOrExcel) => {
  console.log("From handleUpload")
-         await fetch(`/api/upload/${txtOrExcel}/${year}/${kvartal}/${typeOfObrazac}`, {
+         await fetch(`${API_BASE_URL}/upload/${txtOrExcel}/${year}/${kvartal}/${typeOfObrazac}`, {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -11,7 +12,7 @@
     };
 
  export const handleUploadTxt =  async (data, token, year, kvartal, typeOfObrazac, txtOrExcel) => {
-    await fetch(`/api/upload/${txtOrExcel}/${year}/${kvartal}/${typeOfObrazac}`, {
+    await fetch(`${API_BASE_URL}/upload/${txtOrExcel}/${year}/${kvartal}/${typeOfObrazac}`, {
          method: 'POST',
          headers: {
              'Authorization': `Bearer ${token}`,

@@ -8,50 +8,61 @@ import StatusObrIO from "./StatusObrIO";
 import StatusZakList from "./StatusZakList";
 
 function StornoAndStatusSection({
-  selectedItemCancel,
-  selectedItemStatus,
-  access_token,
-  setSelectedItemCancel,
-  setSelectedItemStatus,
-}) {
+                                  selectedItemCancel,
+
+                                  access_token,
+                                  setSelectedItemCancel,
+                                  selectedItemOveravanje,
+                                  setSelectedItemOveravanje,
+                                  selectedItemOdobravanje,
+                                  setSelectedItemOdobravanje,
+                                }) {
   return (
-    <div style={{ padding: 24, minHeight: 380, background: "white" }}>
-      <div className="container">
-        <div className="form">
-          <>
-            {/* obrazacIO */}
-            {(selectedItemCancel || selectedItemStatus) === "ObrazacIO" && (
-              <StatusObrIO
-                access_token={access_token}
-                selectedItemCancel={selectedItemCancel}
-                selectedItemStatus={selectedItemStatus}
-              />
-            )}
+      <div style={{ padding: 24, minHeight: 380, background: "white" }}>
+        <div className="container">
+          <div className="form">
+            <>
+              {/* obrazacIO */}
+              {(selectedItemCancel || selectedItemOdobravanje || selectedItemOveravanje) === "ObrazacIO" && (
+                  <StatusObrIO
+                      access_token={access_token}
+                      selectedItemCancel={selectedItemCancel}
+                      selectedItemOveravanje={selectedItemOveravanje}
+                      setSelectedItemOveravanje={setSelectedItemOveravanje}
+                      selectedItemOdobravanje={selectedItemOdobravanje}
+                      setSelectedItemOdobravanje={setSelectedItemOdobravanje}
+                  />
+              )}
 
-            {/* zakljucniList */}
-            {(selectedItemCancel || selectedItemStatus) === "ZakljucniList" && (
-              <StatusZakList
-                access_token={access_token}
-                selectedItemCancel={selectedItemCancel}
-                selectedItemStatus={selectedItemStatus}
-                setSelectedItemStatus={setSelectedItemStatus}
-                setSelectedItemCancel={setSelectedItemCancel}
+              {/* zakljucniList */}
+              {(selectedItemCancel || selectedItemOdobravanje || selectedItemOveravanje) === "ZakljucniList" && (
+                  <StatusZakList
+                      access_token={access_token}
+                      selectedItemCancel={selectedItemCancel}
+                      selectedItemOveravanje={selectedItemOveravanje}
+                      setSelectedItemOveravanje={setSelectedItemOveravanje}
+                      selectedItemOdobravanje={selectedItemOdobravanje}
+                      setSelectedItemOdobravanje={setSelectedItemOdobravanje}
+                      setSelectedItemCancel={setSelectedItemCancel}
 
-              />
-            )}
+                  />
+              )}
 
-            {/* Obrazac5 */}
-            {(selectedItemCancel || selectedItemStatus) === "Obrazac5" && (
-              <StatusObr5
-                access_token={access_token}
-                selectedItemCancel={selectedItemCancel}
-                selectedItemStatus={selectedItemStatus}
-              />
-            )}
-          </>
+              {/* Obrazac5 */}
+              {(selectedItemCancel || selectedItemOdobravanje || selectedItemOveravanje) === "Obrazac5" && (
+                  <StatusObr5
+                      access_token={access_token}
+                      selectedItemCancel={selectedItemCancel}
+                      selectedItemOveravanje={selectedItemOveravanje}
+                      setSelectedItemOveravanje={setSelectedItemOveravanje}
+                      selectedItemOdobravanje={selectedItemOdobravanje}
+                      setSelectedItemOdobravanje={setSelectedItemOdobravanje}
+                  />
+              )}
+            </>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 

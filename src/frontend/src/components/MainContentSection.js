@@ -15,6 +15,10 @@ function MainContentSection({
   access_token,
   setSelectedItemCancel,
   setSelectedItemStatus,
+                              selectedItemOveravanje,
+                              setSelectedItemOveravanje,
+                              selectedItemOdobravanje,
+                              setSelectedItemOdobravanje,
 }) {
   return (
     <>
@@ -74,14 +78,16 @@ function MainContentSection({
         </div>
       )}
 
-      {(selectedItemCancel || selectedItemStatus) && (
+      {(selectedItemCancel || selectedItemOveravanje || setSelectedItemOdobravanje) && (
         <StornoAndStatusSection
-          selectedItem={selectedItem}
-          selectedItemCancel={selectedItemCancel}
-          selectedItemStatus={selectedItemStatus}
-          setSelectedItemCancel={setSelectedItemCancel}
-          setSelectedItemStatus={setSelectedItemStatus}
-          access_token={access_token}
+            selectedItem={selectedItem}
+            selectedItemCancel={selectedItemCancel}
+            setSelectedItemCancel={setSelectedItemCancel}
+            access_token={access_token}
+            setSelectedItemOveravanje={setSelectedItemOveravanje}
+            selectedItemOveravanje={selectedItemOveravanje}
+            setSelectedItemOdobravanje={setSelectedItemOdobravanje}
+            selectedItemOdobravanje={selectedItemOdobravanje}
         />
       )}
     </>

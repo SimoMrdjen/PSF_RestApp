@@ -35,28 +35,41 @@ const menuItems = [
 function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
   const [kvartal, setKvartal] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedItemStatus, setSelectedItemStatus] = useState(null);
+  const [selectedItemOdobravanje, setSelectedItemOdobravanje] = useState(null);
+  const [selectedItemOveravanje, setSelectedItemOveravanje] = useState(null);
   const [selectedItemCancel, setSelectedItemCancel] = useState(null);
 
   const handleMenuClick = (item) => {
-    setSelectedItemStatus(null);
+    setSelectedItemOdobravanje(null);
+    setSelectedItemOveravanje(null);
     setSelectedItemCancel(null);
     setSelectedItem(item.key);
   };
 
-  const handleMenuClickStatus = (item) => {
+  const handleMenuClickOdobravanje = (item) => {
     setSelectedItem(null);
     setSelectedItemCancel(null);
-    setSelectedItemStatus(item.key);
+    setSelectedItemOveravanje(null);
+    setSelectedItemOdobravanje(item.key);
     let token = localStorage.getItem("token");
     getZakList(token).catch((error) => {
-      errorNotification("Podizanje statusa nije moguće!", error.message);
+      errorNotification("Odobravanje nije moguće!", error.message);
     });
   };
-
+  const handleMenuClickOveravanje = (item) => {
+    setSelectedItem(null);
+    setSelectedItemCancel(null);
+    setSelectedItemOveravanje(item.key);
+    setSelectedItemOdobravanje(null);
+    let token = localStorage.getItem("token");
+    getZakList(token).catch((error) => {
+      errorNotification("Overavanje nije moguće!", error.message);
+    });
+  };
   const handleMenuClickCancel = (item) => {
     let token = localStorage.getItem("token");
-    setSelectedItemStatus(null);
+    setSelectedItemOdobravanje(null);
+    setSelectedItemOveravanje(null);
     setSelectedItem(null);
     setSelectedItemCancel(item.key);
     getZakList(token).catch((error) => {
@@ -94,15 +107,7 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
 
 
   useEffect(() => {
-    console.log(
-      "This is izabrani meni from MainForma . Ucitavanje: " +
-        selectedItem +
-        "\nStatus: " +
-        selectedItemStatus +
-        "\nCancel: " +
-        selectedItemCancel,
-    );
-  }, [selectedItem, selectedItemStatus, selectedItemCancel]);
+  }, []);
 
   return (
     <>
@@ -111,7 +116,8 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
           loggedIn = {loggedIn}
           setLoggedIn = {setLoggedIn}
           handleMenuClick={handleMenuClick}
-          handleMenuClickStatus={handleMenuClickStatus}
+          handleMenuClickOveravanje={handleMenuClickOveravanje}
+          handleMenuClickOdobravanje={handleMenuClickOdobravanje}
           handleMenuClickCancel={handleMenuClickCancel}
           menuItems={menuItems}
           handleDownload={handleDownload}
@@ -124,11 +130,15 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
             <Breadcrumb.Item>
               {selectedItem ? `Ucitavanje` : ""}
               {selectedItemCancel ? `Storniranje` : ""}
-              {selectedItemStatus ? `Podizanje statusa` : ""}
+              {selectedItemOveravanje ? `Overavanje` : ""}
+              {selectedItemOdobravanje ? `Odobravanje` : ""}
+
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               {selectedItem}
-              {selectedItemStatus}
+              {selectedItemOveravanje}
+              {selectedItemOdobravanje}
+
               {selectedItemCancel}
             </Breadcrumb.Item>
           </Breadcrumb>
@@ -139,10 +149,12 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             selectedItemCancel={selectedItemCancel}
-            selectedItemStatus={selectedItemStatus}
             access_token={access_token}
             setSelectedItemCancel={setSelectedItemCancel}
-            setSelectedItemStatus={setSelectedItemStatus}
+            setSelectedItemOveravanje={setSelectedItemOveravanje}
+            selectedItemOveravanje={selectedItemOveravanje}
+            setSelectedItemOdobravanje={setSelectedItemOdobravanje}
+            selectedItemOdobravanje={selectedItemOdobravanje}
           />
 
         </Content>

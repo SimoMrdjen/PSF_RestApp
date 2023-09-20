@@ -3,12 +3,21 @@ import { Menu, Image, Layout } from "antd";
 import DownloadExcelButton from "./DownloadObrazaca";
 const { Header, Content, Footer, Sider } = Layout;
 function HeaderSection({ handleMenuClick, handleMenuClickCancel,
-                    handleMenuClickStatus, menuItems, logo, handleDownload,
-                     loggedIn, setLoggedIn }) {
+                           handleMenuClickOveravanje,handleMenuClickOdobravanje,
+                           menuItems, logo, handleDownload,
+                           loggedIn, setLoggedIn }) {
+
+    const smallMenuStyle = {
+        background: "#6f6f76",
+        marginRight: "10px",
+        fontSize: "10px", // Adjust the font size to make it smaller
+        padding: "4px 8px", // Adjust the padding to make it smaller
+    };
 
     const logout = () => {
         localStorage.removeItem("token");
         setLoggedIn(false);
+
 
     }
     return (
@@ -31,9 +40,10 @@ function HeaderSection({ handleMenuClick, handleMenuClickCancel,
                 mode="horizontal"
                 defaultSelectedKeys={["1"]}
                 onClick={handleMenuClick}
-                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px"}} // Set the menu background to blue
+
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px", smallMenuStyle}} // Set the menu background to blue
             >
-                <Menu.SubMenu title="Učitavanja obrazaca" style={{ background: "#6f6f76" }}>
+                <Menu.SubMenu title="Učitavanja obr." style={{ background: "#6f6f76" }}>
                     {menuItems.map((item) => (
                         <Menu.Item key={item.key}>{item.label}</Menu.Item>
                     ))}
@@ -43,64 +53,77 @@ function HeaderSection({ handleMenuClick, handleMenuClickCancel,
                 theme="dark" // Use dark theme to match the Windows style
                 mode="horizontal"
                 defaultSelectedKeys={["1"]}
-                onClick={handleMenuClickStatus}
-                style={{ flexGrow: 1, background: "#6f6f76", marginRight: "10px" }} // Set the menu background to blue
+                onClick={handleMenuClickOveravanje}
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px", smallMenuStyle}} // Set the menu background to blue
             >
-                <Menu.SubMenu title="Podizanje statusa" style={{ background: "#6f6f76" }}>
+                <Menu.SubMenu title="Overavanje" style={{ background: "#6f6f76" }}>
                     {menuItems.map((item) => (
                         <Menu.Item key={item.key}>{item.label}</Menu.Item>
                     ))}
                 </Menu.SubMenu>
             </Menu>
-                        <Menu
-                            theme="dark" // Use dark theme to match the Windows style
-                            mode="horizontal"
-                            defaultSelectedKeys={["1"]}
-                            onClick={handleMenuClickCancel}
-                            style={{ flexGrow: 1, background: "#6f6f76", marginRight: "10px" }} // Set the menu background to blue
-                        >
-                            <Menu.SubMenu title="Storniranje obrazaca" style={{ background: "#6f6f76" }}>
-                                {menuItems.map((item) => (
-                                    <Menu.Item key={item.key}>{item.label}</Menu.Item>
-                                ))}
-                            </Menu.SubMenu>
-                        </Menu>
+            <Menu
+                theme="dark" // Use dark theme to match the Windows style
+                mode="horizontal"
+                defaultSelectedKeys={["1"]}
+                onClick={handleMenuClickOdobravanje}
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px", smallMenuStyle}} // Set the menu background to blue
+            >
+                <Menu.SubMenu title="Odobravanje" style={{ background: "#6f6f76" }}>
+                    {menuItems.map((item) => (
+                        <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                    ))}
+                </Menu.SubMenu>
+            </Menu>
+            <Menu
+                theme="dark" // Use dark theme to match the Windows style
+                mode="horizontal"
+                defaultSelectedKeys={["1"]}
+                onClick={handleMenuClickCancel}
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px", smallMenuStyle}} // Set the menu background to blue
+            >
+                <Menu.SubMenu title="Storniranje obr." style={{ background: "#6f6f76" }}>
+                    {menuItems.map((item) => (
+                        <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                    ))}
+                </Menu.SubMenu>
+            </Menu>
 
-                        <Menu
-                            theme="dark" // Use dark theme to match the Windows style
-                            mode="horizontal"
-                            defaultSelectedKeys={["1"]}
-                            onClick={handleDownload}
-                            style={{ flexGrow: 1, background: "#6f6f76" }} // Set the menu background to blue
-                        >
-                            <Menu.SubMenu title="Preuzimanje obrazaca" style={{ background: "#6f6f76" }}>
-                                {menuItems.map((item) => (
-                                    <Menu.Item key={item.key}>{item.label}</Menu.Item>
-                                ))}
-                            </Menu.SubMenu>
-                        </Menu>
+            <Menu
+                theme="dark" // Use dark theme to match the Windows style
+                mode="horizontal"
+                defaultSelectedKeys={["1"]}
+                onClick={handleDownload}
+                style={{ flexGrow: 1, background: "#6f6f76" , marginRight: "10px", smallMenuStyle}} // Set the menu background to blue
+            >
+                <Menu.SubMenu title="Preuzimanje" style={{ background: "#6f6f76" }}>
+                    {menuItems.map((item) => (
+                        <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                    ))}
+                </Menu.SubMenu>
+            </Menu>
 
-          {/* <div align="left">
+            {/* <div align="left">
                 <DownloadExcelButton />
             </div>*/}
             <div>
                 <Image align="center" width={100} src={logo}
-                         style={{ marginRight: "50px" }} // Adding right margin
-                 />
+                       style={{ marginRight: "50px" }} // Adding right margin
+                />
             </div>
-                   <button
-                      type="button"
-                      className="btn btn-dark"
-                      style={{
-                       marginLeft: "50px",
-                      backgroundColor: "#a3a3a8",
-                      fontSize: "12px", // Adjust the font size as needed
-                      padding: "8px 8px", // Adjust the padding as needed
-                     }}
-                      onClick ={logout}
-                      >
-                        Odjavi se
-                    </button>
+            <button
+                type="button"
+                className="btn btn-dark"
+                style={{
+                    marginLeft: "50px",
+                    backgroundColor: "#a3a3a8",
+                    fontSize: "12px", // Adjust the font size as needed
+                    padding: "8px 8px", // Adjust the padding as needed
+                }}
+                onClick ={logout}
+            >
+                Odjavi se
+            </button>
         </Header>
     );
 }

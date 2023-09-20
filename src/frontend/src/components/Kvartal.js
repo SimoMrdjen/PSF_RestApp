@@ -27,7 +27,7 @@ const items = [
     //    disabled: true,
   },
   {
-    label: "5. kvartal",
+    label: "Završni",
     key: 5,
     // icon: <UserOutlined />,
     //      danger: true,
