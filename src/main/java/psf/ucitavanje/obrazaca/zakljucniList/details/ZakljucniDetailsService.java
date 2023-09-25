@@ -49,12 +49,18 @@ public class ZakljucniDetailsService {
 
         List<Integer> nonExistingKontos = dtos.stream()
                 .map(ZakljucniListDto::getProp1)
+                .map(kon -> kon.trim())
                 .map(Integer::parseInt)
                 .filter((k) -> !kontosInKontniPlan.contains(k))
                 .collect(Collectors.toList());
 
+        List<String> nonExistingKontosString =  nonExistingKontos.stream()
+                .map(konto -> Integer.toString(konto))
+                .map(konto -> konto.length() < 6 ? ("0" + konto) : konto)
+                .collect(Collectors.toList());
+
         if (!nonExistingKontos.isEmpty()) {
-            throw new Exception("U Zakljucnom list postoje konta koja nisu \ndeo Kontnog plana: " + nonExistingKontos);
+            throw new Exception("U Zakljucnom listu postoje konta koja nisu \ndeo Kontnog plana: " + nonExistingKontosString);
         }
     }
 }

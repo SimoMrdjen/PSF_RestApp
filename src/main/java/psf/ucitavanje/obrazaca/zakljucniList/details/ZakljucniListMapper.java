@@ -10,7 +10,7 @@ public class ZakljucniListMapper {
     public ZakljucniListDetails mapDtoToEntity(ZakljucniListDto dto,
                                                ZakljucniListZb zb,
                                                String oznakaGlave) {
-        var konto = Integer
+        Integer konto = Integer
                 .parseInt(dto.getProp1().trim());
         return ZakljucniListDetails.builder()
                 .GEN_MYSQL(zb.getGenMysql())

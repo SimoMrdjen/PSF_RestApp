@@ -16,6 +16,7 @@ import psf.ucitavanje.obrazaca.zakljucniList.details.ZakljucniDetailsService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -139,13 +140,25 @@ public class ZakljucniListZbService implements IZakListService {
             var validError = obrKontrService.isKontrolaMandatory(9);
             var isKontrolaActive = obrKontrService.isKontrolaActive(9);
 
-            List<String>  duplicates = dtos.stream()
-                .collect(Collectors.groupingBy(ZakljucniListDto::getProp1, Collectors.counting()))
-                    .entrySet()
-                    .stream()
-                    .filter(e -> e.getValue() > 1)
-                    .map(e -> e.getKey())
-                    .collect(Collectors.toList());
+        List<String> kontos =
+                dtos.stream()
+                        .map(dto -> dto.getProp1().trim())
+                        .collect(Collectors.toList());
+
+        // Find duplicates
+        List<String> duplicates = kontos.stream()
+                .collect(Collectors.toMap(
+                        // Key is the element itself
+                        e -> e,
+                        // Value is a constant to indicate duplicates
+                        v -> 1,
+                        // Merge function to handle duplicates
+                        (existing, replacement) -> existing + replacement))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
             if (isKontrolaActive) {
                 if (!duplicates.isEmpty() && validError) {
