@@ -33,24 +33,25 @@ public class FileUploadService {
             boolean result =
                     directory.mkdir();
         }
+        path += "/KVARTAL_" + kvartal;
+        File directoryKvartal = new File(path);
+        if (!directoryKvartal.exists()) {
+            boolean result =
+                    directoryKvartal.mkdir();
+        }
         path += "/" + jbbk;
         File directoryJbbk = new File(path);
         if (!directoryJbbk.exists()) {
             boolean result =
                     directoryJbbk.mkdir();
         }
-        path += "/kvartal" + kvartal;
-        File directoryKvartal = new File(path);
-        if (!directoryKvartal.exists()) {
-            boolean result =
-                    directoryKvartal.mkdir();
-        }
-        path += "/" + typeOfObrazac;
-        File directoryType = new File(path);
-        if (!directoryType.exists()) {
-            boolean result =
-                    directoryType.mkdir();
-        }
+
+//        path += "/" + typeOfObrazac;
+//        File directoryType = new File(path);
+//        if (!directoryType.exists()) {
+//            boolean result =
+//                    directoryType.mkdir();
+//        }
         return path;
 
     }

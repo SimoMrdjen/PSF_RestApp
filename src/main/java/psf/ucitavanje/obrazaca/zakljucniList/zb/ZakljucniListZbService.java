@@ -145,14 +145,10 @@ public class ZakljucniListZbService implements IZakListService {
                         .map(dto -> dto.getProp1().trim())
                         .collect(Collectors.toList());
 
-        // Find duplicates
         List<String> duplicates = kontos.stream()
                 .collect(Collectors.toMap(
-                        // Key is the element itself
                         e -> e,
-                        // Value is a constant to indicate duplicates
                         v -> 1,
-                        // Merge function to handle duplicates
                         (existing, replacement) -> existing + replacement))
                 .entrySet()
                 .stream()
