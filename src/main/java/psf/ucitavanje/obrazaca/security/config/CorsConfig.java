@@ -11,7 +11,7 @@ public class CorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://192.168.5.107:3000"); // Replace with the actual URL of your React app.
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setAllowCredentials(true);

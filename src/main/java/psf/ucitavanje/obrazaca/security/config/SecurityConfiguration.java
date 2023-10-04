@@ -30,19 +30,16 @@ public class SecurityConfiguration {
     private final LogoutHandler logoutHandler;
     private final CorsConfig corsConfig;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
-//
                 .cors()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/v1/auth/**",
-//                        "/api/v1/users/**",
                         "/login",
                         "/v2/api-docs",
                         "/v3/api-docs",
@@ -63,12 +60,6 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/obrazac_io/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/zakljucni_list/**").hasAnyRole(ADMIN.name(), USER.name())
                 .requestMatchers("/api/v1/users/**").hasRole(ADMIN.name())
-//              .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-//              PRIMER
-                /* .requestMatchers(POST, "/api/obrazac_zb/**").hasRole(USER)
-                   .requestMatchers(POST, "/api/obrazac_zb/**").hasAnyRole(USER, ADMIN)
-                 .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())*/
-
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -87,21 +78,6 @@ public class SecurityConfiguration {
                 .addLogoutHandler(logoutHandler)
                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
         ;
-
         return http.build();
     }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.addAllowedOrigin("http://localhost:3000"); // Replace with the actual URL of your React app.
-//        configuration.addAllowedOrigin("/login"); // Replace with specific origins if needed
-//        configuration.addAllowedMethod("*"); // You can restrict HTTP methods if required
-//        configuration.addAllowedHeader("*"); // You can restrict headers if needed
-//        configuration.setAllowCredentials(true);
-//
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 }
