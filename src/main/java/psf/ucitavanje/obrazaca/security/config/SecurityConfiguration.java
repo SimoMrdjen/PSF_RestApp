@@ -36,15 +36,14 @@ public class SecurityConfiguration {
         http
                 .csrf()
                 .disable()
-
+//
                 .cors()
                 .and()
-
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/v1/auth/**",
 //                        "/api/v1/users/**",
-
+                        "/login",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -54,7 +53,8 @@ public class SecurityConfiguration {
                         "/configuration/security",
                         "/swagger-ui/**",
                         "/webjars/**",
-                        "/swagger-ui.html"
+                        "/swagger-ui.html",
+                        "/", "/static/**", "/index.html", "/favicon.ico"
                 )
                 .permitAll()
 
@@ -75,10 +75,10 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                .loginPage("/login") // Specify the URL of your login page
-                .permitAll() // Allow access to the login page for everyone
-                .and()
+//                .formLogin()
+//                .loginPage("/login") // Specify the URL of your login page
+//                .permitAll() // Allow access to the login page for everyone
+//                .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(corsConfig.corsFilter(), UsernamePasswordAuthenticationFilter.class) // Add this line
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

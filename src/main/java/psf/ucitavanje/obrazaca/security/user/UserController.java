@@ -10,6 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1/users")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "http://localhost:3000")
+
 public class UserController {
 
     private final UserService userService;
@@ -40,9 +42,10 @@ public class UserController {
                 .createUser(userDto));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping//(value = "/{id}")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto,
-                                      @PathVariable(name = "id") Integer id) throws Exception {
+                                      @RequestParam(name = "id") Integer id) throws Exception {
+
         return ResponseEntity.ok(userService
                 .updateUser(userDto, id));
     }
