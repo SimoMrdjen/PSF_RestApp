@@ -11,6 +11,8 @@ import { API_BASE_URL } from "../config"; // Import the API_BASE_URL from your c
 //  const error = new Error(response.statusText);
 //  error.response = response;
 //  return Promise.reject(error);
+
+
 //};
 
 const checkStatus = async (response) => {
@@ -54,7 +56,8 @@ export const saveObrazacIO = (data, kvartal, year, access_token) =>
   }).then(checkStatus);
 
 export const login = (data) =>
-  fetch(`${API_BASE_URL}/v1/auth/authenticate`, {
+  fetch(      `${API_BASE_URL}/v1/auth/authenticate`,
+      {
     headers: {
       "Content-Type": "application/json",
     },
@@ -63,7 +66,7 @@ export const login = (data) =>
   }).then(checkStatus);
 
 export const getAllUsers = (access_token) =>
-  fetch("${API_BASE_URL}/v1/users", {
+  fetch(`${API_BASE_URL}/v1/users`, {
     headers: {
       Authorization: `Bearer ${access_token}`,
     },

@@ -51,7 +51,8 @@ public class SecurityConfiguration {
                         "/swagger-ui/**",
                         "/webjars/**",
                         "/swagger-ui.html",
-                        "/", "/static/**", "/index.html", "/favicon.ico"
+                        "/", "/static/**", "/index.html", "/favicon.ico",
+                        "/manifest.json", "/APV.png", "/logo192.png"
                 )
                 .permitAll()
 
