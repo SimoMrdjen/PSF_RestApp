@@ -52,7 +52,8 @@ public class SecurityConfiguration {
                         "/webjars/**",
                         "/swagger-ui.html",
                         "/", "/static/**", "/index.html", "/favicon.ico",
-                        "/manifest.json", "/APV.png", "/logo192.png"
+                        "/manifest.json", "/APV.png", "/logo192.png",
+                        "/api/upload/download/**"
                 )
                 .permitAll()
 

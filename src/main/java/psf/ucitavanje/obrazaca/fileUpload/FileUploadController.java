@@ -1,6 +1,7 @@
 package psf.ucitavanje.obrazaca.fileUpload;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 
 @RestController
@@ -64,6 +69,27 @@ public class FileUploadController {
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile() {
+        try {
+            var fileName ="ZaklList.xlsx";
+            Path filePath = Paths.get("C:/Users/sizni/Desktop/Obrasci", fileName).normalize();
+
+            //Path filePath = Paths.get("main/resources/static/ZakljucniList.xlsx").normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (!resource.exists() || !resource.isReadable()) {
+                throw new RuntimeException("Error: File not found or not readable!");
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception ex) {
+            throw new RuntimeException("Error while downloading the file. Error was: " + ex.getMessage());
         }
     }
 }

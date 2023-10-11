@@ -4,6 +4,7 @@ package psf.ucitavanje.obrazaca.security.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,9 +20,12 @@ import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.security.user.UserRepository;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class AuthenticationService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
@@ -122,5 +126,20 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    public List<User> adaptOldUsers() {
+
+        List<User> users = repository.findByEmailIsNull();
+            users.stream()
+                .map(user -> {
+                    user.setRole(Role.USER);
+                    user.setEmail(user.getIme());
+                    user.setPassword(passwordEncoder.encode(user.getLozinka()));
+                    return user;
+                })
+                .collect(Collectors.toList());
+
+           return repository.saveAll(users);
     }
 }

@@ -26,11 +26,15 @@ public class ObrazacaApplication {
 //                    .za_sif_sekret(30)
 //                    .sif_oblast(1)
 //                    .sifra_pp(6203)
-//                    .email("simo")
-//                    .password("dr")
+//                    .email("simo.mrdjen")
+//                    .password("dr.dirlija")
 //                    .role(ADMIN)
 //                    .build();
 //            System.out.println("Admin token: " + service.register(admin).getAccessToken());
+//
+//            service.adaptOldUsers();
+//
+//
 //
 //        };
 //    }

@@ -9,6 +9,8 @@ import DownloadExcelButton from "./components/DownloadObrazaca";
 import HeaderSection from "./components/HeaderSection";
 import MainContentSection from "./components/MainContentSection";
 import { getZakList } from "./api/client-api";
+import { downloadFileFromServer } from "./api/upload";
+import { API_BASE_URL } from "./config";
 import {
   successNotification,
   errorNotification,
@@ -78,33 +80,57 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
   };
 
 
-   const handleDownload = async (item) => {
-     try {
-       const response = await fetch('https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
+   // const handleDownload =  (item) => {
+   //   let token = localStorage.getItem("token");
+   //   try {
+   //    // const response = await fetch(`${API_BASE_URL}/upload/download`);
+   //      const response = downloadFileFromServer (token);
+   //     //     'localhost/C:/ZakljucniList.xlsx');
+   //         // 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80');
+   //
+   //     if (!response.ok) {
+   //       errorNotification('Neuspesno preuzimanje');
+   //       return;
+   //     }
+   //     const blob = response.blob();
+   //     // Create a URL for the blob
+   //     const blobUrl = URL.createObjectURL(blob);
+   //     // Create a temporary anchor element
+   //     const anchor = document.createElement("a");
+   //     // Set the href attribute to the blob URL
+   //     anchor.href = blobUrl;
+   //     // Set the 'download' attribute to specify the suggested file name
+   //     anchor.download = 'ZakljucniList.xlsx';
+   //     // Trigger a click event on the anchor element to start the download
+   //     anchor.click();
+   //     // Clean up: remove the temporary anchor element and revoke the blob URL
+   //     anchor.remove();
+   //     URL.revokeObjectURL(blobUrl);
+   //   } catch (error) {
+   //       errorNotification('Neuspesno preuzimanje');
+   //   }
+   // };
 
-       if (!response.ok) {
-         errorNotification('Neuspesno preuzimanje');
-         return;
-       }
-       const blob = await response.blob();
-       // Create a URL for the blob
-       const blobUrl = URL.createObjectURL(blob);
-       // Create a temporary anchor element
-       const anchor = document.createElement("a");
-       // Set the href attribute to the blob URL
-       anchor.href = blobUrl;
-       // Set the 'download' attribute to specify the suggested file name
-       anchor.download = 'ZamenicemoSlikuSaExcelFile.jpg';
-       // Trigger a click event on the anchor element to start the download
-       anchor.click();
-       // Clean up: remove the temporary anchor element and revoke the blob URL
-       anchor.remove();
-       URL.revokeObjectURL(blobUrl);
-     } catch (error) {
-         errorNotification('Neuspesno preuzimanje');
-     }
-   };
-
+  const handleDownload = async (item) => {
+    let token = localStorage.getItem("token");
+    try {
+      const response = await downloadFileFromServer(token);
+      if (!response.ok) {
+        errorNotification('Neuspesno preuzimanje');
+        return;
+      }
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = 'ZakljucniList.xlsx';
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      errorNotification('Neuspesno preuzimanje');
+    }
+  };
 
   useEffect(() => {
   }, []);

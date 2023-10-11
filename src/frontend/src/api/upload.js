@@ -26,3 +26,13 @@ export const handleUpload = async (formData, token, year, kvartal, typeOfObrazac
      const txtObject = {text: message};
      handleUploadTxt(txtObject, token, year, excelKvartal, selectedItem, "txt")
  }
+
+export const downloadFileFromServer  =  async ( token) => {
+    const response = await fetch(`${API_BASE_URL}/upload/download`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    return response;
+};
