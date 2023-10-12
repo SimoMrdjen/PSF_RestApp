@@ -1,6 +1,7 @@
 package psf.ucitavanje.obrazaca.fileUpload;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,13 +74,15 @@ public class FileUploadController {
     }
 
     @GetMapping("/download")
-    public ResponseEntity<Resource> downloadFile() {
+    public ResponseEntity<?> downloadFile() {
         try {
-            var fileName ="ZaklList.xlsx";
-            Path filePath = Paths.get("C:/Users/sizni/Desktop/Obrasci", fileName).normalize();
+            var fileName ="ZakljucniList.xlsx";
 
-            //Path filePath = Paths.get("main/resources/static/ZakljucniList.xlsx").normalize();
-            Resource resource = new UrlResource(filePath.toUri());
+            Path filePath = Paths.get("C:/Users/sizni/Desktop/Obrasci", fileName).normalize();
+            //PRODUCTION
+//            Path filePath = Paths.get("C:/Users/pavel/Desktop/Obrasci", fileName).normalize();
+
+            Resource resource = new FileSystemResource(filePath);
             if (!resource.exists() || !resource.isReadable()) {
                 throw new RuntimeException("Error: File not found or not readable!");
             }

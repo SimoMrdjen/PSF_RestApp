@@ -127,7 +127,9 @@ function MainForma({ access_token, role, loggedIn, setLoggedIn}) {
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(blobUrl);
+      successNotification("", "Uspesno ste preuzeli obrazac!");
     } catch (error) {
+      alert("Neuspeh");
       errorNotification('Neuspesno preuzimanje');
     }
   };
