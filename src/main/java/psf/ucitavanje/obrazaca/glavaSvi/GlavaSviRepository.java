@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface GlavaSviRepository extends JpaRepository<GlavaSvi, Integer> {
 
-    @Query(value = "SELECT * FROM GLAVASVI WHERE JED_BROJ_KORISNIKA = ?1", nativeQuery = true)
-    Optional<GlavaSvi> findByJedBrojKorisnika(Integer jedBrojKorisnika);
+    @Query(value = "SELECT * FROM GLAVASVI WHERE JED_BROJ_KORISNIKA = ?1 AND AKTIVAN = ?2", nativeQuery = true)
+    Optional<GlavaSvi> findByJedBrojKorisnika(Integer jedBrojKorisnika, Integer aktivan);
 }

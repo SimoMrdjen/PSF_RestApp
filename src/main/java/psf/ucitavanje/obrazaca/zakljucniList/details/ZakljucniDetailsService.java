@@ -30,7 +30,7 @@ public class ZakljucniDetailsService {
         var jbbk = zbSaved.getJbbkIndKor();
         String oznakaGlave;
 
-        Optional<GlavaSvi> glavaSvi = glaviSviRepository.findByJedBrojKorisnika(jbbk);
+        Optional<GlavaSvi> glavaSvi = glaviSviRepository.findByJedBrojKorisnika(jbbk, 1);
         if(glavaSvi.isPresent()){
             oznakaGlave = glavaSvi.get().getOznaka();
         }else{

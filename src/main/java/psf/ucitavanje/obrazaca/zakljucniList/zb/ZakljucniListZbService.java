@@ -102,9 +102,9 @@ public class ZakljucniListZbService implements IZakListService {
         if (zb.isEmpty()) {
             return 1;
         } else {
-            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 20)) {
+            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 10)) {
                throw new Exception(
-                       "Za tekući kvartal već postoji učitan važeći \nZaključniList poslat Vašem DBK-u! " );
+                       "Za tekući kvartal već postoji učitan važeći \nZaključniList koji je vec overen! " );
             }
         }
        return zb.get().getVerzija() + 1;
@@ -195,7 +195,10 @@ public class ZakljucniListZbService implements IZakListService {
             throw new Exception("Zakljucni list ima status veci od 10 \n" +
                     "ili je vec storniran");
         }
+        //add storno for IO and obr 5
         zb.setSTORNO(1);
+        zb.setRadna(0);
+       // zb.setOPISSTORNO("Add description for storno from request"); //change field to String, check in DB
         zb.setSTOSIFRAD(user.getSifraradnika());
         zakljucniRepository.save(zb);
         return "Zakljucni list je storniran!";

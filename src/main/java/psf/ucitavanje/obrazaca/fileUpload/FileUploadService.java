@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class FileUploadService {
 
-    @Value("${upload.path}") // Configure this in your application properties
+    @Value("${upload.path}")
     private String uploadPath;
 
     private final ZakljucniListZbService zakljucniListZbService;

@@ -114,6 +114,6 @@ public class ZakljucniListZb {
     @Column(nullable = false)
     private Integer STOSIFRAD = 0;
 
-    private Integer OPISSTORNO;
+    private String OPISSTORNO;
 
 }

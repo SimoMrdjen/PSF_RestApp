@@ -1,6 +1,7 @@
 package psf.ucitavanje.obrazaca.fileUpload;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -23,8 +24,8 @@ import org.springframework.http.ResponseEntity;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-//    @Value("${upload.path}") // Configure this in your application properties
-//    private String uploadPath;
+    @Value("${download.path}") // Configure this in your application properties
+    private String uploadPath;
 
     private final FileUploadService service;
 
@@ -78,9 +79,9 @@ public class FileUploadController {
         try {
             var fileName ="ZakljucniList.xlsx";
 
-            Path filePath = Paths.get("C:/Users/sizni/Desktop/Obrasci", fileName).normalize();
+  //          Path filePath = Paths.get("C:/Users/simo.mrdjen/Desktop/Obrasci", fileName).normalize();
             //PRODUCTION
-//            Path filePath = Paths.get("C:/Users/pavel/Desktop/Obrasci", fileName).normalize();
+           Path filePath = Paths.get("C:/Users/pavel/Desktop/Obrasci", fileName).normalize();
 
             Resource resource = new FileSystemResource(filePath);
             if (!resource.exists() || !resource.isReadable()) {

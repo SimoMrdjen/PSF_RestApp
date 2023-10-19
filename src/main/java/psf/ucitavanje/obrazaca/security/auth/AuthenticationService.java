@@ -39,6 +39,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .sifraradnika(request.getSifraradnika())
                 .za_sif_sekret(request.getZa_sif_sekret())
+                .za_sif_rac(0)
                 .sif_oblast(request.getSif_oblast())
                 .sifra_pp(request.getSifra_pp())
                 .email(request.getEmail())
