@@ -1,15 +1,11 @@
 package psf.ucitavanje.obrazaca.zakljucniList.details;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import psf.ucitavanje.obrazaca.zakljucniList.zb.ZakljucniListZb;
 
 @Entity
 @Table(name = "OBRAZAC_ZAK_LIST")
@@ -25,10 +21,9 @@ public class ZakljucniListDetails {
     @Column(nullable = false)
     private Integer GEN_INTERBASE = 0;
 
-    //  @ManyToOne( cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-//  @JoinColumn(name="GEN_MYSQL")
-    @Column(nullable = false)
-    private Integer GEN_MYSQL = 0;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="GEN_MYSQL", nullable = false)
+    private ZakljucniListZb zakljucniListZb;
 
     @Column(nullable = false)
     private Integer GEN_OPENTAB = 0;

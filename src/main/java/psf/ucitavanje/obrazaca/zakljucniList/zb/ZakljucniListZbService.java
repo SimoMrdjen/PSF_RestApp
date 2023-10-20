@@ -69,7 +69,7 @@ public class ZakljucniListZbService implements IZakListService {
                         .POSLATO_O(0)
                         .POVUCENO(0)
                         .KONACNO(0)
-                        .POSLAO_NAM(user.getSifraradnika())
+                        .POSLAO_NAM(0)
                         .DATUM_DOK(today)
                         .PROKNJIZENO(0)
                         .XLS(0)
@@ -97,17 +97,25 @@ public class ZakljucniListZbService implements IZakListService {
     @Transactional
     @Override
     public Integer checkIfExistValidZListAndFindVersion(Integer kvartal, Integer jbbks ) throws Exception {
-        Optional<ZakljucniListZb> zb =
+        Optional<ZakljucniListZb> optionalZb =
                 zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
-        if (zb.isEmpty()) {
+
+        if (optionalZb.isEmpty()) {
             return 1;
-        } else {
-            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 10)) {
-               throw new Exception(
-                       "Za tekući kvartal već postoji učitan važeći \nZaključniList koji je vec overen! " );
-            }
         }
-       return zb.get().getVerzija() + 1;
+
+        ZakljucniListZb zb = optionalZb.get();
+
+        if (zb.getRadna() == 1 && zb.getSTORNO() == 0 && zb.getSTATUS() >= 10) {
+            throw new Exception("Za tekući kvartal već postoji učitan \nvažeći ZaključniList koji je vec overen!");
+        }
+
+        if (zb.getRadna() == 1) {
+            zb.setRadna(0);
+            zakljucniRepository.save(zb);
+        }
+
+        return zb.getVerzija() + 1;
     }
 
     public ZaKListResponse getLastValidVersionZList(String email) throws Exception {
@@ -177,12 +185,31 @@ public class ZakljucniListZbService implements IZakListService {
             throw new Exception("Zakljucni list ima status veci od 10 \n" +
                     "ili je vec storniran");
         }
-            var raisedStatus = zb.getSTATUS() + 10;
-            zb.setSTATUS(raisedStatus);
+
+       return raiseStatusDependentOfActuallStatus(zb, user);
+//            var raisedStatus = zb.getSTATUS() + 10;
+//            zb.setSTATUS(raisedStatus);
+//            zb.setPODIGAO_STATUS(user.getSifraradnika());
+//            zakljucniRepository.save(zb);
+//            return "Zakljucnom listu je status \npodignut na nivo " +
+//                    raisedStatus + "!";
+    }
+
+    @Transactional
+    private String raiseStatusDependentOfActuallStatus(ZakljucniListZb zb, User user) {
+
+        var status = zb.getSTATUS();
+        if (status == 0) {
             zb.setPODIGAO_STATUS(user.getSifraradnika());
-            zakljucniRepository.save(zb);
-            return "Zakljucnom listu je status \npodignut na nivo " +
-                    raisedStatus + "!";
+        } else {
+            zb.setPOSLAO_NAM(user.getSifraradnika());
+        }
+        zb.setSTATUS(status + 10);
+         var savedZb = zakljucniRepository.save(zb);
+
+        return "Zakljucnom listu je status \npodignut na nivo " +
+                savedZb.getSTATUS() + "!";
+
     }
 
     @Transactional
@@ -195,10 +222,8 @@ public class ZakljucniListZbService implements IZakListService {
             throw new Exception("Zakljucni list ima status veci od 10 \n" +
                     "ili je vec storniran");
         }
-        //add storno for IO and obr 5
         zb.setSTORNO(1);
         zb.setRadna(0);
-       // zb.setOPISSTORNO("Add description for storno from request"); //change field to String, check in DB
         zb.setSTOSIFRAD(user.getSifraradnika());
         zakljucniRepository.save(zb);
         return "Zakljucni list je storniran!";

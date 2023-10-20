@@ -16,27 +16,27 @@ public class ObrazacaApplication {
         SpringApplication.run(ObrazacaApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner commandLineRunner(
-//            AuthenticationService service
-//    ) {
-//        return args -> {
-//            var admin = RegisterRequest.builder()
-//                    .sifraradnika(2)
-//                    .za_sif_sekret(30)
-//                    .sif_oblast(1)
-//                    .sifra_pp(6203)
-//                    .email("simo.mrdjen")
-//                    .password("dr.dirlija")
-//                    .role(ADMIN)
-//                    .build();
-//            System.out.println("Admin token: " + service.register(admin).getAccessToken());
-//
-//            service.adaptOldUsers();
-//
-//
-//
-//        };
-//    }
+    @Bean
+    public CommandLineRunner commandLineRunner(
+            AuthenticationService service
+    ) {
+        return args -> {
+            var admin = RegisterRequest.builder()
+                    .sifraradnika(31)
+                    .za_sif_sekret(30)
+                    .sif_oblast(1)
+                    .sifra_pp(6203)
+                    .email("simo.mrdjen568")
+                    .password("dr.dirlija")
+                    .role(ADMIN)
+                    .build();
+            System.out.println("Admin token: " + service.register(admin).getAccessToken());
+            service.adaptOldUsers();
+
+
+
+
+        };
+    }
 
 }

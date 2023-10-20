@@ -12,6 +12,5 @@ public class ZakljucniListDto {
     private Double prop6;
     private Double prop7;
     private Double prop8;
-
 }
 

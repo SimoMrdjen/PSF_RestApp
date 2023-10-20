@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private Integer sifraradnika;
     @Column
     private Integer za_sif_sekret;
-    @Column
+    @Column(nullable = true)
     private Integer za_sif_rac;
     @Column
     private Integer sif_oblast;

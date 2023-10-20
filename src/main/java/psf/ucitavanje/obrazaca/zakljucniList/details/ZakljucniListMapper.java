@@ -13,7 +13,7 @@ public class ZakljucniListMapper {
         Integer konto = Integer
                 .parseInt(dto.getProp1().trim());
         return ZakljucniListDetails.builder()
-                .GEN_MYSQL(zb.getGenMysql())
+                .zakljucniListZb(zb)
                 .GEN_INTERBASE(0)
                 .GEN_OPENTAB(zb.getGEN_OPENTAB())
                 .GEN_APVDBK(zb.getGEN_APVDBK())
