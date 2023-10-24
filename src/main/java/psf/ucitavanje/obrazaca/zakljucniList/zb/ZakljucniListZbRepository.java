@@ -20,3 +20,5 @@ public interface ZakljucniListZbRepository extends JpaRepository<ZakljucniListZb
 Optional<ZakljucniListZb> findFirstByJbbkIndKorOrderByGenMysqlDesc(Integer jbbks);
 
 }
+
+

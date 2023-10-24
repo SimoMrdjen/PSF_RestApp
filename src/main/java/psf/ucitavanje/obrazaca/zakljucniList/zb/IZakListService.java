@@ -4,6 +4,7 @@ import psf.ucitavanje.obrazaca.security.user.User;
 import psf.ucitavanje.obrazaca.zakljucniList.ZakljucniListDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IZakListService {
     //ZaKListResponse getLastValidVersionZList(Integer jbbks);
@@ -18,7 +19,7 @@ public interface IZakListService {
                                     String email) throws Exception;
    void checkJbbks(User user, Integer jbbksExcell) throws Exception;
 
-    Integer checkIfExistValidZListAndFindVersion(Integer jbbks, Integer kvartal) throws Exception;
+    //Optional<ZakljucniListZb> findPreviousZ(Integer jbbks, Integer kvartal) throws Exception;
 
 
 }

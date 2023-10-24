@@ -22,7 +22,7 @@ public class ZakljucniDetailsService {
     private final GlavaSviRepository glaviSviRepository;
     private final SubkontoService subkontoService;
 
-    @Transactional
+   // @Transactional
     public List<ZakljucniListDetails> saveDetails(List<ZakljucniListDto> dtos, ZakljucniListZb zbSaved) throws Exception {
         //provera da li su ucitani samo postojeci 6-cifreni kontoi
         this.checkIfKontosAreExisting(dtos);
@@ -43,6 +43,7 @@ public class ZakljucniDetailsService {
         return zakljucniDetailsRepository.saveAll(details);
     }
 
+    //@Transactional
     public void checkIfKontosAreExisting(List<ZakljucniListDto> dtos) throws Exception {
 
         List<Integer> kontosInKontniPlan = subkontoService.getKontniPlan();

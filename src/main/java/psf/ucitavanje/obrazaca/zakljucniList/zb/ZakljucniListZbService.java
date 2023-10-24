@@ -1,6 +1,9 @@
 package psf.ucitavanje.obrazaca.zakljucniList.zb;
 
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -34,7 +37,7 @@ public class ZakljucniListZbService implements IZakListService {
     private StringBuilder responseMessage =  new StringBuilder();
     private final ObrKontrService obrKontrService;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public StringBuilder saveZakljucniList(List<ZakljucniListDto> dtos,
                                            Integer kvartal,
                                            Integer jbbks,
@@ -94,44 +97,62 @@ public class ZakljucniListZbService implements IZakListService {
             throw new Exception("Niste uneli (odabrali) vaš JBKJS!");
         }
     }
+
+//    @Override
+//    public Optional<ZakljucniListZb> findPreviousZ(Integer jbbks, Integer kvartal) throws Exception {
+//        return Optional.empty();
+//    }
+//
+    public  Optional<ZakljucniListZb> findPreviousZB(Integer kvartal, Integer jbbks ) throws Exception {
+        return zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc(kvartal, jbbks);
+    }
+
     @Transactional
-    @Override
     public Integer checkIfExistValidZListAndFindVersion(Integer kvartal, Integer jbbks ) throws Exception {
-        Optional<ZakljucniListZb> zb =
-                zakljucniRepository.findFirstByKojiKvartalAndJbbkIndKorOrderByVerzijaDesc( kvartal, jbbks);
-        if (zb.isEmpty()) {
+        Optional<ZakljucniListZb> optionalZb = findPreviousZB( kvartal, jbbks);
+
+        if (optionalZb.isEmpty()) {
             return 1;
-        } else {
-            if ((zb.get().getRadna() == 1 && zb.get().getSTORNO() == 0) && (zb.get().getSTATUS() >= 10)) {
-               throw new Exception(
-                       "Za tekući kvartal već postoji učitan važeći \nZaključniList koji je vec overen! " );
-            }
         }
-       return zb.get().getVerzija() + 1;
+
+        ZakljucniListZb zb = optionalZb.get();
+
+        if (zb.getRadna() == 1 && zb.getSTORNO() == 0 && zb.getSTATUS() >= 10) {
+            throw new Exception("Za tekući kvartal već postoji učitan \nvažeći ZaključniList koji je vec overen!");
+        }
+
+        if (zb.getRadna() == 1) {
+            zb.setRadna(0);
+            zakljucniRepository.save(zb);
+        }
+
+        return zb.getVerzija() + 1;
     }
 
     public ZaKListResponse getLastValidVersionZList(String email) throws Exception {
 
         var jbbks = getJbbksIBK(email);
-        Optional<ZakljucniListZb> zb =
+        Optional<ZakljucniListZb> optionalZb =
                 zakljucniRepository.findFirstByJbbkIndKorOrderByGenMysqlDesc(jbbks);
 
-        if(zb.isEmpty()|| zb.get().getSTORNO() == 1 ) {
+        if(optionalZb.isEmpty()|| optionalZb.get().getSTORNO() == 1 ) {
             throw new IllegalArgumentException("Ne postoji vazeci ucitan Zakljucni list");
         }
-        if(zb.get().getSTATUS() >= 20) {
+        ZakljucniListZb zb = optionalZb.get();
+        if(zb.getSTATUS() >= 20) { //add constraint of kvartal and
+
             throw new Exception("Važeća verzija učitanog \n" +
                     "Zaključnog lista poslata je Vašem DBK-u!");
         }
-        LocalDate date = LocalDate.ofEpochDay(zb.get().getDATUM_DOK() - 25569);
+        LocalDate date = LocalDate.ofEpochDay(zb.getDATUM_DOK() - 25569);
         return ZaKListResponse.builder()
-                .id(zb.get().getGenMysql())
+                .id(zb.getGenMysql())
                 .date(date)
-                .kvartal(zb.get().getKojiKvartal())
-                .year(zb.get().getGODINA())
-                .version(zb.get().getVerzija())
-                .status(zb.get().getSTATUS())
-                .jbbk(zb.get().getJbbkIndKor())
+                .kvartal(zb.getKojiKvartal())
+                .year(zb.getGODINA())
+                .version(zb.getVerzija())
+                .status(zb.getSTATUS())
+                .jbbk(zb.getJbbkIndKor())
                 .build();
     }
 

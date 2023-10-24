@@ -62,8 +62,9 @@ public class FileUploadController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         String uploadPath = service.createPath(year, email, kvartal, typeOfObrazac);
-        var fileName = service.getDateAndTimeAsPartOfFilePath();
-        Path filePath = Paths.get(uploadPath, fileName);
+        var fileName = service.getDateAndTimeAsPartOfFilePath() ;
+        var fileNameWithExtension = fileName + ".txt";
+        Path filePath = Paths.get(uploadPath, fileNameWithExtension);
 
         try {
             FileWriter fileWriter = new FileWriter(filePath.toString());
